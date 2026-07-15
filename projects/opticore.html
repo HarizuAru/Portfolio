@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="OptiCore - Hariz Iskandar">
+    <title>OptiCore | Hariz Iskandar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; background: #0a0a0a; color: #e6edf3; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        .card { background: #161b22; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; }
+    </style>
+</head>
+<body>
+    <div class="max-w-5xl mx-auto px-4 py-10">
+        <a href="/#projects" class="mono text-sm text-gray-400 hover:text-[#00ff88]">← Back to Projects</a>
+        <h1 class="mono text-4xl text-[#00ff88] mt-4 mb-3">OptiCore</h1>
+        <p class="text-gray-400 mb-8">Full-stack optimization and performance management toolkit.</p>
+        <section class="card p-6 mb-8">
+            <h2 class="mono text-xl text-[#00ff88] mb-4">Demo</h2>
+            <div class="grid md:grid-cols-2 gap-4">
+                <label class="text-sm">Throughput (req/s)
+                    <input id="throughput" type="range" min="100" max="3000" value="1200" class="w-full">
+                </label>
+                <label class="text-sm">Latency (ms)
+                    <input id="latency" type="range" min="20" max="600" value="180" class="w-full">
+                </label>
+            </div>
+            <div class="mt-4 p-4 rounded bg-black/40 border border-white/10">
+                <p class="mono text-sm">Optimization score: <span id="score" class="text-[#00ff88]">0</span></p>
+                <p class="text-sm text-gray-400 mt-2">Tune throughput and latency to see optimization impact.</p>
+            </div>
+        </section>
+    </div>
+    <script>
+        const throughput = document.getElementById('throughput');
+        const latency = document.getElementById('latency');
+        const score = document.getElementById('score');
+        function updateScore() {
+            const t = Number(throughput.value);
+            const l = Number(latency.value);
+            const result = Math.max(0, Math.min(100, Math.round((t / 30) - (l / 8))));
+            score.textContent = String(result);
+        }
+        throughput.addEventListener('input', updateScore);
+        latency.addEventListener('input', updateScore);
+        updateScore();
+    </script>
+</body>
+</html>

@@ -265,6 +265,12 @@
             box-shadow: 0 20px 60px rgba(0, 255, 136, 0.2);
         }
 
+        #projects .cyber-card {
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+        }
+
         /* Tags / Pills */
         .tech-tag {
             display: inline-block;
@@ -543,7 +549,6 @@
             }
         }
     </style>
-<base target="_blank">
 </head>
 <body class="bg-[#0a0a0a] text-[#e6edf3]">
 
@@ -675,7 +680,7 @@
             </p>
 
             <div class="mb-12 reveal" style="transition-delay: 0.2s">
-                <div class="cyber-card featured">
+                <a href="projects/harizeon-congent.html" class="cyber-card featured block">
                     <div class="flex items-center gap-2 mb-4">
                         <span class="px-3 py-1 bg-[#00ff88]/10 border border-[#00ff88]/30 rounded-full text-[#00ff88] text-xs font-mono">Featured Project</span>
                     </div>
@@ -689,15 +694,15 @@
                         <span class="tech-tag">React Native</span>
                         <span class="tech-tag">TypeScript</span>
                     </div>
-                    <a href="#" class="cyber-btn">
+                    <span class="cyber-btn inline-flex">
                         <i class="fas fa-external-link-alt"></i>
-                        View Documentation
-                    </a>
-                </div>
+                        Open Demo Page
+                    </span>
+                </a>
             </div>
 
             <div class="grid md:grid-cols-3 gap-6 mb-8">
-                <div class="cyber-card reveal" style="transition-delay: 0.1s">
+                <a href="projects/cold-chain-logistics.html" class="cyber-card reveal flex flex-col block" style="transition-delay: 0.1s">
                     <div class="flex items-center gap-3 mb-4">
                         <div class="w-10 h-10 rounded-lg bg-[#00ff88]/10 flex items-center justify-center">
                             <i class="fas fa-truck-loading text-[#00ff88]"></i>
@@ -707,14 +712,15 @@
                     <p class="text-[#8b949e] text-sm leading-relaxed mb-4">
                         Prototyped a management software architecture for cold-chain logistics, deployed and tested on the commercial harizeon.com domain.
                     </p>
-                    <div class="flex flex-wrap gap-2">
+                    <div class="flex flex-wrap gap-2 mb-6">
                         <span class="tech-tag">Node.js</span>
                         <span class="tech-tag">React</span>
                         <span class="tech-tag">AWS</span>
                     </div>
-                </div>
+                    <span class="text-[#00ff88] font-mono text-sm mt-auto">Open Demo Page →</span>
+                </a>
 
-                <div class="cyber-card reveal" style="transition-delay: 0.2s">
+                <a href="projects/serverless-architectures.html" class="cyber-card reveal flex flex-col block" style="transition-delay: 0.2s">
                     <div class="flex items-center gap-3 mb-4">
                         <div class="w-10 h-10 rounded-lg bg-[#00ff88]/10 flex items-center justify-center">
                             <i class="fas fa-cloud text-[#00ff88]"></i>
@@ -724,14 +730,15 @@
                     <p class="text-[#8b949e] text-sm leading-relaxed mb-4">
                         Sustained implementations configuring complex multi-cloud deployments leveraging serverless compute and NoSQL.
                     </p>
-                    <div class="flex flex-wrap gap-2">
+                    <div class="flex flex-wrap gap-2 mb-6">
                         <span class="tech-tag">AWS Lambda</span>
                         <span class="tech-tag">DynamoDB</span>
                         <span class="tech-tag">Azure</span>
                     </div>
-                </div>
+                    <span class="text-[#00ff88] font-mono text-sm mt-auto">Open Demo Page →</span>
+                </a>
 
-                <div class="cyber-card reveal" style="transition-delay: 0.3s">
+                <a href="projects/offensive-security-tooling.html" class="cyber-card reveal flex flex-col block" style="transition-delay: 0.3s">
                     <div class="flex items-center gap-3 mb-4">
                         <div class="w-10 h-10 rounded-lg bg-[#00ff88]/10 flex items-center justify-center">
                             <i class="fas fa-shield-alt text-[#00ff88]"></i>
@@ -741,15 +748,16 @@
                     <p class="text-[#8b949e] text-sm leading-relaxed mb-4">
                         Investigation of identity and access management vulnerabilities alongside testing via the Social-Engineer Toolkit.
                     </p>
-                    <div class="flex flex-wrap gap-2">
+                    <div class="flex flex-wrap gap-2 mb-6">
                         <span class="tech-tag">Kali Linux</span>
                         <span class="tech-tag">Red Team Ops</span>
                     </div>
-                </div>
+                    <span class="text-[#00ff88] font-mono text-sm mt-auto">Open Demo Page →</span>
+                </a>
             </div>
 
             <div class="grid md:grid-cols-2 gap-6">
-                <div class="cyber-card reveal" style="transition-delay: 0.1s">
+                <a href="projects/opticore.html" class="cyber-card reveal flex flex-col block" style="transition-delay: 0.1s">
                     <div class="flex items-center gap-3 mb-4">
                         <div class="w-10 h-10 rounded-lg bg-[#00ff88]/10 flex items-center justify-center">
                             <i class="fas fa-cogs text-[#00ff88]"></i>
@@ -759,15 +767,16 @@
                     <p class="text-[#8b949e] text-sm leading-relaxed mb-4">
                         Full-stack web application combining JavaScript, HTML, CSS and Python for comprehensive optimization solutions and performance management.
                     </p>
-                    <div class="flex flex-wrap gap-2">
+                    <div class="flex flex-wrap gap-2 mb-6">
                         <span class="tech-tag">JavaScript</span>
                         <span class="tech-tag">HTML</span>
                         <span class="tech-tag">CSS</span>
                         <span class="tech-tag">Python</span>
                     </div>
-                </div>
+                    <span class="text-[#00ff88] font-mono text-sm mt-auto">Open Demo Page →</span>
+                </a>
 
-                <div class="cyber-card reveal" style="transition-delay: 0.2s">
+                <a href="projects/telemetrix.html" class="cyber-card reveal flex flex-col block" style="transition-delay: 0.2s">
                     <div class="flex items-center gap-3 mb-4">
                         <div class="w-10 h-10 rounded-lg bg-[#00ff88]/10 flex items-center justify-center">
                             <i class="fas fa-chart-line text-[#00ff88]"></i>
@@ -777,16 +786,17 @@
                     <p class="text-[#8b949e] text-sm leading-relaxed mb-4">
                         Telemetry and data collection platform built with JavaScript frontend and Python backend, featuring comprehensive monitoring capabilities.
                     </p>
-                    <div class="flex flex-wrap gap-2">
+                    <div class="flex flex-wrap gap-2 mb-6">
                         <span class="tech-tag">JavaScript</span>
                         <span class="tech-tag">HTML</span>
                         <span class="tech-tag">CSS</span>
                         <span class="tech-tag">Python</span>
                         <span class="tech-tag">Shell</span>
                     </div>
-                </div>
+                    <span class="text-[#00ff88] font-mono text-sm mt-auto">Open Demo Page →</span>
+                </a>
 
-                <div class="cyber-card reveal" style="transition-delay: 0.3s">
+                <a href="projects/sensorsync.html" class="cyber-card reveal flex flex-col block" style="transition-delay: 0.3s">
                     <div class="flex items-center gap-3 mb-4">
                         <div class="w-10 h-10 rounded-lg bg-[#00ff88]/10 flex items-center justify-center">
                             <i class="fas fa-wifi text-[#00ff88]"></i>
@@ -796,13 +806,14 @@
                     <p class="text-[#8b949e] text-sm leading-relaxed mb-4">
                         Pure Python project for sensor data synchronization and integration, enabling real-time data aggregation across multiple sensor devices.
                     </p>
-                    <div class="flex flex-wrap gap-2">
+                    <div class="flex flex-wrap gap-2 mb-6">
                         <span class="tech-tag">Python</span>
                         <span class="tech-tag">Data Integration</span>
                     </div>
-                </div>
+                    <span class="text-[#00ff88] font-mono text-sm mt-auto">Open Demo Page →</span>
+                </a>
 
-                <div class="cyber-card reveal" style="transition-delay: 0.4s">
+                <a href="projects/gridoptima.html" class="cyber-card reveal flex flex-col block" style="transition-delay: 0.4s">
                     <div class="flex items-center gap-3 mb-4">
                         <div class="w-10 h-10 rounded-lg bg-[#00ff88]/10 flex items-center justify-center">
                             <i class="fas fa-project-diagram text-[#00ff88]"></i>
@@ -812,13 +823,14 @@
                     <p class="text-[#8b949e] text-sm leading-relaxed mb-4">
                         Python-based optimization framework for grid and network topology analysis, enabling efficient resource allocation and performance tuning.
                     </p>
-                    <div class="flex flex-wrap gap-2">
+                    <div class="flex flex-wrap gap-2 mb-6">
                         <span class="tech-tag">Python</span>
                         <span class="tech-tag">Optimization</span>
                     </div>
-                </div>
+                    <span class="text-[#00ff88] font-mono text-sm mt-auto">Open Demo Page →</span>
+                </a>
 
-                <div class="cyber-card reveal" style="transition-delay: 0.5s">
+                <a href="projects/optinet.html" class="cyber-card reveal flex flex-col block" style="transition-delay: 0.5s">
                     <div class="flex items-center gap-3 mb-4">
                         <div class="w-10 h-10 rounded-lg bg-[#00ff88]/10 flex items-center justify-center">
                             <i class="fas fa-network-wired text-[#00ff88]"></i>
@@ -828,11 +840,12 @@
                     <p class="text-[#8b949e] text-sm leading-relaxed mb-4">
                         Python-based network simulation prototype to investigate latency and packet loss across heterogeneous network topologies.
                     </p>
-                    <div class="flex flex-wrap gap-2">
+                    <div class="flex flex-wrap gap-2 mb-6">
                         <span class="tech-tag">Python</span>
                         <span class="tech-tag">Network Simulation</span>
                     </div>
-                </div>
+                    <span class="text-[#00ff88] font-mono text-sm mt-auto">Open Demo Page →</span>
+                </a>
             </div>
         </div>
     </section>

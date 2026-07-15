@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="OptiNet - Hariz Iskandar">
+    <title>OptiNet | Hariz Iskandar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; background: #0a0a0a; color: #e6edf3; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        .card { background: #161b22; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; }
+    </style>
+</head>
+<body>
+    <div class="max-w-5xl mx-auto px-4 py-10">
+        <a href="/#projects" class="mono text-sm text-gray-400 hover:text-[#00ff88]">← Back to Projects</a>
+        <h1 class="mono text-4xl text-[#00ff88] mt-4 mb-3">OptiNet</h1>
+        <p class="text-gray-400 mb-8">Network simulation prototype for latency and packet loss analysis.</p>
+        <section class="card p-6 mb-8">
+            <h2 class="mono text-xl text-[#00ff88] mb-4">Demo</h2>
+            <button id="simulate" class="mono text-sm border border-[#00ff88] text-[#00ff88] px-4 py-2 rounded hover:bg-[#00ff88] hover:text-black">Run Network Simulation</button>
+            <p id="out" class="mono text-sm mt-4 text-gray-300"></p>
+        </section>
+    </div>
+    <script>
+        const simulate = document.getElementById('simulate');
+        const out = document.getElementById('out');
+        simulate.addEventListener('click', () => {
+            const latency = 10 + Math.floor(Math.random() * 120);
+            const packetLoss = (Math.random() * 4).toFixed(2);
+            const jitter = (Math.random() * 12).toFixed(2);
+            out.textContent = `Latency: ${latency} ms | Packet Loss: ${packetLoss}% | Jitter: ${jitter} ms`;
+        });
+    </script>
+</body>
+</html>

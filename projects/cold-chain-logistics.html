@@ -93,6 +93,17 @@
         </div>
     </section>
     <section class="section-padding">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="section-title reveal">Demo</h2>
+            <div class="cyber-card reveal mt-8">
+                <p class="text-[#8b949e] mb-4">Simulate shipment temperature to test alert thresholds.</p>
+                <label class="block mb-3 text-sm text-[#8b949e]">Container Temperature (°C): <span id="tempValue" class="text-[#00ff88] font-mono">4</span></label>
+                <input id="temp" type="range" min="-10" max="20" value="4" class="w-full mb-4">
+                <p class="font-mono text-sm">Status: <span id="status" class="text-[#00ff88]">Stable</span></p>
+            </div>
+        </div>
+    </section>
+    <section class="section-padding">
         <div class="max-w-6xl mx-auto text-center">
             <h2 class="text-3xl font-bold mb-6">Interested in This Project?</h2>
             <div class="flex flex-wrap justify-center gap-4">
@@ -115,6 +126,21 @@
             });
         }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
         revealElements.forEach(el => revealObserver.observe(el));
+
+        const temp = document.getElementById('temp');
+        const tempValue = document.getElementById('tempValue');
+        const status = document.getElementById('status');
+        temp.addEventListener('input', () => {
+            const value = Number(temp.value);
+            tempValue.textContent = String(value);
+            if (value < 2 || value > 8) {
+                status.textContent = 'Alert';
+                status.style.color = '#ff6b6b';
+            } else {
+                status.textContent = 'Stable';
+                status.style.color = '#00ff88';
+            }
+        });
     </script>
 </body>
 </html>

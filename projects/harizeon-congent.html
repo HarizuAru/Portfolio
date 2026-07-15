@@ -93,6 +93,19 @@
         </div>
     </section>
     <section class="section-padding">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="section-title reveal">Demo</h2>
+            <div class="cyber-card reveal mt-8">
+                <p class="text-[#8b949e] mb-4">Simulate AI agent orchestration across devices.</p>
+                <div class="flex flex-wrap gap-3 mb-4">
+                    <button id="dispatchTask" class="cyber-btn"><i class="fas fa-play"></i> Dispatch Task</button>
+                </div>
+                <p class="font-mono text-sm">Active Agents: <span id="agents" class="text-[#00ff88]">3</span></p>
+                <p class="font-mono text-sm mt-2">Queue Length: <span id="queue" class="text-[#00ff88]">7</span></p>
+            </div>
+        </div>
+    </section>
+    <section class="section-padding">
         <div class="max-w-6xl mx-auto text-center">
             <h2 class="text-3xl font-bold mb-6">Interested in This Project?</h2>
             <div class="flex flex-wrap justify-center gap-4">
@@ -115,6 +128,16 @@
             });
         }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
         revealElements.forEach(el => revealObserver.observe(el));
+
+        const dispatchTask = document.getElementById('dispatchTask');
+        const agents = document.getElementById('agents');
+        const queue = document.getElementById('queue');
+        dispatchTask.addEventListener('click', () => {
+            const active = 3 + Math.floor(Math.random() * 4);
+            const pending = Math.floor(Math.random() * 10);
+            agents.textContent = String(active);
+            queue.textContent = String(pending);
+        });
     </script>
 </body>
 </html>

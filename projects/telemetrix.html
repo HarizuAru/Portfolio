@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Telemetrix - Hariz Iskandar">
+    <title>Telemetrix | Hariz Iskandar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; background: #0a0a0a; color: #e6edf3; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        .card { background: #161b22; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; }
+        .bar { width: 18px; border-radius: 6px 6px 0 0; background: #00ff88; }
+    </style>
+</head>
+<body>
+    <div class="max-w-5xl mx-auto px-4 py-10">
+        <a href="/#projects" class="mono text-sm text-gray-400 hover:text-[#00ff88]">← Back to Projects</a>
+        <h1 class="mono text-4xl text-[#00ff88] mt-4 mb-3">Telemetrix</h1>
+        <p class="text-gray-400 mb-8">Telemetry and data collection platform with monitoring dashboards.</p>
+        <section class="card p-6 mb-8">
+            <h2 class="mono text-xl text-[#00ff88] mb-4">Demo</h2>
+            <button id="refresh" class="mono text-sm border border-[#00ff88] text-[#00ff88] px-4 py-2 rounded hover:bg-[#00ff88] hover:text-black">Refresh Telemetry Stream</button>
+            <div id="chart" class="mt-5 h-44 p-4 border border-white/10 rounded bg-black/40 flex items-end gap-2"></div>
+        </section>
+    </div>
+    <script>
+        const chart = document.getElementById('chart');
+        const refresh = document.getElementById('refresh');
+        function render() {
+            chart.innerHTML = '';
+            for (let i = 0; i < 20; i += 1) {
+                const bar = document.createElement('div');
+                bar.className = 'bar';
+                bar.style.height = `${20 + Math.floor(Math.random() * 120)}px`;
+                chart.appendChild(bar);
+            }
+        }
+        refresh.addEventListener('click', render);
+        render();
+    </script>
+</body>
+</html>
