@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hariz Iskandar | Software Developer Portfolio</title>
+    <meta name="description" content="Hariz Iskandar - Full-stack software developer specializing in TypeScript, React, Rust, and cloud-native architecture.">
+    <meta name="keywords" content="developer, portfolio, TypeScript, React, AWS, Python, Rust">
+    <meta name="author" content="Hariz Iskandar">
+    <title>Hariz Iskandar | Full-Stack Software Developer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -167,6 +170,10 @@
             color: var(--cyber-accent);
         }
 
+        .nav-link.active {
+            color: var(--cyber-accent);
+        }
+
         .nav-link::after {
             content: '';
             position: absolute;
@@ -179,7 +186,8 @@
             box-shadow: 0 0 10px var(--cyber-accent);
         }
 
-        .nav-link:hover::after {
+        .nav-link:hover::after,
+        .nav-link.active::after {
             width: 100%;
         }
 
@@ -301,6 +309,16 @@
             transform: translateY(-2px);
         }
 
+        .cyber-btn.secondary {
+            border-color: #8b949e;
+            color: #8b949e;
+        }
+
+        .cyber-btn.secondary:hover {
+            background: #8b949e;
+            color: #0a0a0a;
+        }
+
         /* Contact Links */
         .contact-link {
             display: flex;
@@ -321,6 +339,27 @@
             width: 20px;
             text-align: center;
             color: var(--cyber-accent);
+        }
+
+        /* Social Icons */
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8b949e;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            color: var(--cyber-accent);
+            border-color: var(--cyber-accent);
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+            transform: translateY(-2px);
         }
 
         /* Achievement Items */
@@ -476,6 +515,15 @@
             opacity: 0.08;
         }
 
+        /* Contact Section */
+        .contact-section {
+            background: linear-gradient(135deg, #161b22 0%, #0d1f15 100%);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 12px;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
         /* Footer */
         .footer-border {
             border-top: 1px solid rgba(255, 255, 255, 0.05);
@@ -488,6 +536,10 @@
             }
             .section-padding {
                 padding: 4rem 1rem;
+            }
+
+            .contact-section {
+                padding: 2rem 1.5rem;
             }
         }
     </style>
@@ -506,6 +558,7 @@
                         <a href="#projects" class="nav-link text-sm font-mono">Projects</a>
                         <a href="#skills" class="nav-link text-sm font-mono">Skills</a>
                         <a href="#contact" class="nav-link text-sm font-mono">Contact</a>
+                        <a href="clock.html" class="nav-link text-sm font-mono" title="Multi-Timezone Clock App">🕐 Clock</a>
                     </div>
 
                     <button id="menu-btn" class="md:hidden text-[#e6edf3] hover:text-[#00ff88] transition-colors">
@@ -524,6 +577,7 @@
         <a href="#projects" class="mobile-nav-link">Projects</a>
         <a href="#skills" class="mobile-nav-link">Skills</a>
         <a href="#contact" class="mobile-nav-link">Contact</a>
+        <a href="clock.html" class="mobile-nav-link">🕐 Clock App</a>
     </div>
 
     <section class="hero-section grid-pattern">
@@ -533,18 +587,22 @@
 
         <div class="hero-content px-4">
             <h1 class="hero-name">Hariz Iskandar</h1>
-            <p class="hero-subtitle">Software Developer Portfolio</p>
+            <p class="hero-subtitle">Full-Stack Software Developer</p>
             <p class="hero-tagline max-w-2xl mx-auto px-4">
-                Building scalable systems and secure multiplatform applications.
+                Architecting scalable systems and building secure multiplatform applications with modern technologies.
             </p>
-            <div class="mt-8 flex justify-center gap-4">
+            <div class="mt-8 flex flex-wrap justify-center gap-4">
                 <a href="#projects" class="cyber-btn">
                     <i class="fas fa-code"></i>
                     View Projects
                 </a>
-                <a href="#contact" class="cyber-btn" style="border-color: #8b949e; color: #8b949e;">
+                <a href="clock.html" class="cyber-btn secondary">
+                    <i class="fas fa-clock"></i>
+                    Clock App
+                </a>
+                <a href="#contact" class="cyber-btn secondary">
                     <i class="fas fa-envelope"></i>
-                    Contact Me
+                    Contact
                 </a>
             </div>
         </div>
@@ -573,15 +631,19 @@
                 </div>
 
                 <div class="reveal" style="transition-delay: 0.2s">
-                    <h3 class="font-mono text-[#00ff88] text-sm mb-6 uppercase tracking-wider">Contact</h3>
+                    <h3 class="font-mono text-[#00ff88] text-sm mb-6 uppercase tracking-wider">Quick Links</h3>
                     <div class="space-y-4">
                         <a href="mailto:contact@harizeon.com" class="contact-link">
                             <i class="fas fa-envelope"></i>
-                            <span>Contact via email</span>
+                            <span>contact@harizeon.com</span>
                         </a>
-                        <a href="#" class="contact-link">
+                        <a href="https://linkedin.com" class="contact-link">
                             <i class="fab fa-linkedin"></i>
                             <span>LinkedIn Profile</span>
+                        </a>
+                        <a href="https://github.com/HarizuAru" class="contact-link">
+                            <i class="fab fa-github"></i>
+                            <span>GitHub Profile</span>
                         </a>
                         <div class="contact-link" style="cursor: default;">
                             <i class="fas fa-map-marker-alt"></i>
@@ -589,12 +651,15 @@
                         </div>
                     </div>
 
-                    <div class="mt-8 flex gap-4">
-                        <a href="#" target="_blank" class="w-10 h-10 rounded-lg border border-[rgba(255,255,255,0.1)] flex items-center justify-center text-[#8b949e] hover:text-[#00ff88] hover:border-[#00ff88] transition-all hover:shadow-[0_0_15px_rgba(0,255,136,0.3)]">
+                    <div class="mt-8 flex gap-4 justify-center md:justify-start">
+                        <a href="https://github.com/HarizuAru" title="GitHub" class="social-icon">
                             <i class="fab fa-github text-lg"></i>
                         </a>
-                        <a href="#" target="_blank" class="w-10 h-10 rounded-lg border border-[rgba(255,255,255,0.1)] flex items-center justify-center text-[#8b949e] hover:text-[#00ff88] hover:border-[#00ff88] transition-all hover:shadow-[0_0_15px_rgba(0,255,136,0.3)]">
+                        <a href="https://linkedin.com" title="LinkedIn" class="social-icon">
                             <i class="fab fa-linkedin-in text-lg"></i>
+                        </a>
+                        <a href="mailto:contact@harizeon.com" title="Email" class="social-icon">
+                            <i class="fas fa-envelope text-lg"></i>
                         </a>
                     </div>
                 </div>
@@ -683,7 +748,6 @@
                 </div>
             </div>
 
-            <!-- Additional Repositories -->
             <div class="grid md:grid-cols-2 gap-6">
                 <div class="cyber-card reveal" style="transition-delay: 0.1s">
                     <div class="flex items-center gap-3 mb-4">
@@ -795,6 +859,7 @@
                                 <span class="tech-tag">React Native</span>
                                 <span class="tech-tag">Flutter</span>
                                 <span class="tech-tag">Node.js</span>
+                                <span class="tech-tag">Python</span>
                             </div>
                         </div>
 
@@ -806,6 +871,8 @@
                                 <span class="tech-tag">DynamoDB</span>
                                 <span class="tech-tag">AWS Cognito</span>
                                 <span class="tech-tag">Microsoft Azure</span>
+                                <span class="tech-tag">EC2</span>
+                                <span class="tech-tag">S3</span>
                             </div>
                         </div>
 
@@ -815,6 +882,7 @@
                                 <span class="tech-tag">IAM</span>
                                 <span class="tech-tag">Kali Linux</span>
                                 <span class="tech-tag">Penetration Testing</span>
+                                <span class="tech-tag">Network Security</span>
                             </div>
                         </div>
                     </div>
@@ -861,18 +929,70 @@
         </div>
     </section>
 
+    <section id="contact" class="section-padding">
+        <div class="max-w-6xl mx-auto">
+            <div class="contact-section reveal">
+                <h2 class="text-3xl font-bold mb-6">Let's Work Together</h2>
+                <p class="text-[#8b949e] mb-8 max-w-2xl mx-auto">
+                    I'm always open to new opportunities and exciting projects. Feel free to reach out if you'd like to collaborate or just say hello!
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="mailto:contact@harizeon.com" class="cyber-btn">
+                        <i class="fas fa-envelope"></i>
+                        Send Email
+                    </a>
+                    <a href="https://linkedin.com" class="cyber-btn secondary">
+                        <i class="fab fa-linkedin"></i>
+                        Connect on LinkedIn
+                    </a>
+                    <a href="https://github.com/HarizuAru" class="cyber-btn secondary">
+                        <i class="fab fa-github"></i>
+                        GitHub Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <footer class="footer-border py-8">
-        <div class="max-w-6xl mx-auto px-4 text-center">
-            <p class="text-[#8b949e] text-sm">
-                © 2026 Hariz Iskandar. 
-            </p>
-            <div class="mt-4 flex justify-center gap-4">
-                <a href="#" target="_blank" class="text-[#8b949e] hover:text-[#00ff88] transition-colors">
-                    <i class="fab fa-github text-xl"></i>
-                </a>
-                <a href="#" target="_blank" class="text-[#8b949e] hover:text-[#00ff88] transition-colors">
-                    <i class="fab fa-linkedin text-xl"></i>
-                </a>
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="grid md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <h3 class="font-mono text-[#00ff88] text-sm mb-4 uppercase">Navigation</h3>
+                    <div class="space-y-2">
+                        <a href="#about" class="block text-[#8b949e] hover:text-[#00ff88] text-sm transition">About</a>
+                        <a href="#projects" class="block text-[#8b949e] hover:text-[#00ff88] text-sm transition">Projects</a>
+                        <a href="#skills" class="block text-[#8b949e] hover:text-[#00ff88] text-sm transition">Skills</a>
+                        <a href="#contact" class="block text-[#8b949e] hover:text-[#00ff88] text-sm transition">Contact</a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="font-mono text-[#00ff88] text-sm mb-4 uppercase">Tools</h3>
+                    <div class="space-y-2">
+                        <a href="clock.html" class="block text-[#8b949e] hover:text-[#00ff88] text-sm transition">Multi-Timezone Clock</a>
+                        <a href="https://github.com/HarizuAru" class="block text-[#8b949e] hover:text-[#00ff88] text-sm transition">GitHub</a>
+                        <a href="mailto:contact@harizeon.com" class="block text-[#8b949e] hover:text-[#00ff88] text-sm transition">Email</a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="font-mono text-[#00ff88] text-sm mb-4 uppercase">Social</h3>
+                    <div class="flex gap-4">
+                        <a href="https://github.com/HarizuAru" class="social-icon">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://linkedin.com" class="social-icon">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="mailto:contact@harizeon.com" class="social-icon">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center pt-8 border-t border-[rgba(255,255,255,0.05)]">
+                <p class="text-[#8b949e] text-sm font-mono">
+                    © 2026 Hariz Iskandar. Built with <span class="text-[#00ff88]">TypeScript</span> & <span class="text-[#00ff88]">React</span>.
+                </p>
             </div>
         </div>
     </footer>
@@ -1033,7 +1153,7 @@
             });
         });
 
-        // Typing Effect for Tagline (optional enhancement)
+        // Typing Effect for Tagline
         const tagline = document.querySelector('.hero-tagline');
         const taglineText = tagline.textContent.trim();
         tagline.textContent = '';
@@ -1048,6 +1168,25 @@
         }
 
         setTimeout(typeTagline, 800);
+
+        // Add active class to nav links on scroll
+        window.addEventListener('scroll', () => {
+            let current = '';
+            document.querySelectorAll('section').forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
     </script>
+
 </body>
 </html>
