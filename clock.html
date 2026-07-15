@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Timezone Digital Clock | Hariz Iskandar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --cyber-accent: #00ff88;
+            --cyber-bg: #0a0a0a;
+            --cyber-card: #161b22;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background-color: var(--cyber-bg);
+            color: #e6edf3;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f2937;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--cyber-accent);
+        }
+
+        /* Background Grid */
+        .grid-pattern {
+            background-image: 
+                linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        /* Gradient Orbs */
+        .gradient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--cyber-accent);
+            top: -100px;
+            right: -100px;
+        }
+
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: #ff6b6b;
+            bottom: -50px;
+            left: -50px;
+            opacity: 0.08;
+        }
+
+        /* Header */
+        .header-container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 4rem 1rem 2rem;
+        }
+
+        .header-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, #e6edf3 0%, var(--cyber-accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .header-subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            color: #8b949e;
+            font-size: 1rem;
+        }
+
+        /* Navigation */
+        .nav-bar {
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .nav-content {
+            max-width: 6xl;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: bold;
+            color: var(--cyber-accent);
+            text-decoration: none;
+            font-size: 1.25rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: #8b949e;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+        }
+
+        .nav-link:hover {
+            color: var(--cyber-accent);
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 6xl;
+            margin: 0 auto;
+            padding: 3rem 1rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Clock Grid */
+        .clock-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Clock Card */
+        .clock-card {
+            background: var(--cyber-card);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .clock-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--cyber-accent), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .clock-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(0, 255, 136, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 255, 136, 0.1), 0 0 60px rgba(0, 255, 136, 0.05);
+        }
+
+        .clock-card:hover::before {
+            opacity: 1;
+        }
+
+        .clock-card.featured {
+            border-color: rgba(0, 255, 136, 0.2);
+            background: linear-gradient(135deg, #161b22 0%, #0d1f15 100%);
+        }
+
+        .clock-card.featured:hover {
+            border-color: var(--cyber-accent);
+            box-shadow: 0 20px 60px rgba(0, 255, 136, 0.2);
+        }
+
+        /* Timezone Label */
+        .timezone-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            color: var(--cyber-accent);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .timezone-icon {
+            font-size: 1.25rem;
+        }
+
+        /* Location Name */
+        .location-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #e6edf3;
+            margin-bottom: 1rem;
+        }
+
+        /* Digital Display */
+        .digital-display {
+            background: rgba(0, 255, 136, 0.05);
+            border: 2px solid rgba(0, 255, 136, 0.2);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .digital-time {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--cyber-accent);
+            letter-spacing: 0.05em;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+        }
+
+        .digital-period {
+            font-size: 0.875rem;
+            color: #8b949e;
+            margin-top: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Date and Info */
+        .clock-info {
+            font-size: 0.875rem;
+            color: #8b949e;
+            font-family: 'JetBrains Mono', monospace;
+            line-height: 1.6;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #8b949e;
+        }
+
+        .info-value {
+            color: var(--cyber-accent);
+            font-weight: 600;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .blink-colon {
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .clock-card {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .clock-card:nth-child(1) { animation-delay: 0.1s; }
+        .clock-card:nth-child(2) { animation-delay: 0.2s; }
+        .clock-card:nth-child(3) { animation-delay: 0.3s; }
+        .clock-card:nth-child(4) { animation-delay: 0.4s; }
+        .clock-card:nth-child(5) { animation-delay: 0.5s; }
+        .clock-card:nth-child(6) { animation-delay: 0.6s; }
+
+        /* Control Panel */
+        .control-panel {
+            background: var(--cyber-card);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .control-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.125rem;
+            color: var(--cyber-accent);
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .control-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .toggle-btn {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            color: var(--cyber-accent);
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.875rem;
+        }
+
+        .toggle-btn:hover {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: var(--cyber-accent);
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+        }
+
+        .toggle-btn.active {
+            background: var(--cyber-accent);
+            color: #0a0a0a;
+            border-color: var(--cyber-accent);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: #8b949e;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            margin-top: 4rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 1.75rem;
+            }
+
+            .clock-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .digital-time {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .nav-link {
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-[#0a0a0a] text-[#e6edf3]">
+
+    <!-- Navigation -->
+    <nav class="nav-bar">
+        <div class="nav-content">
+            <a href="index.html" class="logo">&lt;HI/&gt;</a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Portfolio</a>
+                <a href="clock.html" class="nav-link" style="color: var(--cyber-accent);">Clock</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="grid-pattern">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+
+        <div class="header-container">
+            <h1 class="header-title">Multi-Timezone Clock</h1>
+            <p class="header-subtitle">Real-time global time tracking across major cities</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Control Panel -->
+        <div class="control-panel">
+            <div class="control-title">⚙️ Display Options</div>
+            <div class="control-group">
+                <button class="toggle-btn active" onclick="toggleFormat()">
+                    <i class="fas fa-clock"></i> Toggle 12/24 Hour
+                </button>
+                <button class="toggle-btn active" onclick="toggleSeconds()">
+                    <i class="fas fa-stopwatch"></i> Toggle Seconds
+                </button>
+                <button class="toggle-btn" onclick="addTimezone()">
+                    <i class="fas fa-plus"></i> Add Timezone
+                </button>
+            </div>
+        </div>
+
+        <!-- Clock Grid -->
+        <div class="clock-grid" id="clockGrid"></div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>© 2026 Hariz Iskandar | Multi-Timezone Digital Clock</p>
+    </div>
+
+    <script>
+        // Timezone configurations
+        const timezones = [
+            { name: 'New York', tz: 'America/New_York', icon: '🗽' },
+            { name: 'London', tz: 'Europe/London', icon: '🇬🇧' },
+            { name: 'Tokyo', tz: 'Asia/Tokyo', icon: '🗾' },
+            { name: 'Dubai', tz: 'Asia/Dubai', icon: '🏜️' },
+            { name: 'Sydney', tz: 'Australia/Sydney', icon: '🦘' },
+            { name: 'São Paulo', tz: 'America/Sao_Paulo', icon: '🇧🇷' },
+        ];
+
+        let use24Hour = true;
+        let showSeconds = true;
+        let activeTimezones = [...timezones];
+
+        // Format time with leading zeros
+        function padZero(num) {
+            return num.toString().padStart(2, '0');
+        }
+
+        // Get formatted time for timezone
+        function getTimeForTimezone(tz) {
+            const now = new Date();
+            const formatter = new Intl.DateTimeFormat('en-US', {
+                timeZone: tz,
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: !use24Hour,
+            });
+
+            const parts = formatter.formatToParts(now);
+            const timeObj = {};
+            parts.forEach(p => {
+                timeObj[p.type] = p.value;
+            });
+
+            return {
+                hour: timeObj.hour,
+                minute: timeObj.minute,
+                second: timeObj.second,
+                period: timeObj.dayPeriod || '',
+                date: now.toLocaleDateString('en-US', { timeZone: tz, weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+            };
+        }
+
+        // Create clock card
+        function createClockCard(config, index) {
+            const time = getTimeForTimezone(config.tz);
+            const timeDisplay = showSeconds 
+                ? `${time.hour}:${time.minute}:${time.second}`
+                : `${time.hour}:${time.minute}`;
+
+            return `
+                <div class="clock-card" data-tz="${config.tz}" data-index="${index}">
+                    <div class="timezone-label">
+                        <span class="timezone-icon">${config.icon}</span>
+                        <span>${config.tz}</span>
+                    </div>
+                    <div class="location-name">${config.name}</div>
+                    
+                    <div class="digital-display">
+                        <div class="digital-time">${timeDisplay}</div>
+                        ${time.period ? `<div class="digital-period">${time.period}</div>` : ''}
+                    </div>
+
+                    <div class="clock-info">
+                        <div class="info-row">
+                            <span class="info-label">Date:</span>
+                            <span class="info-value">${time.date}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Time Format:</span>
+                            <span class="info-value">${use24Hour ? '24-Hour' : '12-Hour'}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">UTC Offset:</span>
+                            <span class="info-value" id="offset-${index}">---</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Update all clocks
+        function updateClocks() {
+            const grid = document.getElementById('clockGrid');
+            grid.innerHTML = activeTimezones.map((tz, idx) => createClockCard(tz, idx)).join('');
+            
+            // Update UTC offsets
+            activeTimezones.forEach((tz, idx) => {
+                const offsetEl = document.getElementById(`offset-${idx}`);
+                if (offsetEl) {
+                    const now = new Date();
+                    const utcTime = now.getTime() + (now.getTimezoneOffset() * 60 * 1000);
+                    const tzTime = new Date(utcTime).toLocaleString('en-US', { timeZone: tz.tz });
+                    const tzDate = new Date(tzTime);
+                    const offset = (tzDate - now) / 3600000;
+                    const sign = offset >= 0 ? '+' : '';
+                    offsetEl.textContent = `UTC ${sign}${offset.toFixed(1)}`;
+                }
+            });
+        }
+
+        // Toggle 12/24 hour format
+        function toggleFormat() {
+            use24Hour = !use24Hour;
+            updateClocks();
+        }
+
+        // Toggle seconds display
+        function toggleSeconds() {
+            showSeconds = !showSeconds;
+            updateClocks();
+        }
+
+        // Add custom timezone
+        function addTimezone() {
+            const tzInput = prompt('Enter timezone (e.g., Europe/Paris, America/Los_Angeles):');
+            if (tzInput) {
+                try {
+                    // Validate timezone
+                    new Date().toLocaleString('en-US', { timeZone: tzInput });
+                    const newTz = {
+                        name: tzInput.split('/')[1].replace(/_/g, ' '),
+                        tz: tzInput,
+                        icon: '🌍'
+                    };
+                    activeTimezones.push(newTz);
+                    updateClocks();
+                } catch (e) {
+                    alert('Invalid timezone. Please check the timezone name.');
+                }
+            }
+        }
+
+        // Initial render and set up interval
+        updateClocks();
+        setInterval(updateClocks, 1000);
+    </script>
+
+</body>
+</html>
