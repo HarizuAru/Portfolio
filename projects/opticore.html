@@ -3,52 +3,250 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="OptiCore - Hariz Iskandar">
+    <meta name="description" content="OptiCore - Full demo, documentation, and source code explorer">
     <title>OptiCore | Hariz Iskandar</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', system-ui, sans-serif; background: #0a0a0a; color: #e6edf3; }
+        :root { --accent: #00ff88; --bg: #0a0a0a; --card: #161b22; }
+        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: #e6edf3; }
         .mono { font-family: 'JetBrains Mono', monospace; }
-        .card { background: #161b22; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; }
+        .card { background: var(--card); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; }
+        .btn {
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            border-radius: 8px;
+            padding: 0.6rem 1rem;
+            transition: all .2s ease;
+        }
+        .btn:hover { background: var(--accent); color: #0a0a0a; }
+        .btn.secondary { border-color: #8b949e; color: #8b949e; }
+        .btn.secondary:hover { background: #8b949e; color: #0a0a0a; }
+        .file-btn.active { background: rgba(0,255,136,.1); border-color: rgba(0,255,136,.45); color: var(--accent); }
+        pre { white-space: pre; overflow-x: auto; }
+        .metric { background: rgba(0,255,136,.06); border: 1px solid rgba(0,255,136,.2); border-radius: 10px; padding: 1rem; }
     </style>
 </head>
 <body>
-    <div class="max-w-5xl mx-auto px-4 py-10">
-        <a href="../index.html#projects" class="mono text-sm text-gray-400 hover:text-[#00ff88]">← Back to Projects</a>
-        <h1 class="mono text-4xl text-[#00ff88] mt-4 mb-3">OptiCore</h1>
-        <p class="text-gray-400 mb-8">Full-stack optimization and performance management toolkit.</p>
+    <div class="max-w-6xl mx-auto px-4 py-10">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+            <a href="../index.html#projects" class="mono text-sm text-gray-400 hover:text-[#00ff88]">← Back to Projects</a>
+            <div class="flex gap-2">
+                <a href="https://github.com/HarizuAru/OptiCore" target="_blank" rel="noopener noreferrer" class="btn mono text-sm">Open OptiCore Repo</a>
+                <a href="https://raw.githubusercontent.com/HarizuAru/OptiCore/main/README.md" target="_blank" rel="noopener noreferrer" class="btn secondary mono text-sm">Raw README</a>
+            </div>
+        </div>
+
+        <h1 class="mono text-4xl text-[#00ff88] mb-3">OptiCore</h1>
+        <p class="text-gray-400 mb-8">Complete demo + GitHub documentation + source-code explorer for the full OptiCore app.</p>
+
         <section class="card p-6 mb-8">
-            <h2 class="mono text-xl text-[#00ff88] mb-4">Demo</h2>
+            <h2 class="mono text-xl text-[#00ff88] mb-5">Live Demo (Router Simulation Preview)</h2>
             <div class="grid md:grid-cols-2 gap-4">
-                <label class="text-sm">Throughput (req/s)
-                    <input id="throughput" type="range" min="100" max="3000" value="1200" class="w-full">
+                <label class="text-sm">Protocol
+                    <select id="protocol" class="w-full mt-1 p-2 rounded bg-black/40 border border-white/10">
+                        <option value="OSPF">OSPF</option>
+                        <option value="EIGRP">EIGRP</option>
+                    </select>
                 </label>
-                <label class="text-sm">Latency (ms)
-                    <input id="latency" type="range" min="20" max="600" value="180" class="w-full">
+                <label class="text-sm">ACL Entries
+                    <select id="acl" class="w-full mt-1 p-2 rounded bg-black/40 border border-white/10">
+                        <option value="10">10</option>
+                        <option value="100">100</option>
+                        <option value="1000">1000</option>
+                    </select>
+                </label>
+                <label class="text-sm">Traffic Preset
+                    <select id="trafficPreset" class="w-full mt-1 p-2 rounded bg-black/40 border border-white/10">
+                        <option value="10000">Low (10,000 PPS)</option>
+                        <option value="50000">Medium (50,000 PPS)</option>
+                        <option value="100000">High (100,000 PPS)</option>
+                    </select>
+                </label>
+                <label class="text-sm">Custom PPS (optional)
+                    <input id="customPps" type="number" min="1000" max="300000" placeholder="e.g. 75000" class="w-full mt-1 p-2 rounded bg-black/40 border border-white/10">
                 </label>
             </div>
-            <div class="mt-4 p-4 rounded bg-black/40 border border-white/10">
-                <p class="mono text-sm">Optimization score: <span id="score" class="text-[#00ff88]">0</span></p>
-                <p class="text-sm text-gray-400 mt-2">Tune throughput and latency to see optimization impact.</p>
+
+            <div class="mt-5">
+                <button id="runDemo" class="btn mono text-sm">Run Simulation Preview</button>
+            </div>
+
+            <div class="grid md:grid-cols-4 gap-3 mt-5">
+                <div class="metric">
+                    <p class="text-xs text-gray-400 mono mb-1">CPU</p>
+                    <p class="mono text-lg text-[#00ff88]"><span id="cpuOut">--</span>%</p>
+                </div>
+                <div class="metric">
+                    <p class="text-xs text-gray-400 mono mb-1">Avg Memory</p>
+                    <p class="mono text-lg text-[#00ff88]"><span id="memOut">--</span> MB</p>
+                </div>
+                <div class="metric">
+                    <p class="text-xs text-gray-400 mono mb-1">Avg Delay</p>
+                    <p class="mono text-lg text-[#00ff88]"><span id="delayOut">--</span> µs</p>
+                </div>
+                <div class="metric">
+                    <p class="text-xs text-gray-400 mono mb-1">Loss Rate</p>
+                    <p class="mono text-lg text-[#00ff88]"><span id="lossOut">--</span>%</p>
+                </div>
+            </div>
+
+            <p id="demoNote" class="text-sm text-gray-400 mt-4">Uses real baseline values from the OptiCore implementation and interpolates expected results.</p>
+        </section>
+
+        <section class="card p-6 mb-8">
+            <h2 class="mono text-xl text-[#00ff88] mb-4">GitHub Documentation (README.md)</h2>
+            <div class="p-4 rounded bg-black/40 border border-white/10 max-h-[420px] overflow-auto">
+                <pre id="readmeViewer" class="mono text-xs text-gray-300">Loading README from GitHub...</pre>
             </div>
         </section>
+
+        <section class="card p-6 mb-8">
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+                <h2 class="mono text-xl text-[#00ff88]">GitHub Source Code Explorer</h2>
+                <a id="openFileLink" href="https://github.com/HarizuAru/OptiCore" target="_blank" rel="noopener noreferrer" class="btn secondary mono text-xs">Open current file on GitHub</a>
+            </div>
+
+            <div class="flex flex-wrap gap-2 mb-4">
+                <button class="file-btn btn secondary mono text-xs" data-file="index.html">index.html</button>
+                <button class="file-btn btn secondary mono text-xs" data-file="index.css">index.css</button>
+                <button class="file-btn btn secondary mono text-xs" data-file="index.js">index.js</button>
+                <button class="file-btn btn secondary mono text-xs" data-file="opticore_sim.py">opticore_sim.py</button>
+                <button class="file-btn btn secondary mono text-xs" data-file="requirements.txt">requirements.txt</button>
+                <button class="file-btn btn secondary mono text-xs" data-file="router_performance_results.csv">router_performance_results.csv</button>
+            </div>
+
+            <div class="p-4 rounded bg-black/40 border border-white/10 max-h-[560px] overflow-auto">
+                <pre id="codeViewer" class="mono text-xs text-gray-300">Select a file to load source code from GitHub...</pre>
+            </div>
+        </section>
+
+        <section class="card p-6">
+            <h2 class="mono text-xl text-[#00ff88] mb-4">How to use the full OptiCore app</h2>
+            <ol class="list-decimal pl-5 text-gray-300 space-y-2">
+                <li>Open the repository and install dependencies from <span class="mono">requirements.txt</span>.</li>
+                <li>Run <span class="mono">python opticore_sim.py</span> to generate simulation CSV output.</li>
+                <li>Start the dashboard using <span class="mono">python -m http.server 8082</span>, then open <span class="mono">http://localhost:8082</span>.</li>
+                <li>Use this page’s demo and code/documentation panels as a guided reference.</li>
+            </ol>
+        </section>
     </div>
+
     <script>
-        const throughput = document.getElementById('throughput');
-        const latency = document.getElementById('latency');
-        const score = document.getElementById('score');
-        function updateScore() {
-            const t = Number(throughput.value);
-            const l = Number(latency.value);
-            const result = Math.max(0, Math.min(100, Math.round((t / 30) - (l / 8))));
-            score.textContent = String(result);
+        const REPO_OWNER = 'HarizuAru';
+        const REPO_NAME = 'OptiCore';
+        const BRANCH = 'main';
+        const RAW_BASE = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}`;
+        const GITHUB_BASE = `https://github.com/${REPO_OWNER}/${REPO_NAME}/blob/${BRANCH}`;
+
+        const FACTORIAL_DATA = [
+            { protocol: 'OSPF', acl: 10, pps: 10000, cpu: 5.32, mem: 80.01, delay: 5.34, loss: 0.0000 },
+            { protocol: 'OSPF', acl: 10, pps: 50000, cpu: 26.10, mem: 80.03, delay: 6.13, loss: 0.0000 },
+            { protocol: 'OSPF', acl: 10, pps: 100000, cpu: 52.21, mem: 80.08, delay: 8.03, loss: 0.0000 },
+            { protocol: 'OSPF', acl: 100, pps: 10000, cpu: 7.17, mem: 80.01, delay: 7.26, loss: 0.0000 },
+            { protocol: 'OSPF', acl: 100, pps: 50000, cpu: 35.13, mem: 80.06, delay: 8.91, loss: 0.0000 },
+            { protocol: 'OSPF', acl: 100, pps: 100000, cpu: 70.28, mem: 80.17, delay: 15.19, loss: 0.0000 },
+            { protocol: 'OSPF', acl: 1000, pps: 10000, cpu: 25.59, mem: 80.05, delay: 29.20, loss: 0.0000 },
+            { protocol: 'OSPF', acl: 1000, pps: 50000, cpu: 100.00, mem: 82.93, delay: 43988.38, loss: 16.3276 },
+            { protocol: 'OSPF', acl: 1000, pps: 100000, cpu: 100.00, mem: 82.93, delay: 47907.77, loss: 58.1675 },
+            { protocol: 'EIGRP', acl: 10, pps: 10000, cpu: 8.39, mem: 40.01, delay: 8.56, loss: 0.0000 },
+            { protocol: 'EIGRP', acl: 10, pps: 50000, cpu: 41.16, mem: 40.05, delay: 11.08, loss: 0.0000 },
+            { protocol: 'EIGRP', acl: 10, pps: 100000, cpu: 82.32, mem: 40.16, delay: 26.94, loss: 0.0000 },
+            { protocol: 'EIGRP', acl: 100, pps: 10000, cpu: 10.24, mem: 40.01, delay: 10.56, loss: 0.0000 },
+            { protocol: 'EIGRP', acl: 100, pps: 50000, cpu: 50.19, mem: 40.08, delay: 15.03, loss: 0.0000 },
+            { protocol: 'EIGRP', acl: 100, pps: 100000, cpu: 99.87, mem: 40.75, delay: 2512.26, loss: 0.0000 },
+            { protocol: 'EIGRP', acl: 1000, pps: 10000, cpu: 28.66, mem: 40.06, delay: 33.46, loss: 0.0000 },
+            { protocol: 'EIGRP', acl: 1000, pps: 50000, cpu: 99.99, mem: 42.93, delay: 50580.43, loss: 24.8650 },
+            { protocol: 'EIGRP', acl: 1000, pps: 100000, cpu: 100.00, mem: 42.93, delay: 53551.74, loss: 62.4365 }
+        ];
+
+        function interpolateResult(protocol, acl, pps) {
+            const rows = FACTORIAL_DATA
+                .filter(item => item.protocol === protocol && item.acl === acl)
+                .sort((a, b) => a.pps - b.pps);
+
+            const lower = rows.reduce((acc, row) => (row.pps <= pps ? row : acc), rows[0]);
+            const higher = rows.find(row => row.pps >= pps) || rows[rows.length - 1];
+
+            if (!lower || !higher) return null;
+            if (lower.pps === higher.pps) return lower;
+
+            const ratio = (pps - lower.pps) / (higher.pps - lower.pps);
+            const lerp = (a, b) => a + (b - a) * ratio;
+            return {
+                cpu: lerp(lower.cpu, higher.cpu),
+                mem: lerp(lower.mem, higher.mem),
+                delay: lerp(lower.delay, higher.delay),
+                loss: lerp(lower.loss, higher.loss)
+            };
         }
-        throughput.addEventListener('input', updateScore);
-        latency.addEventListener('input', updateScore);
-        updateScore();
+
+        function setMetric(id, value, decimals = 2) {
+            document.getElementById(id).textContent = Number(value).toFixed(decimals);
+        }
+
+        document.getElementById('runDemo').addEventListener('click', () => {
+            const protocol = document.getElementById('protocol').value;
+            const acl = Number(document.getElementById('acl').value);
+            const preset = Number(document.getElementById('trafficPreset').value);
+            const customRaw = document.getElementById('customPps').value;
+            const custom = customRaw ? Number(customRaw) : NaN;
+            const pps = Number.isFinite(custom) && custom > 0 ? custom : preset;
+
+            const result = interpolateResult(protocol, acl, pps);
+            if (!result) return;
+
+            setMetric('cpuOut', Math.min(100, result.cpu));
+            setMetric('memOut', result.mem);
+            setMetric('delayOut', result.delay);
+            setMetric('lossOut', Math.max(0, result.loss), 4);
+            document.getElementById('demoNote').textContent =
+                `Protocol ${protocol} | ACL ${acl} | Traffic ${pps.toLocaleString()} PPS. Values are derived from OptiCore factorial baseline.`;
+        });
+
+        async function loadRawFile(path, targetEl) {
+            targetEl.textContent = `Loading ${path}...`;
+            try {
+                const response = await fetch(`${RAW_BASE}/${path}`);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const text = await response.text();
+                targetEl.textContent = text;
+            } catch (error) {
+                targetEl.textContent = `Failed to load ${path} from GitHub.\n${error.message}`;
+            }
+        }
+
+        const readmeViewer = document.getElementById('readmeViewer');
+        loadRawFile('README.md', readmeViewer);
+
+        const codeViewer = document.getElementById('codeViewer');
+        const fileButtons = document.querySelectorAll('.file-btn');
+        const openFileLink = document.getElementById('openFileLink');
+
+        function activateButton(activePath) {
+            fileButtons.forEach(button => {
+                if (button.dataset.file === activePath) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+        }
+
+        fileButtons.forEach(button => {
+            button.addEventListener('click', async () => {
+                const file = button.dataset.file;
+                activateButton(file);
+                openFileLink.href = `${GITHUB_BASE}/${file}`;
+                await loadRawFile(file, codeViewer);
+            });
+        });
+
+        activateButton('opticore_sim.py');
+        openFileLink.href = `${GITHUB_BASE}/opticore_sim.py`;
+        loadRawFile('opticore_sim.py', codeViewer);
     </script>
 </body>
 </html>
