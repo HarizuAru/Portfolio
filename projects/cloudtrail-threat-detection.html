@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CloudTrail Threat Detection Platform case study">
+    <title>CloudTrail Threat Detection Platform | Case Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #090b10; --panel: rgba(20,24,32,.84); --border: rgba(255,255,255,.09);
+            --text: #ecf1f9; --muted: #9aa6b7; --accent: #5b8cff;
+        }
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: Inter, system-ui, sans-serif; background: var(--bg); color: var(--text); }
+        .mono { font-family: "JetBrains Mono", monospace; }
+        .container { max-width: 980px; margin: 0 auto; padding: 28px 20px 64px; }
+        .back { color: var(--muted); font-size: .9rem; text-decoration: none; }
+        .back:hover { color: var(--text); }
+        h1 { font-size: clamp(2rem, 6vw, 4rem); margin: 14px 0 10px; line-height: .95; letter-spacing: -.04em; }
+        .subtitle { color: #cfd8e6; line-height: 1.8; max-width: 760px; }
+        .meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 26px; }
+        .pill { border: 1px solid var(--border); border-radius: 999px; padding: 7px 10px; color: #ced7e6; font-size: .78rem; }
+        .grid { display: grid; gap: 14px; grid-template-columns: repeat(2, 1fr); margin-top: 20px; }
+        .card { border: 1px solid var(--border); border-radius: 16px; background: var(--panel); padding: 16px; }
+        .card h2 { margin: 0 0 10px; font-size: 1rem; color: var(--accent); text-transform: uppercase; letter-spacing: .1em; }
+        .card p { margin: 0; color: var(--muted); line-height: 1.7; font-size: .92rem; }
+        .links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+        .btn { border: 1px solid var(--border); border-radius: 12px; padding: 10px 12px; color: var(--text); text-decoration: none; font-weight: 600; font-size: .86rem; }
+        .btn.primary { background: var(--accent); border-color: transparent; color: white; }
+        .architecture { margin-top: 24px; border: 1px solid var(--border); border-radius: 16px; background: var(--panel); padding: 18px; }
+        pre { margin: 0; white-space: pre-wrap; color: #c8d2e2; line-height: 1.6; font-size: .86rem; }
+        @media (max-width: 840px) { .grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <a class="back mono" href="../index.html#projects">← Back to Portfolio</a>
+        <h1>CloudTrail Threat Detection Platform</h1>
+        <p class="subtitle">A cloud security product for detecting suspicious AWS activity in near real-time, prioritizing incidents, and accelerating analyst response.</p>
+        <div class="meta">
+            <span class="pill">AWS CloudTrail</span><span class="pill">EventBridge</span><span class="pill">Lambda</span><span class="pill">Risk Scoring</span><span class="pill">Incident Response</span>
+        </div>
+
+        <div class="links">
+            <a class="btn primary" href="https://github.com/HarizuAru" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a class="btn" href="../index.html#projects">Live Demo (Portfolio)</a>
+            <a class="btn" href="../index.html#process">Engineering Process</a>
+        </div>
+
+        <section class="grid">
+            <article class="card"><h2>Problem</h2><p>Security teams lacked clear visibility into high-risk identity actions across distributed AWS accounts and had slow triage cycles.</p></article>
+            <article class="card"><h2>Research</h2><p>Analyzed incident patterns, IAM abuse techniques, and analyst workflows to design detections tuned for practical alert quality.</p></article>
+            <article class="card"><h2>Planning</h2><p>Defined event ingestion, normalization, correlation, and scoring stages with explicit SLAs for latency and false-positive control.</p></article>
+            <article class="card"><h2>Architecture</h2><p>Event-driven pipeline using CloudTrail + EventBridge + Lambda for filtering, enrichment, and risk scoring before alert delivery.</p></article>
+            <article class="card"><h2>Implementation</h2><p>Created rule packs for suspicious API activity, impossible travel indicators, privilege escalation chains, and anomalous token use.</p></article>
+            <article class="card"><h2>Security</h2><p>Least-privilege IAM roles, encrypted transport, audit logging, and immutable evidence capture for post-incident investigations.</p></article>
+            <article class="card"><h2>Challenges</h2><p>Managing noisy events at scale and reducing alert fatigue without missing high-severity activity under bursty workloads.</p></article>
+            <article class="card"><h2>Solutions</h2><p>Context-aware suppression, weighted scoring, and staged rule confidence levels to maintain detection precision.</p></article>
+            <article class="card"><h2>Performance</h2><p>Designed for sub-minute alerting paths and scalable event throughput under account growth and regional expansion.</p></article>
+            <article class="card"><h2>Lessons Learned</h2><p>Detection quality depends as much on operational tuning and triage UX as on rule complexity alone.</p></article>
+            <article class="card"><h2>Future Roadmap</h2><p>Cross-account graph analysis, adaptive behavior baselines, and automated remediation playbooks.</p></article>
+            <article class="card"><h2>Impact</h2><p>Improved incident response readiness, shortened investigation loops, and increased confidence in cloud audit visibility.</p></article>
+        </section>
+
+        <section class="architecture">
+            <h2 class="mono" style="margin:0 0 10px;color:var(--accent);font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;">Architecture Diagram (Text)</h2>
+            <pre>
+CloudTrail Events
+   -> EventBridge Rules
+      -> Lambda Normalization
+         -> Risk Scoring Engine
+            -> Analyst Alerts + Evidence Store
+               -> Dashboard / Incident Workflow
+            </pre>
+        </section>
+    </main>
+</body>
+</html>
