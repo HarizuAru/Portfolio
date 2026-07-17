@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ResumeAI case study">
+    <title>ResumeAI | Case Study</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #090b10; --panel: rgba(20,24,32,.84); --border: rgba(255,255,255,.09);
+            --text: #ecf1f9; --muted: #9aa6b7; --accent: #5b8cff;
+        }
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: Inter, system-ui, sans-serif; background: var(--bg); color: var(--text); }
+        .mono { font-family: "JetBrains Mono", monospace; }
+        .container { max-width: 980px; margin: 0 auto; padding: 28px 20px 64px; }
+        .back { color: var(--muted); font-size: .9rem; text-decoration: none; }
+        .back:hover { color: var(--text); }
+        h1 { font-size: clamp(2rem, 6vw, 4rem); margin: 14px 0 10px; line-height: .95; letter-spacing: -.04em; }
+        .subtitle { color: #cfd8e6; line-height: 1.8; max-width: 760px; }
+        .meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 26px; }
+        .pill { border: 1px solid var(--border); border-radius: 999px; padding: 7px 10px; color: #ced7e6; font-size: .78rem; }
+        .grid { display: grid; gap: 14px; grid-template-columns: repeat(2, 1fr); margin-top: 20px; }
+        .card { border: 1px solid var(--border); border-radius: 16px; background: var(--panel); padding: 16px; }
+        .card h2 { margin: 0 0 10px; font-size: 1rem; color: var(--accent); text-transform: uppercase; letter-spacing: .1em; }
+        .card p { margin: 0; color: var(--muted); line-height: 1.7; font-size: .92rem; }
+        .links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+        .btn { border: 1px solid var(--border); border-radius: 12px; padding: 10px 12px; color: var(--text); text-decoration: none; font-weight: 600; font-size: .86rem; }
+        .btn.primary { background: var(--accent); border-color: transparent; color: white; }
+        .demo { margin-top: 24px; border: 1px solid var(--border); border-radius: 16px; background: var(--panel); padding: 18px; }
+        .demo label { display: block; margin: 10px 0 6px; font-size: .84rem; color: #c8d2e2; }
+        .demo input, .demo textarea { width: 100%; border-radius: 10px; border: 1px solid var(--border); background: rgba(255,255,255,.03); color: var(--text); padding: 10px; }
+        .score { margin-top: 12px; color: #d6e2ff; font-weight: 700; }
+        @media (max-width: 840px) { .grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <a class="back mono" href="../index.html#projects">← Back to Portfolio</a>
+        <h1>ResumeAI</h1>
+        <p class="subtitle">An AI-first resume optimization assistant designed to help candidates produce recruiter-ready profiles with clear measurable impact.</p>
+        <div class="meta">
+            <span class="pill">LLM</span><span class="pill">Prompt Engineering</span><span class="pill">ATS Scoring</span><span class="pill">TypeScript</span><span class="pill">Product UX</span>
+        </div>
+
+        <div class="links">
+            <a class="btn primary" href="https://github.com/HarizuAru" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a class="btn" href="../index.html#projects">Live Demo (Portfolio)</a>
+            <a class="btn" href="../index.html#contact">Contact</a>
+        </div>
+
+        <section class="grid">
+            <article class="card"><h2>Problem</h2><p>Many resumes are technically strong but fail ATS parsing and recruiter readability, reducing interview conversion.</p></article>
+            <article class="card"><h2>Research</h2><p>Studied recruiter expectations, ATS parsing behavior, and common anti-patterns in engineering resumes.</p></article>
+            <article class="card"><h2>Planning</h2><p>Split the workflow into profile extraction, gap analysis, role matching, and impact-driven rewrite stages.</p></article>
+            <article class="card"><h2>Architecture</h2><p>Frontend guided editor + LLM orchestration layer + scoring heuristics engine for structured feedback loops.</p></article>
+            <article class="card"><h2>Implementation</h2><p>Reusable prompt templates, section-level scoring, and targeted recommendations per role context.</p></article>
+            <article class="card"><h2>Security</h2><p>PII-aware handling, scoped data retention, and explicit user controls around stored resume content.</p></article>
+            <article class="card"><h2>Challenges</h2><p>Balancing AI creativity with factual accuracy while preserving candidate voice and truthful claims.</p></article>
+            <article class="card"><h2>Solutions</h2><p>Constraint-based prompts, confidence checks, and recommendation categories instead of blind rewriting.</p></article>
+            <article class="card"><h2>Performance</h2><p>Optimized prompts and response shaping to reduce latency while preserving actionable output quality.</p></article>
+            <article class="card"><h2>Lessons Learned</h2><p>Users trust AI recommendations more when rationale is transparent and tied to recruiter expectations.</p></article>
+            <article class="card"><h2>Future Roadmap</h2><p>Role-specific benchmark datasets, longitudinal resume improvement tracking, and interview prep integration.</p></article>
+            <article class="card"><h2>Impact</h2><p>Higher clarity in candidate profiles, improved ATS readiness, and stronger recruiter-first storytelling.</p></article>
+        </section>
+
+        <section class="demo">
+            <h2 class="mono" style="margin:0;color:var(--accent);font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;">Mini Demo</h2>
+            <label for="summary">Candidate Summary</label>
+            <textarea id="summary" rows="4" placeholder="Paste a short professional summary..."></textarea>
+            <label for="keywords">Role Keywords (comma separated)</label>
+            <input id="keywords" type="text" placeholder="cloud security, aws, incident response">
+            <button id="scoreBtn" class="btn primary" style="margin-top:10px;" type="button">Analyze Summary</button>
+            <p id="scoreOut" class="score">Score: --</p>
+        </section>
+    </main>
+    <script>
+        const scoreBtn = document.getElementById('scoreBtn');
+        const summary = document.getElementById('summary');
+        const keywords = document.getElementById('keywords');
+        const scoreOut = document.getElementById('scoreOut');
+
+        scoreBtn.addEventListener('click', () => {
+            const text = summary.value.trim().toLowerCase();
+            const keys = keywords.value.split(',').map((v) => v.trim().toLowerCase()).filter(Boolean);
+            if (!text) {
+                scoreOut.textContent = 'Score: 0/100 — add a summary to analyze.';
+                return;
+            }
+            let score = 45;
+            const impactWords = ['improved', 'reduced', 'increased', 'optimized', 'secured', 'scaled', '%', 'x'];
+            impactWords.forEach((word) => { if (text.includes(word)) score += 4; });
+            keys.forEach((key) => { if (text.includes(key)) score += 5; });
+            score = Math.min(100, score);
+            scoreOut.textContent = `Score: ${score}/100 — ${score > 79 ? 'strong recruiter fit' : score > 59 ? 'good, can be improved' : 'needs stronger impact language'}.`;
+        });
+    </script>
+</body>
+</html>
