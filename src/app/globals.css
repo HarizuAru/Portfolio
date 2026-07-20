@@ -1,0 +1,180 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+  
+  --font-sans: var(--font-geist-sans), Inter, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), JetBrains Mono, monospace;
+}
+
+:root {
+  --background: #090b10;
+  --foreground: #ecf1f9;
+  
+  --muted: #8b949e;
+  --muted-foreground: #5e6670;
+  
+  --card: rgba(15, 19, 26, 0.72);
+  --card-foreground: #ecf1f9;
+  
+  --popover: #0a0e14;
+  --popover-foreground: #ecf1f9;
+  
+  --primary: #00ff88;
+  --primary-foreground: #090b10;
+  
+  --secondary: #161b22;
+  --secondary-foreground: #c9d1d9;
+  
+  --accent: rgba(0, 255, 136, 0.1);
+  --accent-foreground: #00ff88;
+  
+  --border: rgba(255, 255, 255, 0.08);
+  --input: rgba(255, 255, 255, 0.05);
+  --ring: #00ff88;
+  
+  --radius: 14px;
+}
+
+.light {
+  --background: #f6f8fa;
+  --foreground: #0f172a;
+  
+  --muted: #64748b;
+  --muted-foreground: #94a3b8;
+  
+  --card: rgba(255, 255, 255, 0.85);
+  --card-foreground: #0f172a;
+  
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+  
+  --primary: #059669;
+  --primary-foreground: #ffffff;
+  
+  --secondary: #e2e8f0;
+  --secondary-foreground: #334155;
+  
+  --accent: rgba(5, 150, 105, 0.1);
+  --accent-foreground: #059669;
+  
+  --border: rgba(15, 23, 42, 0.08);
+  --input: rgba(15, 23, 42, 0.05);
+  --ring: #059669;
+}
+
+* {
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Background grid overlay */
+.bg-grid-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: 
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 80%);
+  z-index: 1;
+  opacity: 0.6;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* Glassmorphism helpers */
+.glass-panel {
+  background: var(--card);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.glass-nav {
+  background: rgba(9, 11, 16, 0.72);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+
+.light .glass-nav {
+  background: rgba(246, 248, 250, 0.72);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Hover elevation */
+.hover-lift {
+  transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.22s ease, box-shadow 0.22s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-2px);
+  border-color: rgba(0, 255, 136, 0.4);
+  box-shadow: 0 12px 24px -10px rgba(0, 255, 136, 0.15);
+}
+.light .hover-lift:hover {
+  border-color: rgba(5, 150, 105, 0.4);
+  box-shadow: 0 12px 24px -10px rgba(5, 150, 105, 0.15);
+}
+
+/* Terminal text highlight */
+.term-green {
+  color: var(--primary);
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.35);
+}
+
+.light .term-green {
+  color: var(--primary);
+  text-shadow: none;
+}
