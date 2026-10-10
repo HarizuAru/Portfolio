@@ -55,7 +55,7 @@ export function CommandPalette() {
     {
       id: 'toggle-recruiter',
       title: recruiterMode ? 'Deactivate Recruiter Mode' : 'Activate Recruiter Mode',
-      subtitle: 'Show/hide hiring-manager-focused system audits',
+      subtitle: 'Show or hide expanded project review details',
       icon: Briefcase,
       handler: () => {
         setRecruiterMode(!recruiterMode);
@@ -74,8 +74,8 @@ export function CommandPalette() {
     },
     {
       id: 'go-about',
-      title: 'Jump to Personal Brand',
-      subtitle: 'Scroll to professional bio',
+      title: 'Jump to About',
+      subtitle: 'Scroll to profile summary',
       icon: Monitor,
       handler: () => {
         setCommandPaletteOpen(false);
@@ -85,8 +85,8 @@ export function CommandPalette() {
     },
     {
       id: 'go-contact',
-      title: 'Jump to Consulting & Contact',
-      subtitle: 'Schedule consultations or send messages',
+      title: 'Jump to Contact',
+      subtitle: 'Go to contact links',
       icon: Monitor,
       handler: () => {
         setCommandPaletteOpen(false);
@@ -177,7 +177,7 @@ export function CommandPalette() {
               <input
                 ref={inputRef}
                 type="text"
-                placeholder="Search projects, stack, tags, or system actions..."
+                placeholder="Search projects, technologies, or quick actions..."
                 value={query}
                 onChange={(e) => {
                   setQuery(e.target.value);
@@ -194,7 +194,7 @@ export function CommandPalette() {
             <div ref={listRef} className="max-h-[360px] overflow-y-auto p-2 space-y-4">
               {totalItemsCount === 0 ? (
                 <div className="p-8 text-center text-sm text-muted">
-                  No matching systems or controls found.
+                  No matching projects or actions found.
                 </div>
               ) : (
                 <>
@@ -202,7 +202,7 @@ export function CommandPalette() {
                   {filteredProjects.length > 0 && (
                     <div>
                       <div className="px-2 mb-1.5 text-[10px] font-mono text-muted tracking-wider uppercase">
-                        Engineering Projects
+                        Projects
                       </div>
                       <div className="space-y-1">
                         {filteredProjects.map((project, index) => {
@@ -245,7 +245,7 @@ export function CommandPalette() {
                   {filteredActions.length > 0 && (
                     <div>
                       <div className="px-2 mb-1.5 text-[10px] font-mono text-muted tracking-wider uppercase">
-                        System Actions
+                        Quick Actions
                       </div>
                       <div className="space-y-1">
                         {filteredActions.map((action, index) => {
