@@ -1,28 +1,17 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
 import { GlobalProvider } from '@/context/global-context';
 import { Navigation } from '@/components/navigation';
 import { CommandPalette } from '@/components/command-palette';
 import './globals.css';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
-
 export const metadata: Metadata = {
-  title: 'Hariz Iskandar | Enterprise Engineering Portfolio Platform',
-  description: 'An interactive engineering knowledge base showcasing secure cloud-native pipelines, system performance modeling, and structured AI agent orchestration.',
-  keywords: ['Cloud Security', 'AI Systems', 'Next.js 15', 'TypeScript', 'DevOps', 'Cybersecurity', 'Systems Architecture'],
+  title: 'Hariz Iskandar | Portfolio',
+  description: 'Personal portfolio showcasing software projects, technical skills, and ways to get in touch.',
+  keywords: ['Portfolio', 'Software Engineer', 'Next.js', 'TypeScript', 'Web Development', 'Cloud', 'Projects'],
   authors: [{ name: 'Hariz Iskandar' }],
   openGraph: {
-    title: 'Hariz Iskandar | Engineering Portfolio Platform',
-    description: 'An interactive engineering knowledge base showcasing systems design, cloud security, and production-quality software.',
+    title: 'Hariz Iskandar | Portfolio',
+    description: 'Explore featured projects, technical capabilities, and contact details.',
     type: 'website',
   }
 };
@@ -35,7 +24,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
+      className="h-full antialiased dark"
       style={{ colorScheme: 'dark' }}
     >
       <body className="min-h-full flex flex-col relative bg-background text-foreground selection:bg-primary/20 selection:text-primary">
@@ -62,12 +51,11 @@ export default function RootLayout({
                   © 2026 Hariz Iskandar
                 </span>
                 <span className="text-[10px] text-muted font-mono">
-                  sys.release: v1.0.4 // latency: optimal
+                  Built for project showcase and easy customization
                 </span>
               </div>
               <p className="text-[11px] text-muted text-center md:text-right font-mono max-w-md">
-                Engineered with Next.js 15, React 19, Tailwind v4, and Framer Motion. 
-                Optimized for recruiter audits, accessibility, and high performance.
+                Built with Next.js 16, React 19, Tailwind CSS v4, and TypeScript.
               </p>
             </div>
           </footer>

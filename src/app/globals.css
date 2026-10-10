@@ -23,8 +23,8 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
   
-  --font-sans: var(--font-geist-sans), Inter, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), JetBrains Mono, monospace;
+  --font-sans: var(--font-geist-sans, Inter), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono, "JetBrains Mono"), monospace;
 }
 
 :root {
