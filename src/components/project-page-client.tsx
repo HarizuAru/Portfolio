@@ -39,9 +39,6 @@ export function ProjectPageClient({ id }: ProjectPageClientProps) {
   const { recruiterMode } = useGlobalContext();
 
   const project = projectsData.find((p) => p.id === id);
-  if (!project) {
-    return null;
-  }
 
   // Active section tracking state
   const [activeSection, setActiveSection] = useState('overview');
@@ -67,6 +64,10 @@ export function ProjectPageClient({ id }: ProjectPageClientProps) {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  if (!project) {
+    return null;
+  }
 
   const handleSidebarClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
