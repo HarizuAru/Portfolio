@@ -37,8 +37,13 @@ export function projectTechs(project: ProjectRecord, limit = 5): string[] {
 
 export function ProjectCard({ project }: { project: ProjectRecord }) {
   return (
-    <article className="relative h-full rounded-xl border border-white/10 bg-gradient-to-b from-white/[0.07] to-white/[0.02] backdrop-blur-md p-5 flex flex-col gap-4 shadow-[0_0_50px_-20px_rgba(47,129,247,0.35)] hover:shadow-[0_0_70px_-18px_rgba(47,129,247,0.55)] hover:border-primary/30 hover-lift overflow-hidden [&>*]:relative [&>*]:z-10">
-      <div aria-hidden="true" className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 h-48 w-[130%] rounded-full bg-primary/10 blur-3xl" />
+    <article className="group relative h-full rounded-xl border border-white/10 bg-gradient-to-b from-white/[0.07] to-white/[0.02] backdrop-blur-md p-5 flex flex-col gap-4 shadow-[0_0_50px_-20px_rgba(47,129,247,0.35)] hover:shadow-[0_0_70px_-18px_rgba(47,129,247,0.55)] hover:border-primary/30 hover-lift overflow-hidden [&>*:not([data-deco])]:relative [&>*:not([data-deco])]:z-10">
+      <div data-deco aria-hidden="true" className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 h-48 w-[130%] rounded-full bg-primary/10 blur-3xl" />
+      <div
+        data-deco
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-y-0 left-0 z-20 w-1/3 -skew-x-12 bg-gradient-to-r from-transparent via-white/15 to-transparent opacity-0 -translate-x-[250%] transition-all duration-700 ease-out group-hover:translate-x-[450%] group-hover:opacity-100"
+      />
       <div className="space-y-2">
         <div className="flex flex-wrap items-center gap-2">
           <span className="text-xs font-mono text-primary uppercase tracking-wide">
