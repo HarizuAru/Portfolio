@@ -1,7 +1,8 @@
 import Link from 'next/link';
-import { ArrowRight, ExternalLink, Mail } from 'lucide-react';
+import { ArrowRight, ExternalLink, Mail, Download } from 'lucide-react';
 import { projectsData } from '@/data/projects';
-import { GithubIcon } from '@/components/icons';
+import { GithubIcon, LinkedinIcon } from '@/components/icons';
+import { ContactForm } from '@/components/contact-form';
 import { portfolioConfig } from '@/data/portfolio';
 
 const featuredProjects = projectsData.slice(0, 6);
@@ -54,6 +55,13 @@ export default function Home() {
             >
               GitHub
               <GithubIcon className="w-4 h-4" aria-hidden="true" />
+            </a>
+            <a
+              href={portfolioConfig.resumeUrl}
+              className="inline-flex items-center gap-2 rounded-lg border border-border bg-secondary/30 px-5 py-2.5 text-sm font-semibold text-foreground hover:bg-secondary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            >
+              Resume
+              <Download className="w-4 h-4" aria-hidden="true" />
             </a>
           </div>
         </div>
@@ -140,12 +148,45 @@ export default function Home() {
         </div>
       </section>
 
+      <section id="experience" className="space-y-6">
+        <div className="space-y-2">
+          <h2 className="text-3xl font-bold tracking-tight text-foreground">Experience</h2>
+          <p className="text-muted max-w-3xl">
+            Where I&apos;ve worked and what I delivered there.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {portfolioConfig.experience.map((job) => (
+            <article key={job.role} className="rounded-xl border border-border bg-secondary/20 p-5 space-y-3">
+              <div className="space-y-1">
+                <h3 className="text-lg font-semibold text-foreground">{job.role}</h3>
+                <p className="text-xs font-mono text-primary">{job.period} · {job.location}</p>
+              </div>
+              <ul className="space-y-1.5 text-sm text-muted">
+                {job.points.map((point) => (
+                  <li key={point}>• {point}</li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section id="about" className="space-y-6">
         <h2 className="text-3xl font-bold tracking-tight text-foreground">About</h2>
         <p className="max-w-4xl text-muted leading-relaxed">
           I enjoy translating complex requirements into practical, high-quality software. My work emphasizes accessibility,
           reliable architecture, and clear communication so products are easy to use and easy to maintain.
         </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {portfolioConfig.education.map((edu) => (
+            <article key={edu.title} className="rounded-xl border border-border bg-secondary/20 p-5 space-y-1.5">
+              <h3 className="text-base font-semibold text-foreground">{edu.title}</h3>
+              <p className="text-xs font-mono text-primary">{edu.period}</p>
+              <p className="text-sm text-muted">{edu.detail}</p>
+            </article>
+          ))}
+        </div>
       </section>
 
       <section id="skills" className="space-y-6">
@@ -164,12 +205,15 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="contact" className="rounded-xl border border-border bg-secondary/20 p-6 sm:p-8 space-y-4">
-        <h2 className="text-3xl font-bold tracking-tight text-foreground">Contact</h2>
-        <p className="text-muted max-w-3xl">
-          Want to collaborate or discuss an opportunity? Reach out by email or explore more work on GitHub and LinkedIn.
-        </p>
-        <div className="flex flex-wrap gap-3">
+      <section id="contact" className="rounded-xl border border-border bg-secondary/20 p-6 sm:p-8 space-y-6">
+        <div className="space-y-2">
+          <h2 className="text-3xl font-bold tracking-tight text-foreground">Contact</h2>
+          <p className="text-muted max-w-3xl">
+            Want to collaborate or discuss an opportunity? Send a message below or reach me directly.
+          </p>
+        </div>
+        <ContactForm />
+        <div className="flex flex-wrap gap-3 pt-2 border-t border-border">
           <a
             href={`mailto:${portfolioConfig.email}`}
             className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
@@ -192,11 +236,25 @@ export default function Home() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2 text-sm font-semibold text-foreground hover:bg-secondary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
-            LinkedIn (replace URL)
-            <ExternalLink className="w-4 h-4" aria-hidden="true" />
+            LinkedIn
+            <LinkedinIcon className="w-4 h-4" aria-hidden="true" />
           </a>
         </div>
       </section>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Person',
+            name: portfolioConfig.name,
+            jobTitle: portfolioConfig.role,
+            url: portfolioConfig.siteUrl,
+            email: `mailto:${portfolioConfig.email}`,
+            sameAs: [portfolioConfig.socialLinks.github, portfolioConfig.socialLinks.linkedin],
+          }),
+        }}
+      />
     </div>
   );
 }
