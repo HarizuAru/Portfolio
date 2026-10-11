@@ -38,7 +38,6 @@ export function HeroBackground() {
         hue={210}
         saturation={100}
         threshold={127}
-        invertWireframe={false}
         spacing={10}
         minStroke={2}
         maxStroke={6}

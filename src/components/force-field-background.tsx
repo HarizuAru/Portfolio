@@ -1,10 +1,9 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import p5 from 'p5';
+import { useEffect, useRef } from 'react';
 
 export interface ForceFieldBackgroundProps {
-  /** Source image URL for particle mapping. Omit to use a procedural radial field (no network). */
+  /** Source image URL for particle mapping (CORS-friendly). Omit for the built-in "HI" map. */
   imageUrl?: string;
   hue?: number;
   saturation?: number;
@@ -12,269 +11,210 @@ export interface ForceFieldBackgroundProps {
   minStroke?: number;
   maxStroke?: number;
   spacing?: number;
-  noiseScale?: number;
-  density?: number;
-  invertImage?: boolean;
-  invertWireframe?: boolean;
   magnifierEnabled?: boolean;
   magnifierRadius?: number;
   forceStrength?: number;
   friction?: number;
   restoreSpeed?: number;
-  /** Render without the opaque black clear color so the page background shows through. */
   transparent?: boolean;
   className?: string;
 }
 
-/** Brightness field rendered from giant local typography — no image download, no CORS. */
-function synthesizeTextField(p: p5, w: number, h: number): p5.Image {
-  const g = p.createGraphics(Math.max(1, w), Math.max(1, h));
-  g.background(0);
-  g.fill(255);
-  g.textAlign(p.CENTER, p.CENTER);
-  g.textStyle(p.BOLD);
-  g.textSize(Math.min(w / 2.4, h * 1.1));
-  g.text('HI', w / 2, h * 0.54);
-  const img = g.get() as p5.Image;
-  g.remove();
-  return img;
+interface Dot {
+  x: number;
+  y: number;
+  ox: number;
+  oy: number;
+  vx: number;
+  vy: number;
+  light: number;
+  size: number;
 }
 
+// Native canvas replacement for the p5 prototype: a brightness-mapped dot
+// field ("HI" monogram by default) with cursor repulsion. No dependencies,
+// ~130 lines, fully deterministic — and a fraction of the bundle weight.
 export function ForceFieldBackground({
   imageUrl,
   hue = 210,
   saturation = 100,
-  threshold = 255,
+  threshold = 127,
   minStroke = 2,
   maxStroke = 6,
   spacing = 10,
-  noiseScale = 0,
-  density = 2.0,
-  invertImage = false,
-  invertWireframe = true,
   magnifierEnabled = true,
   magnifierRadius = 150,
   forceStrength = 10,
   friction = 0.9,
   restoreSpeed = 0.05,
-  transparent = true,
   className = '',
 }: ForceFieldBackgroundProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [failed, setFailed] = useState(false);
 
-  const propsRef = useRef({
-    hue, saturation, threshold, minStroke, maxStroke, spacing, noiseScale,
-    density, invertImage, invertWireframe, magnifierEnabled, magnifierRadius,
-    forceStrength, friction, restoreSpeed, transparent,
+  const live = useRef({
+    hue, saturation, threshold, minStroke, maxStroke, spacing,
+    magnifierEnabled, magnifierRadius, forceStrength, friction, restoreSpeed,
+  });
+  useEffect(() => {
+    live.current = {
+      hue, saturation, threshold, minStroke, maxStroke, spacing,
+      magnifierEnabled, magnifierRadius, forceStrength, friction, restoreSpeed,
+    };
   });
 
   useEffect(() => {
-    propsRef.current = {
-      hue, saturation, threshold, minStroke, maxStroke, spacing, noiseScale,
-      density, invertImage, invertWireframe, magnifierEnabled, magnifierRadius,
-      forceStrength, friction, restoreSpeed, transparent,
-    };
-  }, [hue, saturation, threshold, minStroke, maxStroke, spacing, noiseScale, density, invertImage, invertWireframe, magnifierEnabled, magnifierRadius, forceStrength, friction, restoreSpeed, transparent]);
+    const node = containerRef.current;
+    if (!node) return;
 
-  useEffect(() => {
-    if (!containerRef.current) return;
-    let instance: p5 | null = null;
-    let cancelled = false;
+    const canvas = document.createElement('canvas');
+    canvas.style.display = 'block';
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    node.appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
-    const sketch = (p: p5 & { preload?: () => void }) => {
-      let originalImg: p5.Image | null = null;
-      let img: p5.Image | null = null;
-      let palette: p5.Color[] = [];
-      let points: { pos: p5.Vector; originalPos: p5.Vector; vel: p5.Vector }[] = [];
-      let lastHue = -1;
-      let lastSaturation = -1;
-      let lastSpacing = -1;
-      let lastNoiseScale = -1;
-      let lastDensity = -1;
-      let lastInvertImage: boolean | null = null;
-      let magnifierX = 0;
-      let magnifierY = 0;
-      const magnifierInertia = 0.1;
+    let W = 0;
+    let H = 0;
+    let dots: Dot[] = [];
+    let raf = 0;
+    let mx = -9999;
+    let my = -9999;
+    let stopped = false;
 
-      p.preload = () => {
-        if (!imageUrl) return;
-        p.loadImage(
-          imageUrl,
-          (loadedImg) => {
-            if (!cancelled) originalImg = loadedImg;
-          },
-          () => {
-            if (!cancelled) setFailed(true);
-          }
-        );
-      };
-
-      p.setup = () => {
-        const node = containerRef.current;
-        if (!node) return;
-        const { clientWidth, clientHeight } = node;
-        if (clientWidth === 0 || clientHeight === 0) return;
-        p.createCanvas(clientWidth, clientHeight);
-        magnifierX = p.width / 2;
-        magnifierY = p.height / 2;
-
-        // No remote image: synthesize a local brightness field.
-        if (!originalImg && !imageUrl) {
-          originalImg = synthesizeTextField(p, p.width, p.height);
-        }
-        if (!originalImg) return;
-
-        processImage();
-        generatePalette(propsRef.current.hue, propsRef.current.saturation);
-        generatePoints();
-
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-          p.redraw();
-          p.noLoop();
-        }
-      };
-
-      p.windowResized = () => {
-        const node = containerRef.current;
-        if (!node || !originalImg) return;
-        const { clientWidth, clientHeight } = node;
-        p.resizeCanvas(clientWidth, clientHeight);
-        if (!imageUrl) originalImg = synthesizeTextField(p, p.width, p.height);
-        processImage();
-        generatePoints();
-      };
-
-      function processImage() {
-        if (!originalImg) return;
-        img = originalImg.get();
-        if (p.width > 0 && p.height > 0) img.resize(p.width, p.height);
-        img.filter(p.GRAY);
-        if (propsRef.current.invertImage) {
-          img.loadPixels();
-          for (let i = 0; i < img.pixels.length; i += 4) {
-            img.pixels[i] = 255 - img.pixels[i];
-            img.pixels[i + 1] = 255 - img.pixels[i + 1];
-            img.pixels[i + 2] = 255 - img.pixels[i + 2];
-          }
-          img.updatePixels();
-        }
-        lastInvertImage = propsRef.current.invertImage;
-        // Pixels are static between resizes: load once here instead of every frame.
-        img.loadPixels();
+    const sampleMap = (
+      drawMap: (o: CanvasRenderingContext2D, w: number, h: number) => void
+    ) => {
+      const off = document.createElement('canvas');
+      off.width = W;
+      off.height = H;
+      const o = off.getContext('2d', { willReadFrequently: true });
+      if (!o) return;
+      drawMap(o, W, H);
+      let data: Uint8ClampedArray;
+      try {
+        data = o.getImageData(0, 0, W, H).data;
+      } catch {
+        return;
       }
-
-      function generatePalette(h: number, s: number) {
-        palette = [];
-        p.push();
-        p.colorMode(p.HSL);
-        // Bright field areas -> light strokes (visible on dark backgrounds).
-        for (let i = 0; i < 12; i++) {
-          palette.push(p.color(h, s, p.map(i, 0, 11, 5, 95)));
-        }
-        p.pop();
-      }
-
-      function generatePoints() {
-        if (!img) return;
-        points = [];
-        const { spacing, density, noiseScale } = propsRef.current;
-        const safeSpacing = Math.max(4, spacing);
-        for (let y = 0; y < img.height; y += safeSpacing) {
-          for (let x = 0; x < img.width; x += safeSpacing) {
-            if (p.random() > density) continue;
-            const nx = p.noise(x * noiseScale, y * noiseScale) - 0.5;
-            const ny = p.noise((x + 500) * noiseScale, (y + 500) * noiseScale) - 0.5;
-            const px = x + nx * safeSpacing;
-            const py = y + ny * safeSpacing;
-            points.push({
-              pos: p.createVector(px, py),
-              originalPos: p.createVector(px, py),
-              vel: p.createVector(0, 0),
-            });
-          }
-        }
-        lastSpacing = spacing;
-        lastNoiseScale = noiseScale;
-        lastDensity = density;
-      }
-
-      function applyForceField(mx: number, my: number) {
-        const props = propsRef.current;
-        if (!props.magnifierEnabled) return;
-        const center = p.createVector(mx, my);
-        for (const pt of points) {
-          const dir = p5.Vector.sub(pt.pos, center);
-          const d = dir.mag();
-          if (d < props.magnifierRadius) {
-            dir.normalize();
-            pt.vel.add(dir.mult(props.forceStrength / Math.max(1, d)));
-          }
-          pt.vel.mult(props.friction);
-          pt.vel.add(p5.Vector.sub(pt.pos, pt.originalPos).mult(-props.restoreSpeed));
-          pt.pos.add(pt.vel);
+      const p = live.current;
+      const step = Math.max(4, Math.round(p.spacing));
+      dots = [];
+      for (let y = 0; y < H; y += step) {
+        for (let x = 0; x < W; x += step) {
+          const b = data[(y * W + x) * 4];
+          if (b <= p.threshold) continue;
+          const t = b / 255;
+          dots.push({
+            x, y, ox: x, oy: y, vx: 0, vy: 0,
+            light: 5 + t * 90,
+            size: p.minStroke + t * (p.maxStroke - p.minStroke),
+          });
         }
       }
-
-      p.draw = () => {
-        if (!img || palette.length === 0) return;
-        const props = propsRef.current;
-        if (props.transparent) p.clear();
-        else p.background(0);
-
-        if (props.hue !== lastHue || props.saturation !== lastSaturation) {
-          generatePalette(props.hue, props.saturation);
-          lastHue = props.hue;
-          lastSaturation = props.saturation;
-        }
-        if (props.invertImage !== lastInvertImage) processImage();
-        if (props.spacing !== lastSpacing || props.noiseScale !== lastNoiseScale || props.density !== lastDensity) {
-          generatePoints();
-        }
-
-        magnifierX = p.lerp(magnifierX, p.mouseX, magnifierInertia);
-        magnifierY = p.lerp(magnifierY, p.mouseY, magnifierInertia);
-        applyForceField(magnifierX, magnifierY);
-
-        p.noFill();
-        for (const pt of points) {
-          const d = p.dist(pt.pos.x, pt.pos.y, magnifierX, magnifierY);
-          const px = p.constrain(p.floor(pt.pos.x), 0, img.width - 1);
-          const py = p.constrain(p.floor(pt.pos.y), 0, img.height - 1);
-          const brightness = img.pixels[(px + py * img.width) * 4];
-          if (brightness === undefined) continue;
-          const condition = props.invertWireframe
-            ? brightness < props.threshold
-            : brightness > props.threshold;
-          if (!condition || !palette.length) continue;
-          const shadeIndex = p.constrain(
-            Math.floor(p.map(brightness, 0, 255, 0, palette.length - 1)),
-            0,
-            palette.length - 1
-          );
-          let strokeSize = p.map(brightness, 0, 255, props.minStroke, props.maxStroke);
-          if (props.magnifierEnabled && d < props.magnifierRadius) {
-            strokeSize *= p.map(d, 0, props.magnifierRadius, 2, 1);
-          }
-          const col = palette[shadeIndex];
-          if (col) {
-            p.stroke(col);
-            p.strokeWeight(strokeSize);
-            p.point(pt.pos.x, pt.pos.y);
-          }
-        }
-      };
     };
 
-    instance = new p5(sketch, containerRef.current);
+    const drawTextMap = (o: CanvasRenderingContext2D, w: number, h: number) => {
+      o.fillStyle = '#000';
+      o.fillRect(0, 0, w, h);
+      o.fillStyle = '#fff';
+      o.textAlign = 'center';
+      o.textBaseline = 'middle';
+      o.font = `900 ${Math.min(w / 2.4, h * 1.1)}px Arial, sans-serif`;
+      o.fillText('HI', w / 2, h * 0.54);
+    };
+
+    const build = () => {
+      const rect = node.getBoundingClientRect();
+      W = Math.max(1, Math.floor(rect.width));
+      H = Math.max(1, Math.floor(rect.height));
+      canvas.width = W;
+      canvas.height = H;
+
+      if (imageUrl) {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => {
+          if (stopped) return;
+          sampleMap((o, w, h) => {
+            o.fillStyle = '#000';
+            o.fillRect(0, 0, w, h);
+            const scale = Math.max(w / img.width, h / img.height);
+            o.drawImage(img, (w - img.width * scale) / 2, (h - img.height * scale) / 2, img.width * scale, img.height * scale);
+          });
+        };
+        img.onerror = () => {
+          if (!stopped) sampleMap(drawTextMap);
+        };
+        img.src = imageUrl;
+      }
+      sampleMap(drawTextMap);
+    };
+
+    const draw = () => {
+      const p = live.current;
+      ctx.clearRect(0, 0, W, H);
+      for (const d of dots) {
+        const dx = d.x - mx;
+        const dy = d.y - my;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (p.magnifierEnabled && dist < p.magnifierRadius) {
+          const f = p.forceStrength / Math.max(8, dist);
+          d.vx += (dx / (dist || 1)) * f;
+          d.vy += (dy / (dist || 1)) * f;
+        }
+        d.vx *= p.friction;
+        d.vy *= p.friction;
+        d.vx += (d.ox - d.x) * p.restoreSpeed;
+        d.vy += (d.oy - d.y) * p.restoreSpeed;
+        d.x += d.vx;
+        d.y += d.vy;
+
+        let s = d.size;
+        if (p.magnifierEnabled && dist < p.magnifierRadius) {
+          s *= 2 - dist / p.magnifierRadius;
+        }
+        ctx.fillStyle = `hsl(${p.hue} ${p.saturation}% ${d.light}%)`;
+        ctx.fillRect(d.x - s / 2, d.y - s / 2, s, s);
+      }
+    };
+
+    const frame = () => {
+      draw();
+      raf = requestAnimationFrame(frame);
+    };
+
+    const toLocal = (e: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      mx = e.clientX - rect.left;
+      my = e.clientY - rect.top;
+    };
+    const onMove = (e: MouseEvent) => toLocal(e);
+    const onLeave = () => {
+      mx = -9999;
+      my = -9999;
+    };
+    const onResize = () => build();
+
+    build();
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      draw();
+    } else {
+      window.addEventListener('mousemove', onMove, { passive: true });
+      document.documentElement.addEventListener('mouseleave', onLeave);
+      window.addEventListener('resize', onResize);
+      raf = requestAnimationFrame(frame);
+    }
+
     return () => {
-      cancelled = true;
-      instance?.remove();
-      instance = null;
+      stopped = true;
+      cancelAnimationFrame(raf);
+      window.removeEventListener('mousemove', onMove);
+      document.documentElement.removeEventListener('mouseleave', onLeave);
+      window.removeEventListener('resize', onResize);
+      canvas.remove();
     };
   }, [imageUrl]);
-
-  if (failed) return null;
 
   return (
     <div
