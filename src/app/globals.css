@@ -184,6 +184,12 @@ body {
   mask-image: radial-gradient(ellipse 95% 90% at 45% 45%, rgba(0, 0, 0, 1) 35%, rgba(0, 0, 0, 0) 78%);
 }
 
+/* Hero scrim: static dark veil behind copy so dots never eat the words.
+   Separate layer (no backdrop blur) to avoid repaint cost over animation. */
+.hero-scrim {
+  background: radial-gradient(ellipse 75% 95% at 28% 42%, rgba(4, 6, 10, 0.78), rgba(4, 6, 10, 0) 70%);
+}
+
 /* Reduced motion: keep it still for users who ask */
 @media (prefers-reduced-motion: reduce) {
   html {

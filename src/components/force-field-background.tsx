@@ -157,8 +157,12 @@ export function ForceFieldBackground({
       const rect = node.getBoundingClientRect();
       W = Math.max(1, Math.floor(rect.width));
       H = Math.max(1, Math.floor(rect.height));
-      canvas.width = W;
-      canvas.height = H;
+      // Backing store scaled for device pixel ratio so dots render at
+      // true size instead of upscaling into a wall on hidpi screens.
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      canvas.width = Math.floor(W * dpr);
+      canvas.height = Math.floor(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
       if (imageUrl) {
         const img = new Image();
