@@ -1,7 +1,7 @@
 'use client';
 
-import { Suspense, useMemo, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { projectsData, type ProjectRecord } from '@/data/projects';
 import { ProjectCard } from '@/components/project-card';
 import { EmptyState } from '@/components/section';
@@ -39,11 +39,24 @@ function matches(project: ProjectRecord, q: string): boolean {
 
 function ProjectExplorerInner() {
   const router = useRouter();
-  const params = useSearchParams();
-  const [query, setQuery] = useState(params.get('q') ?? '');
-  const [category, setCategory] = useState(params.get('category') ?? 'All');
-  const [skill, setSkill] = useState(params.get('skill') ?? '');
-  const [sort, setSort] = useState<SortKey>((params.get('sort') as SortKey) || 'featured');
+  // Defaults render fully in static HTML; URL params apply after hydration.
+  const [query, setQuery] = useState('');
+  const [category, setCategory] = useState('All');
+  const [skill, setSkill] = useState('');
+  const [sort, setSort] = useState<SortKey>('featured');
+
+  // Mount-only sync of URL params into state so the static prerender stays
+  // complete for SEO. This intentionally runs once, not per render.
+  useEffect(() => {
+    /* eslint-disable react-hooks/set-state-in-effect -- mount-only URL param sync */
+    const sp = new URLSearchParams(window.location.search);
+    setQuery(sp.get('q') ?? '');
+    setCategory(sp.get('category') ?? 'All');
+    setSkill(sp.get('skill') ?? '');
+    const s = sp.get('sort');
+    if (s === 'newest' || s === 'complexity' || s === 'featured') setSort(s);
+    /* eslint-enable react-hooks/set-state-in-effect */
+  }, []);
 
   const syncUrl = (next: { q: string; category: string; skill: string; sort: string }) => {
     const sp = new URLSearchParams();
