@@ -17,8 +17,7 @@ export const portfolioConfig = {
   resumeUrl: '/resume',
   socialLinks: {
     github: 'https://github.com/HarizuAru',
-    // TODO(you): replace with your LinkedIn profile URL
-    linkedin: '#',
+    linkedin: 'https://www.linkedin.com/in/hariz-iskandar-9a2817251',
   },
   skills: [
     {
