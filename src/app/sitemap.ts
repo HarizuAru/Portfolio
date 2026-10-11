@@ -4,17 +4,28 @@ import { portfolioConfig } from '@/data/portfolio';
 
 export const dynamic = 'force-static';
 
+const staticRoutes = [
+  '/',
+  '/projects',
+  '/experience',
+  '/skills',
+  '/certifications',
+  '/about',
+  '/resume',
+  '/contact',
+];
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = portfolioConfig.siteUrl;
   return [
-    {
-      url: base,
+    ...staticRoutes.map((route) => ({
+      url: `${base}${route === '/' ? '' : route}`,
       lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 1,
-    },
+      changeFrequency: 'monthly' as const,
+      priority: route === '/' ? 1 : 0.8,
+    })),
     ...projectsData.map((project) => ({
-      url: `${base}/project/${project.id}/`,
+      url: `${base}/projects/${project.slug}/`,
       lastModified: new Date(project.completionDate),
       changeFrequency: 'yearly' as const,
       priority: 0.7,

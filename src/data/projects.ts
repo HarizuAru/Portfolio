@@ -31,9 +31,13 @@ export interface PerformanceMetric {
 
 export interface ProjectRecord {
   id: string;
+  slug: string;
   title: string;
   subtitle: string;
   category: 'Cloud' | 'Security' | 'AI' | 'Systems';
+  categories: string[];
+  featured?: boolean;
+  architectureSummary?: string;
   status: 'Production' | 'Demo' | 'Prototype' | 'Active';
   difficulty: 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert';
   client: string;
@@ -101,6 +105,10 @@ export interface ProjectRecord {
 export const projectsData: ProjectRecord[] = [
   {
     id: 'cloudtrail-threat-detection',
+    slug: 'cloudtrail-threat-detection',
+    categories: ['Security', 'Cloud', 'DevOps'],
+    featured: true,
+    architectureSummary: 'CloudTrail → S3 → Lambda → EventBridge → SNS',
     title: 'CloudTrail Threat Detection Platform',
     subtitle: 'Real-time Security Event Ingestion & Threat Analysis',
     category: 'Security',
@@ -265,6 +273,10 @@ cloudtrail-detector/
   },
   {
     id: 'opticore',
+    slug: 'opticore',
+    categories: ['Networking'],
+    featured: true,
+    architectureSummary: 'Config Inputs → Interpolation Engine → Telemetry Panels',
     title: 'OptiCore Core Router Simulator',
     subtitle: 'High-Performance Router Simulation & Factorial Experimentation',
     category: 'Systems',
@@ -420,6 +432,10 @@ opticore/
   },
   {
     id: 'cold-chain-logistics',
+    slug: 'cold-chain-logistics',
+    categories: ['Cloud', 'IoT'],
+    featured: true,
+    architectureSummary: 'IoT Sensors → AWS IoT Core → Express → DynamoDB → WebSockets → SNS',
     title: 'Cold-Chain Thermal Management Platform',
     subtitle: 'Commercial Temperature-Sensitive Asset Tracking & Alerts',
     category: 'Cloud',
@@ -582,6 +598,10 @@ cold-chain/
   },
   {
     id: 'resumeai',
+    slug: 'resumeai',
+    categories: ['AI', 'Web'],
+    featured: true,
+    architectureSummary: 'Resume Text → Client Parser → ATS Score · API → LLM → Rewrite',
     title: 'ResumeAI Optimization Platform',
     subtitle: 'ATS-Aware Resume Scoring & Narrative Optimization',
     category: 'AI',
@@ -735,6 +755,10 @@ resume-ai/
   },
   {
     id: 'serverless-architectures',
+    slug: 'serverless-architectures',
+    categories: ['Cloud', 'DevOps'],
+    featured: true,
+    architectureSummary: 'API Gateway → Lambda / Azure Functions → DynamoDB / CosmosDB',
     title: 'Cloud-Native Serverless Architectures',
     subtitle: 'Multi-Cloud Auto-Scaling Compute & Data Layers',
     category: 'Cloud',
@@ -880,6 +904,10 @@ serverless-architecture/
   },
   {
     id: 'offensive-security-tooling',
+    slug: 'offensive-security-tooling',
+    categories: ['Security', 'DevOps'],
+    featured: true,
+    architectureSummary: 'IAM Config → Privilege Analyzer → Severity Dashboard',
     title: 'Offensive Security Tooling',
     subtitle: 'Controlled Red-Team Simulations & IAM Audit Pipelines',
     category: 'Security',
@@ -1022,6 +1050,9 @@ security-tooling/
   },
   {
     id: 'harizeon-congent',
+    slug: 'harizeon-congent',
+    categories: ['AI', 'Networking'],
+    architectureSummary: 'Dashboard → Master Hub (Raft) → Device Nodes → State Sync',
     title: 'Harizeon Congent',
     subtitle: 'Distributed AI Agent Coordination & Task Queue Sync',
     category: 'AI',
@@ -1170,6 +1201,9 @@ harizeon-congent/
   },
   {
     id: 'gridoptima',
+    slug: 'gridoptima',
+    categories: ['Web'],
+    architectureSummary: 'Node Parameters → Ratio Engine → Efficiency Score',
     title: 'GridOptima',
     subtitle: 'Topology Optimization Framework',
     category: 'Systems',
@@ -1271,6 +1305,9 @@ harizeon-congent/
   },
   {
     id: 'optinet',
+    slug: 'optinet',
+    categories: ['Networking', 'Web'],
+    architectureSummary: 'Trigger → Telemetry Calculator → Dashboard',
     title: 'OptiNet',
     subtitle: 'Network telemetry visualizer',
     category: 'Systems',
@@ -1366,6 +1403,9 @@ harizeon-congent/
   },
   {
     id: 'sensorsync',
+    slug: 'sensorsync',
+    categories: ['IoT'],
+    architectureSummary: 'Sensor Inputs → Drift Calculator → Calibrated Output',
     title: 'SensorSync',
     subtitle: 'Dual-sensor data sync',
     category: 'Systems',
@@ -1461,6 +1501,9 @@ harizeon-congent/
   },
   {
     id: 'telemetrix',
+    slug: 'telemetrix',
+    categories: ['Web'],
+    architectureSummary: 'Stream Trigger → Loop Generator → Bar-Chart Dashboard',
     title: 'Telemetrix',
     subtitle: 'Dynamic stream visualization dashboard',
     category: 'Systems',

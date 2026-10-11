@@ -1,6 +1,5 @@
-import { notFound } from 'next/navigation';
-import { ProjectPageClient } from '@/components/project-page-client';
 import { projectsData } from '@/data/projects';
+import { LegacyRedirect } from '@/components/legacy-redirect';
 
 export function generateStaticParams() {
   return projectsData.map((project) => ({ id: project.id }));
@@ -8,17 +7,14 @@ export function generateStaticParams() {
 
 export const dynamicParams = false;
 
-interface ProjectPageProps {
+interface LegacyProjectPageProps {
   params: Promise<{ id: string }>;
 }
 
-export default async function ProjectPage({ params }: ProjectPageProps) {
+// Static hosting has no server-side redirects, so legacy /project/[id]
+// URLs render a page that immediately navigates to /projects/[slug].
+export default async function LegacyProjectPage({ params }: LegacyProjectPageProps) {
   const { id } = await params;
-
-  const projectExists = projectsData.some((project) => project.id === id);
-  if (!projectExists) {
-    notFound();
-  }
-
-  return <ProjectPageClient id={id} />;
+  const project = projectsData.find((p) => p.id === id);
+  return <LegacyRedirect to={project ? `/projects/${project.slug}/` : '/projects'} />;
 }

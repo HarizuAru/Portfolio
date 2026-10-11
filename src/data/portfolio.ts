@@ -1,9 +1,11 @@
 export const portfolioConfig = {
   siteUrl: 'https://hariziskandar.nexus',
   name: 'Hariz Iskandar',
-  role: 'Full-Stack Developer & Cloud Security Enthusiast',
+  role: 'Cloud & Security Engineer',
   intro:
-    'I build secure, user-focused products with modern web technologies and practical systems thinking.',
+    'I design and build secure cloud infrastructure, threat-detection systems, automation workflows, and production-oriented applications.',
+  availability: 'Open to Internship / Graduate Opportunities',
+  heroTechnologies: ['AWS', 'Cloud Security', 'Networking', 'DevOps', 'Python', 'Infrastructure', 'AI Security'],
   primaryCtaLabel: 'View Projects',
   primaryCtaHref: '#projects',
   secondaryCtaLabel: 'Contact Me',
@@ -11,8 +13,9 @@ export const portfolioConfig = {
   // TODO(you): replace with your real public contact email
   email: 'your.email@example.com',
   location: 'Based in Malaysia',
-  // TODO(you): drop your resume file at public/resume.pdf (button below points there)
-  resumeUrl: '/resume.pdf',
+  // Web resume (printable). For a direct PDF file, drop it at public/resume.pdf
+  // and point this back at '/resume.pdf'.
+  resumeUrl: '/resume',
   socialLinks: {
     github: 'https://github.com/HarizuAru',
     // TODO(you): replace with your LinkedIn profile URL
@@ -32,37 +35,34 @@ export const portfolioConfig = {
       items: ['AWS', 'IAM', 'Observability', 'Security-first Design'],
     },
   ],
-  // TODO(you): replace with your real work history (most recent first)
-  experience: [
+  // TODO(you): replace with your real work history (most recent first).
+  // Left empty so no placeholder claims are shown; sections hide until filled.
+  experience: [] as { role: string; period: string; location: string; points: string[] }[],
+  // TODO(you): replace with your real education.
+  education: [] as { title: string; period: string; detail: string }[],
+  careerFocus: [
     {
-      role: 'Your Role — Company Name',
-      period: '2024 — Present',
-      location: 'Malaysia',
-      points: [
-        'One-line impact statement with a metric (e.g. cut incident response from hours to minutes).',
-        'Another responsibility or achievement, kept to one line.',
-      ],
+      title: 'Cloud Infrastructure',
+      description: 'Secure AWS architecture, serverless systems, networking, IAM, scalable infrastructure.',
     },
     {
-      role: 'Previous Role — Company Name',
-      period: '2022 — 2024',
-      location: 'Malaysia',
-      points: [
-        'What you owned and what it achieved, in one line.',
-      ],
+      title: 'Cloud Security',
+      description: 'Threat detection, monitoring, logging, IAM security, incident-response automation.',
+    },
+    {
+      title: 'DevSecOps',
+      description: 'CI/CD, automation, Linux, containers, observability, security integrated into delivery.',
+    },
+    {
+      title: 'AI + Cloud Security',
+      description: 'AI-assisted security analysis, automation, and emerging intelligent infrastructure workflows.',
     },
   ],
-  // TODO(you): replace with your real education / certifications
-  education: [
-    {
-      title: 'Your Degree — University',
-      period: '2018 — 2022',
-      detail: 'Major, honours, or one notable achievement.',
-    },
-    {
-      title: 'AWS Certified Solutions Architect – Associate',
-      period: '2025',
-      detail: 'Or any certification you hold (delete the placeholders you don’t need).',
-    },
+  currentlyLearning: [
+    'AWS security architecture',
+    'Infrastructure as code',
+    'Cloud incident response',
+    'Advanced networking',
+    'AI-assisted security operations',
   ],
 } as const;

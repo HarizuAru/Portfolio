@@ -23,8 +23,8 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
   
-  --font-sans: var(--font-geist-sans, Inter), system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono, "JetBrains Mono"), monospace;
+  --font-sans: var(--font-sans, Inter), system-ui, sans-serif;
+  --font-mono: var(--font-mono, "JetBrains Mono"), ui-monospace, monospace;
 }
 
 :root {
@@ -177,4 +177,34 @@ body {
 .light .term-green {
   color: var(--primary);
   text-shadow: none;
+}
+
+/* Reduced motion: keep it still for users who ask */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Print (resume page): ink-friendly, no chrome */
+@media print {
+  body {
+    background: #fff;
+    color: #000;
+  }
+  header,
+  footer,
+  .bg-grid-overlay {
+    display: none !important;
+  }
+  main {
+    display: block;
+  }
 }

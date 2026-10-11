@@ -138,10 +138,10 @@ export function ProjectPageClient({ id }: ProjectPageClientProps) {
       {/* Back button */}
       <div className="mb-6">
         <Link 
-          href="/" 
+          href="/projects" 
           className="inline-flex items-center gap-1.5 text-xs font-mono text-muted hover:text-foreground transition-colors cursor-pointer"
         >
-          <ChevronLeft className="w-4 h-4" /> Back to Dashboard
+          <ChevronLeft className="w-4 h-4" /> All Projects
         </Link>
       </div>
 
@@ -628,16 +628,16 @@ export function ProjectPageClient({ id }: ProjectPageClientProps) {
             </h3>
             <div className="flex flex-wrap justify-center gap-3 pt-2">
               <Link 
-                href="/#contact"
+                href="/contact"
                 className="bg-primary text-primary-foreground hover:opacity-90 px-4 py-2 rounded-lg text-xs font-mono font-semibold transition-opacity cursor-pointer animate-pulse"
               >
                 Schedule Consultation
               </Link>
               <Link 
-                href="/"
+                href="/projects"
                 className="border border-border bg-secondary/20 hover:bg-secondary/40 px-4 py-2 rounded-lg text-xs font-mono font-semibold text-muted hover:text-foreground transition-colors cursor-pointer"
               >
-                Back to Dashboard
+                All Projects
               </Link>
             </div>
           </section>
