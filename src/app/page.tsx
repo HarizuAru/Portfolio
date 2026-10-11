@@ -55,7 +55,7 @@ export default function Home() {
             </h1>
             <p className="text-lg sm:text-xl text-primary font-semibold">{portfolioConfig.role}</p>
           </div>
-          <p className="max-w-2xl text-base text-muted leading-relaxed">{portfolioConfig.intro}</p>
+          <p className="max-w-2xl text-base sm:text-lg text-foreground font-medium leading-relaxed">{portfolioConfig.intro}</p>
           <ul className="flex flex-wrap gap-2" aria-label="Core technologies">
             {portfolioConfig.heroTechnologies.map((tech) => (
               <li
