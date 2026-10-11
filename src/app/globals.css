@@ -190,6 +190,29 @@ body {
   background: radial-gradient(ellipse 70% 90% at 25% 36%, rgba(4, 6, 10, 0.85), rgba(4, 6, 10, 0) 68%);
 }
 
+/* Filter result entrance: subtle stagger, killed by reduced-motion above */
+@keyframes grid-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-grid-in > * {
+  animation: grid-in 0.28s ease-out both;
+}
+
+.animate-grid-in > *:nth-child(2) { animation-delay: 0.04s; }
+.animate-grid-in > *:nth-child(3) { animation-delay: 0.08s; }
+.animate-grid-in > *:nth-child(4) { animation-delay: 0.12s; }
+.animate-grid-in > *:nth-child(5) { animation-delay: 0.16s; }
+.animate-grid-in > *:nth-child(6) { animation-delay: 0.2s; }
+.animate-grid-in > *:nth-child(n + 7) { animation-delay: 0.24s; }
+
 /* Reduced motion: keep it still for users who ask */
 @media (prefers-reduced-motion: reduce) {
   html {

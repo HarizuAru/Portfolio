@@ -153,7 +153,7 @@ function ProjectExplorerInner() {
         )}
       </div>
 
-      <p className="text-sm text-muted font-mono" role="status">
+      <p className="text-sm text-muted font-mono" role="status" aria-live="polite">
         {results.length} of {projectsData.length} projects
       </p>
 
@@ -163,7 +163,10 @@ function ProjectExplorerInner() {
           description="Try a different search term or clear the category and skill filters."
         />
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <div
+          key={`${category}|${sort}|${skill}`}
+          className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 animate-grid-in"
+        >
           {results.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}

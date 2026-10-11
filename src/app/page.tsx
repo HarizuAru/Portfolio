@@ -6,6 +6,7 @@ import { GithubIcon, LinkedinIcon } from '@/components/icons';
 import { HeroBackground } from '@/components/hero-background';
 import { ContactForm } from '@/components/contact-form';
 import { ProjectCard } from '@/components/project-card';
+import { BuildActivity } from '@/components/build-activity';
 import { SectionHeader } from '@/components/section';
 import { portfolioConfig } from '@/data/portfolio';
 
@@ -174,6 +175,7 @@ export default function Home() {
             </div>
           ))}
         </dl>
+        <BuildActivity />
       </section>
 
       {/* 5. Experience (condensed) */}
