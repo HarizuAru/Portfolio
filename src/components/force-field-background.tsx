@@ -174,8 +174,9 @@ export function ForceFieldBackground({
         palette = [];
         p.push();
         p.colorMode(p.HSL);
+        // Bright field areas -> light strokes (visible on dark backgrounds).
         for (let i = 0; i < 12; i++) {
-          palette.push(p.color(h, s, p.map(i, 0, 11, 95, 5)));
+          palette.push(p.color(h, s, p.map(i, 0, 11, 5, 95)));
         }
         p.pop();
       }

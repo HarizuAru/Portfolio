@@ -37,9 +37,9 @@ export function HeroBackground() {
       <ForceFieldBackground
         hue={152}
         saturation={90}
-        spacing={14}
-        minStroke={1}
-        maxStroke={4}
+      spacing={12}
+      minStroke={1}
+      maxStroke={5}
         forceStrength={8}
         magnifierRadius={140}
         friction={0.92}
