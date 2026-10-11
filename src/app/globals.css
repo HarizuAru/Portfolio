@@ -179,6 +179,11 @@ body {
   text-shadow: none;
 }
 
+/* Hero particle field: fade edges so it sits behind content */
+.hero-field-mask {
+  mask-image: radial-gradient(ellipse 90% 85% at 30% 40%, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 0) 75%);
+}
+
 /* Reduced motion: keep it still for users who ask */
 @media (prefers-reduced-motion: reduce) {
   html {

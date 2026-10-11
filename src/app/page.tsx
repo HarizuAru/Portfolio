@@ -3,6 +3,7 @@ import { ArrowRight } from 'lucide-react';
 import { projectsData } from '@/data/projects';
 import { certifications } from '@/data/certifications';
 import { GithubIcon, LinkedinIcon } from '@/components/icons';
+import { HeroBackground } from '@/components/hero-background';
 import { ContactForm } from '@/components/contact-form';
 import { ProjectCard } from '@/components/project-card';
 import { SectionHeader } from '@/components/section';
@@ -39,7 +40,9 @@ export default function Home() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-20">
       {/* 1. Hero */}
-      <section className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      <section className="relative -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 py-8 overflow-hidden">
+        <HeroBackground />
+        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
         <div className="lg:col-span-8 space-y-5">
           <p className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-mono text-primary">
             <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" aria-hidden="true" />
@@ -125,6 +128,7 @@ export default function Home() {
             </div>
           </dl>
         </aside>
+        </div>
       </section>
 
       {/* 2. Career Focus */}
