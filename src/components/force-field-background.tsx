@@ -124,12 +124,12 @@ export function ForceFieldBackground({
       const r2 = new Float64Array(w);
       for (let x = 0; x < w; x++) {
         r1[x] =
-          h * (0.34 + 0.11 * Math.sin(x * 0.0042 + 1.7) + 0.06 * Math.sin(x * 0.0107 + 0.4) + 0.045 * Math.abs(Math.sin(x * 0.021 + 2.3)));
+          h * (0.62 + 0.08 * Math.sin(x * 0.0042 + 1.7) + 0.045 * Math.sin(x * 0.0107 + 0.4) + 0.03 * Math.abs(Math.sin(x * 0.021 + 2.3)));
         r2[x] =
-          h * (0.58 + 0.09 * Math.sin(x * 0.0031 + 4.2) + 0.055 * Math.sin(x * 0.0083 + 2.1) + 0.04 * Math.abs(Math.sin(x * 0.017 + 0.9)));
+          h * (0.82 + 0.07 * Math.sin(x * 0.0031 + 4.2) + 0.04 * Math.sin(x * 0.0083 + 2.1) + 0.03 * Math.abs(Math.sin(x * 0.017 + 0.9)));
       }
-      const s1 = h * 0.09;
-      const s2 = h * 0.12;
+      const s1 = h * 0.06;
+      const s2 = h * 0.08;
       for (let y = 0; y < h; y++) {
         for (let x = 0; x < w; x++) {
           const dy1 = y - r1[x];
@@ -141,7 +141,7 @@ export function ForceFieldBackground({
           let hz = Math.imul(x, 374761393) + Math.imul(y, 668265263);
           hz = Math.imul(hz ^ (hz >>> 13), 1274126177);
           const grain = ((hz ^ (hz >>> 16)) >>> 0) / 4294967296;
-          let v = 255 * (0.9 * m1 + 0.6 * m2) + 40 * below + 16 + 26 * grain;
+          let v = 255 * (1.0 * m1 + 0.7 * m2) + 30 * below + 12 + 22 * grain;
           if (v > 255) v = 255;
           const i = (y * w + x) * 4;
           d[i] = v;
