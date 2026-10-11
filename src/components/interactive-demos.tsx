@@ -191,7 +191,7 @@ export function ColdChainDemo() {
 
       <div className="flex items-center gap-3 p-3.5 rounded-lg border border-border bg-secondary/30">
         <div className={`w-3.5 h-3.5 rounded-full flex-shrink-0 ${
-          status === 'stable' ? 'bg-primary shadow-[0_0_8px_rgba(0,255,136,0.6)]' : 'bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.6)]'
+          status === 'stable' ? 'bg-primary shadow-[0_0_8px_rgba(47,129,247,0.6)]' : 'bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.6)]'
         }`} />
         <div className="flex-1">
           <div className="text-xs font-bold font-mono uppercase tracking-wide">
@@ -666,7 +666,7 @@ export function TelemetrixDemo() {
           <div 
             key={idx} 
             style={{ height: `${height}px` }} 
-            className="flex-1 min-w-[12px] bg-primary rounded-t shadow-[0_0_8px_rgba(0,255,136,0.3)] transition-all duration-300"
+            className="flex-1 min-w-[12px] bg-primary rounded-t shadow-[0_0_8px_rgba(47,129,247,0.3)] transition-all duration-300"
           />
         ))}
       </div>

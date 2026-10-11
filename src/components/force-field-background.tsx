@@ -26,25 +26,17 @@ export interface ForceFieldBackgroundProps {
   className?: string;
 }
 
-/** Radial brightness field synthesized locally — no image download, no CORS. */
-function synthesizeField(p: p5, w: number, h: number): p5.Image {
-  const img = p.createImage(Math.max(1, w), Math.max(1, h));
-  img.loadPixels();
-  const cx = w / 2;
-  const cy = h / 2;
-  const maxDist = Math.sqrt(cx * cx + cy * cy) || 1;
-  for (let y = 0; y < img.height; y++) {
-    for (let x = 0; x < img.width; x++) {
-      const d = Math.sqrt((x - cx) * (x - cx) + (y - cy) * (y - cy)) / maxDist;
-      const v = Math.round(255 * Math.max(0, 1 - d * 1.15));
-      const i = (x + y * img.width) * 4;
-      img.pixels[i] = v;
-      img.pixels[i + 1] = v;
-      img.pixels[i + 2] = v;
-      img.pixels[i + 3] = 255;
-    }
-  }
-  img.updatePixels();
+/** Brightness field rendered from giant local typography — no image download, no CORS. */
+function synthesizeTextField(p: p5, w: number, h: number): p5.Image {
+  const g = p.createGraphics(Math.max(1, w), Math.max(1, h));
+  g.background(0);
+  g.fill(255);
+  g.textAlign(p.CENTER, p.CENTER);
+  g.textStyle(p.BOLD);
+  g.textSize(Math.min(w / 2.4, h * 1.1));
+  g.text('HI', w / 2, h * 0.54);
+  const img = g.get() as p5.Image;
+  g.remove();
   return img;
 }
 
@@ -129,7 +121,7 @@ export function ForceFieldBackground({
 
         // No remote image: synthesize a local brightness field.
         if (!originalImg && !imageUrl) {
-          originalImg = synthesizeField(p, p.width, p.height);
+          originalImg = synthesizeTextField(p, p.width, p.height);
         }
         if (!originalImg) return;
 
@@ -148,7 +140,7 @@ export function ForceFieldBackground({
         if (!node || !originalImg) return;
         const { clientWidth, clientHeight } = node;
         p.resizeCanvas(clientWidth, clientHeight);
-        if (!imageUrl) originalImg = synthesizeField(p, p.width, p.height);
+        if (!imageUrl) originalImg = synthesizeTextField(p, p.width, p.height);
         processImage();
         generatePoints();
       };
@@ -168,6 +160,8 @@ export function ForceFieldBackground({
           img.updatePixels();
         }
         lastInvertImage = propsRef.current.invertImage;
+        // Pixels are static between resizes: load once here instead of every frame.
+        img.loadPixels();
       }
 
       function generatePalette(h: number, s: number) {
@@ -242,7 +236,6 @@ export function ForceFieldBackground({
         magnifierY = p.lerp(magnifierY, p.mouseY, magnifierInertia);
         applyForceField(magnifierX, magnifierY);
 
-        img.loadPixels();
         p.noFill();
         for (const pt of points) {
           const d = p.dist(pt.pos.x, pt.pos.y, magnifierX, magnifierY);

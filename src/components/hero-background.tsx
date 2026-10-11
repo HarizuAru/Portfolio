@@ -35,16 +35,18 @@ export function HeroBackground() {
   return (
     <ErrorBoundary>
       <ForceFieldBackground
-        hue={152}
-        saturation={90}
-      spacing={12}
-      minStroke={1}
-      maxStroke={5}
-        forceStrength={8}
-        magnifierRadius={140}
-        friction={0.92}
-        restoreSpeed={0.06}
-        className="hero-field-mask opacity-70"
+        hue={210}
+        saturation={100}
+        threshold={127}
+        invertWireframe={false}
+        spacing={10}
+        minStroke={2}
+        maxStroke={6}
+        forceStrength={10}
+        magnifierRadius={150}
+        friction={0.9}
+        restoreSpeed={0.05}
+        className="hero-field-mask opacity-90"
       />
     </ErrorBoundary>
   );
