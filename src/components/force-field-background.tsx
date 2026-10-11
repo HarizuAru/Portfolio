@@ -114,14 +114,43 @@ export function ForceFieldBackground({
       }
     };
 
-    const drawTextMap = (o: CanvasRenderingContext2D, w: number, h: number) => {
-      o.fillStyle = '#000';
-      o.fillRect(0, 0, w, h);
-      o.fillStyle = '#fff';
-      o.textAlign = 'center';
-      o.textBaseline = 'middle';
-      o.font = `900 ${Math.min(w / 2.4, h * 1.1)}px Arial, sans-serif`;
-      o.fillText('HI', w / 2, h * 0.54);
+    const drawMountainMap = (o: CanvasRenderingContext2D, w: number, h: number) => {
+      // Full-bleed mountain-range brightness field: two ridgelines with
+      // gaussian glow over faint grainy sky, so dots cover the whole area
+      // with varied sizes — no image download, no CORS.
+      const img = o.createImageData(w, h);
+      const d = img.data;
+      const r1 = new Float64Array(w);
+      const r2 = new Float64Array(w);
+      for (let x = 0; x < w; x++) {
+        r1[x] =
+          h * (0.34 + 0.11 * Math.sin(x * 0.0042 + 1.7) + 0.06 * Math.sin(x * 0.0107 + 0.4) + 0.045 * Math.abs(Math.sin(x * 0.021 + 2.3)));
+        r2[x] =
+          h * (0.58 + 0.09 * Math.sin(x * 0.0031 + 4.2) + 0.055 * Math.sin(x * 0.0083 + 2.1) + 0.04 * Math.abs(Math.sin(x * 0.017 + 0.9)));
+      }
+      const s1 = h * 0.09;
+      const s2 = h * 0.12;
+      for (let y = 0; y < h; y++) {
+        for (let x = 0; x < w; x++) {
+          const dy1 = y - r1[x];
+          const dy2 = y - r2[x];
+          const m1 = Math.exp(-(dy1 * dy1) / (2 * s1 * s1));
+          const m2 = Math.exp(-(dy2 * dy2) / (2 * s2 * s2));
+          const below = dy1 > 0 ? Math.exp(-dy1 / (h * 0.55)) : 0;
+          // Deterministic integer hash for sparse sky grain.
+          let hz = Math.imul(x, 374761393) + Math.imul(y, 668265263);
+          hz = Math.imul(hz ^ (hz >>> 13), 1274126177);
+          const grain = ((hz ^ (hz >>> 16)) >>> 0) / 4294967296;
+          let v = 255 * (0.9 * m1 + 0.6 * m2) + 40 * below + 16 + 26 * grain;
+          if (v > 255) v = 255;
+          const i = (y * w + x) * 4;
+          d[i] = v;
+          d[i + 1] = v;
+          d[i + 2] = v;
+          d[i + 3] = 255;
+        }
+      }
+      o.putImageData(img, 0, 0);
     };
 
     const build = () => {
@@ -144,11 +173,11 @@ export function ForceFieldBackground({
           });
         };
         img.onerror = () => {
-          if (!stopped) sampleMap(drawTextMap);
+          if (!stopped) sampleMap(drawMountainMap);
         };
         img.src = imageUrl;
       }
-      sampleMap(drawTextMap);
+      sampleMap(drawMountainMap);
     };
 
     const draw = () => {
