@@ -10,8 +10,7 @@ export const portfolioConfig = {
   primaryCtaHref: '#projects',
   secondaryCtaLabel: 'Contact Me',
   secondaryCtaHref: '#contact',
-  // TODO(you): replace with your real public contact email
-  email: 'your.email@example.com',
+  email: 'hariziskandar0504@gmail.com',
   location: 'Based in Malaysia',
   // Web resume (printable). For a direct PDF file, drop it at public/resume.pdf
   // and point this back at '/resume.pdf'.
