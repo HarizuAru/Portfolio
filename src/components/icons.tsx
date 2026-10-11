@@ -6,8 +6,10 @@ interface IconProps {
 
 export function GithubIcon({ className }: IconProps) {
   return (
-    <svg 
-      className={className} 
+    <svg
+      className={className}
+      width={16}
+      height={16}
       viewBox="0 0 24 24" 
       fill="none" 
       stroke="currentColor" 
@@ -23,8 +25,10 @@ export function GithubIcon({ className }: IconProps) {
 
 export function LinkedinIcon({ className }: IconProps) {
   return (
-    <svg 
-      className={className} 
+    <svg
+      className={className}
+      width={16}
+      height={16}
       viewBox="0 0 24 24" 
       fill="none" 
       stroke="currentColor" 
