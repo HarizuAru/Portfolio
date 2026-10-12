@@ -7,6 +7,7 @@ import { Navigation } from '@/components/navigation';
 import { CommandPalette } from '@/components/command-palette';
 import { GithubIcon, LinkedinIcon } from '@/components/icons';
 import { portfolioConfig } from '@/data/portfolio';
+import { projectsData } from '@/data/projects';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans', display: 'swap' });
@@ -43,6 +44,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Baked in at build time — always the date of the running deploy.
+  const built = new Date().toISOString().slice(0, 10);
   return (
       <html
         lang="en"
@@ -122,7 +125,7 @@ export default function RootLayout({
                 </div>
               </div>
               <p className="text-[11px] text-muted text-center font-mono">
-                © 2026 Hariz Iskandar · Built with Next.js, React, Tailwind CSS v4, and TypeScript.
+                © 2026 Hariz Iskandar · {projectsData.length} case studies · built {built}
               </p>
             </div>
           </footer>

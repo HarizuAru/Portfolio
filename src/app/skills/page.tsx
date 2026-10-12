@@ -21,7 +21,7 @@ export default function SkillsPage() {
       <SkillConstellation />
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
         {skillGroups.map((group) => (
-          <article key={group.title} className="rounded-xl border border-border bg-secondary/20 p-5 space-y-3">
+          <article key={group.title} className="rounded-lg border border-border bg-secondary/20 p-5 space-y-3">
             <h2 className="text-lg font-semibold text-foreground">{group.title}</h2>
             <ul className="flex flex-wrap gap-2">
               {group.skills.map((skill) => {

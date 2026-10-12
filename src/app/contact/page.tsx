@@ -20,11 +20,11 @@ export default function ContactPage() {
         description="The fastest way to reach me is the form below — it opens your email app with everything addressed. I reply to internship, graduate-role, collaboration and project inquiries."
       />
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        <div className="lg:col-span-7 rounded-xl border border-border bg-secondary/20 p-6 space-y-4">
+        <div className="lg:col-span-7 rounded-lg border border-border bg-secondary/20 p-6 space-y-4">
           <h2 className="text-lg font-bold text-foreground">Send a message</h2>
           <ContactForm />
         </div>
-        <aside className="lg:col-span-5 rounded-xl border border-border bg-secondary/20 p-6 space-y-4">
+        <aside className="lg:col-span-5 rounded-lg border border-border bg-secondary/20 p-6 space-y-4">
           <h2 className="text-lg font-bold text-foreground">Direct channels</h2>
           <ul className="space-y-3 text-sm">
             <li>

@@ -26,7 +26,7 @@ export default function ExperiencePage() {
           {experience.map((job) => (
             <li
               key={job.role}
-              className="rounded-xl border border-border bg-secondary/20 p-5 sm:p-6 space-y-3"
+              className="rounded-lg border border-border bg-secondary/20 p-5 sm:p-6 space-y-3"
             >
               <div className="flex flex-wrap items-baseline justify-between gap-2">
                 <h2 className="text-lg font-semibold text-foreground">{job.role}</h2>

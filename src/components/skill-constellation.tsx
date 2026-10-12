@@ -61,7 +61,7 @@ export function SkillConstellation() {
     `M ${x1} ${y1} C ${x1 + 110} ${y1}, ${x2 - 110} ${y2}, ${x2} ${y2}`;
 
   return (
-    <div className="rounded-xl border border-border bg-secondary/20 p-4 sm:p-6 space-y-3">
+    <div className="rounded-lg border border-border bg-secondary/20 p-4 sm:p-6 space-y-3">
       <div className="overflow-x-auto">
         <svg
           viewBox={`0 0 980 ${H}`}

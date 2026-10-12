@@ -40,7 +40,7 @@ export default function CertificationsPage() {
               {items.map((cert) => (
                 <article
                   key={cert.name}
-                  className="rounded-xl border border-border bg-secondary/20 p-5 space-y-3"
+                  className="rounded-lg border border-border bg-secondary/20 p-5 space-y-3"
                 >
                   <div className="flex flex-wrap items-start justify-between gap-2">
                     <div>

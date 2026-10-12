@@ -43,7 +43,7 @@ export default function AboutPage() {
           <section className="space-y-3">
             <h2 className="text-xl font-bold text-foreground">Education</h2>
             {portfolioConfig.education.map((edu) => (
-              <article key={edu.title} className="rounded-xl border border-border bg-secondary/20 p-5 space-y-1">
+              <article key={edu.title} className="rounded-lg border border-border bg-secondary/20 p-5 space-y-1">
                 <h3 className="text-base font-semibold text-foreground">{edu.title}</h3>
                 <p className="text-xs font-mono text-primary">{edu.period}</p>
                 <p className="text-sm">{edu.detail}</p>

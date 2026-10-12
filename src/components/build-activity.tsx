@@ -27,7 +27,7 @@ export function BuildActivity() {
   const max = Math.max(1, ...buckets.map((b) => b.count));
 
   return (
-    <div className="rounded-xl border border-border bg-secondary/20 p-4 sm:p-5 space-y-3">
+    <div className="rounded-lg border border-border bg-secondary/20 p-4 sm:p-5 space-y-3">
       <p className="text-xs font-mono text-muted uppercase tracking-wider">
         Projects completed per month · {dates[0].slice(0, 7)} → {dates[dates.length - 1].slice(0, 7)}
       </p>

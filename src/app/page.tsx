@@ -102,7 +102,7 @@ export default function Home() {
           </div>
         </div>
 
-        <aside className="lg:col-span-4 rounded-xl border border-border bg-secondary/20 p-6 space-y-3">
+        <aside className="lg:col-span-4 rounded-lg border border-border bg-secondary/20 p-6 space-y-3">
           <h2 className="text-sm font-bold uppercase tracking-wider text-foreground">Profile</h2>
           <dl className="space-y-2.5 text-sm">
             <div className="flex justify-between gap-3">
@@ -131,10 +131,10 @@ export default function Home() {
 
       {/* 2. Career Focus */}
       <section className="space-y-6">
-        <SectionHeader eyebrow="Career focus" title="What I Build" />
+        <SectionHeader index="01" eyebrow="Career focus" title="What I Build" />
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
           {portfolioConfig.careerFocus.map((area) => (
-            <article key={area.title} className="rounded-xl border border-border bg-secondary/20 p-5 space-y-2">
+            <article key={area.title} className="rounded-lg border border-border bg-secondary/20 p-5 space-y-2">
               <h3 className="font-semibold text-foreground">{area.title}</h3>
               <p className="text-sm text-muted leading-relaxed">{area.description}</p>
             </article>
@@ -145,6 +145,7 @@ export default function Home() {
       {/* 3. Featured Projects */}
       <section className="space-y-6">
         <SectionHeader
+          index="02"
           eyebrow="Selected work"
           title="Featured Engineering Projects"
           description="Six strongest case studies. Each documents the problem, architecture, decisions, and code."
@@ -159,12 +160,12 @@ export default function Home() {
 
       {/* 4. Portfolio Metrics (derived from real data) */}
       <section className="space-y-6">
-        <SectionHeader eyebrow="By the numbers" title="Portfolio Metrics" />
+        <SectionHeader index="03" eyebrow="By the numbers" title="Portfolio Metrics" />
         <dl className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-4">
           {metrics().map((m) => (
             <div
               key={m.label}
-              className="rounded-xl border border-border bg-secondary/20 p-4 text-center space-y-1"
+              className="rounded-lg border border-border bg-secondary/20 p-4 text-center space-y-1"
             >
               <dd className="text-2xl font-extrabold text-foreground">{m.value}</dd>
               <dt className="text-xs font-mono text-muted">{m.label}</dt>
@@ -177,10 +178,10 @@ export default function Home() {
       {/* 5. Experience (condensed) */}
       {portfolioConfig.experience.length > 0 && (
         <section className="space-y-6">
-          <SectionHeader title="Experience" action={{ label: 'Full experience', href: '/experience' }} />
+          <SectionHeader index="04" title="Experience" action={{ label: 'Full experience', href: '/experience' }} />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {portfolioConfig.experience.slice(0, 2).map((job) => (
-              <article key={job.role} className="rounded-xl border border-border bg-secondary/20 p-5 space-y-2">
+              <article key={job.role} className="rounded-lg border border-border bg-secondary/20 p-5 space-y-2">
                 <h3 className="font-semibold text-foreground">{job.role}</h3>
                 <p className="text-xs font-mono text-primary">
                   {job.period} · {job.location}
@@ -194,10 +195,10 @@ export default function Home() {
 
       {/* 6. Certifications (selected) */}
       <section className="space-y-6">
-        <SectionHeader title="Certifications" action={{ label: 'All certifications', href: '/certifications' }} />
+        <SectionHeader index="05" title="Certifications" action={{ label: 'All certifications', href: '/certifications' }} />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {certifications.slice(0, 2).map((cert) => (
-            <article key={cert.name} className="rounded-xl border border-border bg-secondary/20 p-5 space-y-1.5">
+            <article key={cert.name} className="rounded-lg border border-border bg-secondary/20 p-5 space-y-1.5">
               <div className="flex items-start justify-between gap-2">
                 <h3 className="font-semibold text-foreground">{cert.name}</h3>
                 <span className="rounded-full border border-dashed border-border px-2.5 py-0.5 text-[11px] font-mono text-muted">
@@ -212,10 +213,10 @@ export default function Home() {
 
       {/* 7. Technical Skills (condensed) */}
       <section className="space-y-6">
-        <SectionHeader title="Technical Skills" action={{ label: 'Full skill map', href: '/skills' }} />
+        <SectionHeader index="06" title="Technical Skills" action={{ label: 'Full skill map', href: '/skills' }} />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {portfolioConfig.skills.map((group) => (
-            <article key={group.title} className="rounded-xl border border-border bg-secondary/20 p-5 space-y-3">
+            <article key={group.title} className="rounded-lg border border-border bg-secondary/20 p-5 space-y-3">
               <h3 className="font-semibold text-foreground">{group.title}</h3>
               <ul className="flex flex-wrap gap-2">
                 {group.items.map((item) => (
@@ -237,10 +238,10 @@ export default function Home() {
       {/* 8. Education */}
       {portfolioConfig.education.length > 0 && (
         <section className="space-y-6">
-          <SectionHeader title="Education" />
+          <SectionHeader index="07" title="Education" />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {portfolioConfig.education.map((edu) => (
-              <article key={edu.title} className="rounded-xl border border-border bg-secondary/20 p-5 space-y-1.5">
+              <article key={edu.title} className="rounded-lg border border-border bg-secondary/20 p-5 space-y-1.5">
                 <h3 className="font-semibold text-foreground">{edu.title}</h3>
                 <p className="text-xs font-mono text-primary">{edu.period}</p>
                 <p className="text-sm text-muted">{edu.detail}</p>
@@ -253,6 +254,7 @@ export default function Home() {
       {/* 9. GitHub / Open Source */}
       <section className="space-y-6">
         <SectionHeader
+          index="08"
           eyebrow="Open source"
           title="GitHub"
           description="Repositories with their own codebase behind them. Everything else links from its case study."
@@ -265,7 +267,7 @@ export default function Home() {
               href={project.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-xl border border-border bg-secondary/20 p-5 space-y-2 hover-lift block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              className="rounded-lg border border-border bg-secondary/20 p-5 space-y-2 hover-lift block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
               <div className="flex items-center gap-2 text-foreground font-semibold">
                 <GithubIcon className="w-4 h-4" aria-hidden="true" />
@@ -280,7 +282,7 @@ export default function Home() {
 
       {/* 10. Currently Learning */}
       <section className="space-y-4">
-        <SectionHeader eyebrow="In progress" title="Currently Learning" />
+        <SectionHeader index="09" eyebrow="In progress" title="Currently Learning" />
         <ul className="flex flex-wrap gap-2">
           {portfolioConfig.currentlyLearning.map((topic) => (
             <li
@@ -295,7 +297,7 @@ export default function Home() {
 
       {/* 11. About (short) */}
       <section className="space-y-4">
-        <SectionHeader title="About" action={{ label: 'More about me', href: '/about' }} />
+        <SectionHeader index="10" title="About" action={{ label: 'More about me', href: '/about' }} />
         <p className="max-w-4xl text-muted leading-relaxed">
           I work on event-driven AWS architectures, detection and monitoring pipelines, and infrastructure
           that is secure by default — least-privilege IAM, encrypted evidence, and automation that shortens
@@ -304,8 +306,9 @@ export default function Home() {
       </section>
 
       {/* 12. Contact CTA */}
-      <section id="contact" className="rounded-xl border border-border bg-secondary/20 p-6 sm:p-8 space-y-6">
+      <section id="contact" className="rounded-lg border border-border bg-secondary/20 p-6 sm:p-8 space-y-6">
         <SectionHeader
+          index="11"
           title="Get in Touch"
           description="Hiring for an internship or graduate role, or want to collaborate? Send a message."
         />
