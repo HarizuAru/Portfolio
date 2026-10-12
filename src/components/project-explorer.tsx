@@ -76,7 +76,7 @@ function ProjectExplorerInner() {
       return true;
     });
     return [...filtered].sort((a, b) => {
-      if (sort === 'newest') return b.completionDate.localeCompare(a.completionDate);
+      if (sort === 'newest') return (b.completionDate ?? '').localeCompare(a.completionDate ?? '');
       if (sort === 'complexity') return difficultyRank[b.difficulty] - difficultyRank[a.difficulty];
       return Number(b.featured ?? false) - Number(a.featured ?? false);
     });

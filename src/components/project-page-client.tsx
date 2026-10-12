@@ -215,11 +215,11 @@ export function ProjectPageClient({ id }: ProjectPageClientProps) {
           </div>
           <div>
             <span className="text-[10px] font-mono text-muted block uppercase">Duration</span>
-            <span className="font-semibold text-foreground">{project.duration}</span>
+            <span className="font-semibold text-foreground">{project.duration ?? '—'}</span>
           </div>
           <div>
             <span className="text-[10px] font-mono text-muted block uppercase">Completion Date</span>
-            <span className="font-semibold text-foreground">{project.completionDate}</span>
+            <span className="font-semibold text-foreground">{project.completionDate ?? '—'}</span>
           </div>
         </div>
       </div>
@@ -513,6 +513,7 @@ export function ProjectPageClient({ id }: ProjectPageClientProps) {
           </section>
 
           {/* Section: Performance */}
+          {project.performanceMetrics.length > 0 && (
           <section id="performance" className="border border-border rounded-xl bg-secondary/5 p-6 space-y-4">
             <h2 className="text-lg font-bold font-mono text-foreground border-b border-border/40 pb-2 flex items-center gap-2">
               <Cpu className="w-4 h-4 text-primary" /> 8. PERFORMANCE METRICS TELEMETRY
@@ -531,6 +532,7 @@ export function ProjectPageClient({ id }: ProjectPageClientProps) {
               ))}
             </div>
           </section>
+          )}
 
           {/* Section: Challenges */}
           <section id="challenges" className="border border-border rounded-xl bg-secondary/5 p-6 space-y-4">
@@ -592,6 +594,7 @@ export function ProjectPageClient({ id }: ProjectPageClientProps) {
           </section>
 
           {/* Section: Roadmap */}
+          {project.roadmap.length > 0 && (
           <section id="roadmap" className="border border-border rounded-xl bg-secondary/5 p-6 space-y-4">
             <h2 className="text-lg font-bold font-mono text-foreground border-b border-border/40 pb-2 flex items-center gap-2">
               <Sliders className="w-4 h-4 text-primary" /> 11. ROADMAP & TECHNICAL DEBT
@@ -602,6 +605,7 @@ export function ProjectPageClient({ id }: ProjectPageClientProps) {
               ))}
             </ul>
           </section>
+          )}
 
           {/* Section: GitHub Code Explorer */}
           <section id="github" className="space-y-4">

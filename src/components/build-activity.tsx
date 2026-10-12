@@ -3,8 +3,10 @@ import { projectsData } from '@/data/projects';
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 // Month-by-month project completions, derived from real completion dates.
+// Projects without a known date are excluded rather than guessed.
 export function BuildActivity() {
-  const dates = projectsData.map((p) => p.completionDate).sort();
+  const dates = projectsData.map((p) => p.completionDate).filter((d): d is string => Boolean(d)).sort();
+  if (dates.length === 0) return null;
   const [minY, minM] = dates[0].split('-').map(Number);
   const [maxY, maxM] = dates[dates.length - 1].split('-').map(Number);
   const totalMonths = (maxY - minY) * 12 + (maxM - minM) + 1;
@@ -14,7 +16,7 @@ export function BuildActivity() {
     const y = minY + Math.floor((minM - 1 + i) / 12);
     const m = ((minM - 1 + i) % 12) + 1;
     const key = `${y}-${String(m).padStart(2, '0')}`;
-    const inMonth = projectsData.filter((p) => p.completionDate.startsWith(key));
+    const inMonth = projectsData.filter((p) => (p.completionDate ?? '').startsWith(key));
     buckets.push({
       key,
       label: `${MONTHS[m - 1]} ${String(y).slice(2)}`,

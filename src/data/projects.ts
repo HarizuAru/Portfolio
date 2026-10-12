@@ -43,8 +43,8 @@ export interface ProjectRecord {
   client: string;
   role: string;
   teamSize: number;
-  duration: string;
-  completionDate: string;
+  duration?: string;
+  completionDate?: string;
   summary: string;
   businessProblem: string;
   businessValue: string;
@@ -1595,6 +1595,691 @@ harizeon-congent/
       tradeoffsAccepted: 'Accepted basic bar charts in exchange for faster loading speeds.',
       scalingStrategy: 'Runs client-side, scaling with zero infrastructure demand.',
       measurableResults: 'Simulates and updates telemetry charts instantly.'
+    }
+  },
+  {
+    id: 'soar-incident-response',
+    slug: 'soar-incident-response',
+    categories: ['Security', 'Cloud', 'DevOps'],
+    architectureSummary: 'EventBridge → Step Functions → Lambda → EBS Snapshots → SNS',
+    title: 'Automated Incident Response (SOAR) Pipeline',
+    subtitle: 'EventBridge, Step Functions & Lambda Security Orchestration',
+    category: 'Security',
+    status: 'Prototype',
+    difficulty: 'Advanced',
+    client: 'Personal Lab Build',
+    role: 'Sole Developer',
+    teamSize: 1,
+    summary: 'A security orchestration pipeline that detects unauthorized EC2 security group modifications via EventBridge, orchestrates response with Step Functions, isolates instances with Lambda, captures EBS forensic evidence, and publishes reports to SNS.',
+    businessProblem: 'Manually responding to suspicious security group changes is slow and inconsistent, leaving compromised instances reachable while analysts investigate.',
+    businessValue: 'Turns detection into an automated, repeatable runbook: isolate first, preserve evidence, then notify — shrinking the window between signal and containment.',
+    engineeringGoals: [
+      'Detect unauthorized EC2 security group modifications in near real time',
+      'Orchestrate isolation, forensics, and notification as one auditable workflow',
+      'Validate the pipeline by simulating security events end to end'
+    ],
+    responsibilities: [
+      'Designed the EventBridge detection rule and Step Functions orchestration',
+      'Implemented Lambda isolation and EBS snapshot forensics steps',
+      'Validated the pipeline with simulated security events and execution history review'
+    ],
+    techStack: {
+      cloud: ['AWS EventBridge', 'AWS Step Functions', 'AWS Lambda', 'Amazon SNS', 'Amazon EBS'],
+      security: ['EC2 Security Groups', 'Forensic Snapshots'],
+      monitoring: ['Step Functions Execution History', 'CloudWatch Metrics']
+    },
+    features: [
+      {
+        title: 'Drift Detection Rule',
+        description: 'Catches unauthorized EC2 security group modifications as they happen.',
+        implementation: 'EventBridge rule matching security group API activity.',
+        complexity: 'Medium',
+        benefit: 'Detection starts the moment the change occurs, not at the next audit.'
+      },
+      {
+        title: 'Orchestrated Response',
+        description: 'Runs isolation, forensics, and reporting as one ordered workflow.',
+        implementation: 'Step Functions state machine coordinating Lambda tasks.',
+        complexity: 'High',
+        benefit: 'Every incident follows the same reviewed path with full execution history.'
+      },
+      {
+        title: 'Isolate and Preserve',
+        description: 'Cuts off compromised instances while snapshotting disks for forensics.',
+        implementation: 'Lambda reversions plus EBS snapshot creation before notification.',
+        complexity: 'Medium',
+        benefit: 'Containment and evidence happen before an analyst even opens the alert.'
+      }
+    ],
+    architecture: {
+      textDiagram: `
+EC2 SG Change ──> EventBridge Rule ──> Step Functions
+                                              │
+                    ┌─────────────────────────┼─────────────────────────┐
+                    ▼                         ▼                         ▼
+             Lambda (Isolate)        EBS Snapshot              SNS Incident Report
+       `,
+      description: 'Event-driven response chain: a detection event fans out into isolation, evidence capture, and notification, all tracked as a single state machine execution.',
+      flowSteps: [
+        'Unauthorized security group modification triggers the EventBridge rule',
+        'Step Functions execution starts with the event payload',
+        'Lambda reverts the change and isolates the instance',
+        'EBS snapshots capture forensic evidence',
+        'SNS publishes the incident report for review'
+      ],
+      folderStructure: `
+soar-pipeline/
+├── template.yaml              # EventBridge rule + functions
+├── src/
+│   ├── isolate.py             # Instance isolation
+│   ├── snapshot.py            # Forensic capture
+│   └── notify.py              # Report formatting
+└── tests/
+    └── simulate_event.json    # Simulated security event
+       `
+    },
+    decisions: [
+      {
+        problem: 'Choose orchestration model for multi-step incident response',
+        context: 'Isolation, forensics, and notification must run in order with retries and a full audit trail.',
+        alternatives: ['Chained Lambda invocations', 'Step Functions state machine', 'Manual runbook execution'],
+        decision: 'Step Functions state machine',
+        advantages: [
+          'Built-in retries, ordering, and execution history',
+          'Each incident is replayable and auditable',
+          'Easy to add or reorder response steps later'
+        ],
+        disadvantages: [
+          'State transitions add cost per execution',
+          'More setup than direct function chaining'
+        ],
+        tradeoffs: 'Accepted per-execution orchestration overhead in exchange for reliability and a complete audit trail.',
+        futureImprovements: 'Add approval gates before destructive isolation actions in production accounts.'
+      }
+    ],
+    securityReview: [
+      {
+        name: 'Least-Privilege Response Roles',
+        description: 'Response functions need powerful actions (isolation, snapshots) that must not become a privilege escalation path.',
+        mitigation: 'Scoped IAM roles limited to the specific EC2, EBS, and SNS actions each function requires.'
+      },
+      {
+        name: 'Forensic Evidence Integrity',
+        description: 'Snapshots taken after an incident must be trustworthy for later analysis.',
+        mitigation: 'Snapshots are created before any remediation writes, tagged with the incident execution ID.'
+      }
+    ],
+    performanceMetrics: [],
+    challenges: {
+      problem: 'Validating the pipeline without a real attack to respond to.',
+      cause: 'Detection and response logic only runs when matching security events occur.',
+      investigation: 'Crafted simulated security group modification events and traced them through execution history.',
+      solution: 'Built a repeatable simulation event plus checks on execution history, metrics, and isolation effectiveness.',
+      tradeoffs: 'Simulations approximate but never fully reproduce attacker behavior.',
+      lessons: 'Security automation needs a test harness from day one, not just production events.'
+    },
+    lessonsLearned: {
+      engineering: 'Orchestration beats chaining: explicit state machines make incident flows reviewable.',
+      architecture: 'Decouple detection from response so either side can evolve independently.',
+      business: 'Automated evidence capture turns incidents from anecdotes into auditable records.',
+      redesign: 'I would add a human approval step before isolation for production use.'
+    },
+    roadmap: [
+      'Add approval gates for destructive actions',
+      'Extend detection beyond security groups to IAM and network ACL changes',
+      'Score and prioritize findings before paging responders'
+    ],
+    githubUrl: 'https://github.com/HarizuAru',
+    tags: ['aws', 'eventbridge', 'step-functions', 'lambda', 'sns', 'soar'],
+    recruiterQuestions: {
+      whyItMatters: 'It closes the gap between detecting a cloud misconfiguration and containing it, automatically.',
+      businessProblemSolved: 'Replaces slow manual incident response with a consistent automated runbook.',
+      techSelectionReason: 'EventBridge for real-time detection and Step Functions for ordered, auditable multi-step response.',
+      architectureReason: 'Event-driven orchestration keeps detection decoupled from response actions.',
+      alternativesConsidered: 'Considered chained Lambdas, but chose Step Functions for retries and execution history.',
+      tradeoffsAccepted: 'Accepted orchestration overhead for reliability and auditability.',
+      scalingStrategy: 'Serverless throughout: EventBridge and Step Functions scale with event volume automatically.',
+      measurableResults: 'Validated end to end with simulated events covering detection, isolation, forensics, and reporting.'
+    }
+  },
+  {
+    id: 'queue-worker-ops',
+    slug: 'queue-worker-ops',
+    categories: ['Cloud', 'DevOps'],
+    architectureSummary: 'SQS → Lambda Worker → DynamoDB → CloudWatch → SNS Alert Queue',
+    title: 'Distributed Queue Worker Operations',
+    subtitle: 'Monitoring, Alerting & Incident Response for Queue Processing',
+    category: 'Cloud',
+    status: 'Prototype',
+    difficulty: 'Advanced',
+    client: 'Personal Lab Build',
+    role: 'Sole Developer',
+    teamSize: 1,
+    summary: 'A production-style distributed queue processing system: a Lambda worker drains DynamoDB orders from SQS with structured correlation logging, multi-dimensional CloudWatch monitoring, SNS alert routing, injected failure drills, and runbook-driven recovery measured against SLOs.',
+    businessProblem: 'Queue workers fail silently: poison messages, throttling, and slow drains surface as vague customer impact with no trail back to the cause.',
+    businessValue: 'Demonstrates operating a queue system properly: observe everything, alert on symptoms, rehearse failures, and recover from a runbook with measured detection and recovery times.',
+    engineeringGoals: [
+      'Process DynamoDB orders from SQS with traceable per-order logging',
+      'Detect worker degradation with multi-dimensional CloudWatch monitoring',
+      'Prove recovery works via injected failures and runbook execution'
+    ],
+    responsibilities: [
+      'Built the Lambda worker, structured logging, and CloudWatch monitoring',
+      'Configured SNS alert routing into a dedicated alert queue',
+      'Ran failure drills and measured detection and recovery against SLOs'
+    ],
+    techStack: {
+      cloud: ['AWS Lambda', 'Amazon SQS', 'Amazon DynamoDB', 'Amazon SNS'],
+      monitoring: ['CloudWatch Metrics', 'CloudWatch Logs Insights'],
+      testing: ['Injected Failure Scenarios', 'Operator Runbook']
+    },
+    features: [
+      {
+        title: 'Correlation-Logged Worker',
+        description: 'Every order carries a traceable ID from queue through database write.',
+        implementation: 'Lambda worker with structured JSON logs keyed by order ID.',
+        complexity: 'Medium',
+        benefit: 'Any failure can be traced to the exact order and queue message.'
+      },
+      {
+        title: 'Multi-Dimensional Monitoring',
+        description: 'Dashboards split worker health by queue, error type, and latency.',
+        implementation: 'CloudWatch metrics with dimensions plus Logs Insights queries.',
+        complexity: 'Medium',
+        benefit: 'Distinguishes poison messages from throttling from slow downstream calls.'
+      },
+      {
+        title: 'Failure Drills with SLOs',
+        description: 'Controlled failures injected, then recovered via runbook while timing detection and recovery.',
+        implementation: 'Scripted fault injection plus step-by-step operator runbook.',
+        complexity: 'High',
+        benefit: 'Proves the operations story instead of asserting it.'
+      }
+    ],
+    architecture: {
+      textDiagram: `
+SQS Orders ──> Lambda Worker ──> DynamoDB
+                    │
+                    ├── Structured Logs ──> CloudWatch ──> SNS Alert Queue
+                    └── Failures ──> Runbook Recovery ──> Backlog Drain Check
+       `,
+      description: 'Standard queue-worker topology with the operations loop closed: logs feed monitors, monitors feed alerts, alerts trigger runbook recovery, recovery is verified by backlog drain.',
+      flowSteps: [
+        'Orders land in SQS and trigger the Lambda worker',
+        'Worker processes each order into DynamoDB with correlation logs',
+        'CloudWatch alarms on error rate, latency, and queue age',
+        'SNS routes alerts into a dedicated alert queue',
+        'Operator executes the runbook and verifies backlog recovery'
+      ],
+      folderStructure: `
+queue-worker/
+├── src/
+│   ├── worker.py              # SQS poll + DynamoDB writes
+│   └── logging.py             # Correlation log helpers
+├── monitoring/
+│   ├── dashboards.json        # CloudWatch widgets
+│   └── alarms.yaml            # Alert thresholds
+└── runbook.md                 # Recovery procedures + SLO targets
+       `
+    },
+    decisions: [
+      {
+        problem: 'Choose how alerts reach operators',
+        context: 'Alerts must be reliable, auditable, and separated from application traffic.',
+        alternatives: ['Direct email/pager', 'SNS to a dedicated alert queue', 'Log-only, check dashboards'],
+        decision: 'SNS to a dedicated alert queue',
+        advantages: [
+          'Alert delivery is decoupled and retryable',
+          'Alert history is itself a queue that can be audited',
+          'Multiple subscribers can attach later without code changes'
+        ],
+        disadvantages: [
+          'One more queue to operate and monitor'
+        ],
+        tradeoffs: 'Accepted one extra component for durable, auditable alert delivery.',
+        futureImprovements: 'Add severity-based routing so pages and tickets split automatically.'
+      }
+    ],
+    securityReview: [
+      {
+        name: 'Least-Privilege Worker Role',
+        description: 'The worker touches queues, tables, and logs; over-broad access would widen blast radius.',
+        mitigation: 'IAM role scoped to the specific SQS queue, DynamoDB table, and log group.'
+      }
+    ],
+    performanceMetrics: [],
+    challenges: {
+      problem: 'Proving recovery actually works, not just the happy path.',
+      cause: 'Demos usually show processing, never the failure and recovery loop.',
+      investigation: 'Injected poison messages and throttling, then timed detection and runbook recovery.',
+      solution: 'Wrote the runbook first, then drilled against it and recorded detection and recovery times versus SLOs.',
+      tradeoffs: 'Drills take longer to build than the worker itself.',
+      lessons: 'An operations story without rehearsed recovery is just a processing demo.'
+    },
+    lessonsLearned: {
+      engineering: 'Correlation IDs turn distributed debugging from archaeology into lookup.',
+      architecture: 'Alerting deserves its own durable path, not a side effect of logging.',
+      business: 'SLOs make reliability a number you can discuss instead of a feeling.',
+      redesign: 'I would add a dead-letter queue with automated replay analysis.'
+    },
+    roadmap: [
+      'Dead-letter queue with replay tooling',
+      'Severity-based alert routing',
+      'Autoscaling worker concurrency on queue age'
+    ],
+    githubUrl: 'https://github.com/HarizuAru',
+    tags: ['aws', 'sqs', 'lambda', 'dynamodb', 'cloudwatch', 'sns', 'slo'],
+    recruiterQuestions: {
+      whyItMatters: 'It shows the full operations loop — build, monitor, alert, rehearse, recover — not just code that processes messages.',
+      businessProblemSolved: 'Silent queue failures become visible, routable, and recoverable with measured times.',
+      techSelectionReason: 'SQS plus Lambda is the canonical serverless queue pattern; CloudWatch keeps everything in one observable stack.',
+      architectureReason: 'Decoupled alert queue keeps incident traffic separate from application traffic.',
+      alternativesConsidered: 'Considered log-only monitoring, but alerts need a durable delivery path of their own.',
+      tradeoffsAccepted: 'Accepted extra components (alert queue, runbook overhead) for provable reliability.',
+      scalingStrategy: 'Lambda concurrency follows queue depth; DynamoDB on-demand absorbs bursts.',
+      measurableResults: 'Detection and recovery times recorded against SLOs during injected failure drills.'
+    }
+  },
+  {
+    id: 'saga-orders',
+    slug: 'saga-orders',
+    categories: ['Cloud', 'DevOps'],
+    architectureSummary: 'API → Step Functions Saga → Services → Compensations → DynamoDB Streams Outbox',
+    title: 'Distributed Sagas: Fault-Tolerant Order Processing',
+    subtitle: 'Compensating Transactions with Step Functions',
+    category: 'Cloud',
+    status: 'Prototype',
+    difficulty: 'Advanced',
+    client: 'Personal Lab Build',
+    role: 'Sole Developer',
+    teamSize: 1,
+    summary: 'A saga-based order processing system on Step Functions implementing idempotent operations, bounded retries, compensating actions, manual repair procedures, failure testing, and a transactional outbox over DynamoDB Streams to close the write/publish gap.',
+    businessProblem: 'Distributed orders fail halfway: payment taken but inventory unreserved, with no consistent way to roll forward or back.',
+    businessValue: 'Shows the patterns that make distributed transactions safe: each step has a compensating action, retries are bounded, and nothing is left half-done without a repair path.',
+    engineeringGoals: [
+      'Model order processing as a saga with explicit compensating actions',
+      'Make every operation idempotent with bounded retries',
+      'Close the database-write/event-publication gap with a transactional outbox'
+    ],
+    responsibilities: [
+      'Designed the saga steps, compensations, and retry policies',
+      'Implemented the DynamoDB Streams transactional outbox',
+      'Built failure test scenarios including manual repair flows'
+    ],
+    techStack: {
+      cloud: ['AWS Step Functions', 'AWS Lambda', 'Amazon DynamoDB', 'DynamoDB Streams'],
+      testing: ['Failure Injection Scenarios']
+    },
+    features: [
+      {
+        title: 'Saga Orchestration',
+        description: 'Order steps run in sequence with a defined compensation per step.',
+        implementation: 'Step Functions with catch blocks routing to compensating states.',
+        complexity: 'High',
+        benefit: 'Partial failures unwind cleanly instead of stranding orders.'
+      },
+      {
+        title: 'Transactional Outbox',
+        description: 'Database writes and event publications stay consistent.',
+        implementation: 'Outbox table tailed by DynamoDB Streams to publish exactly-once-ish events.',
+        complexity: 'High',
+        benefit: 'Eliminates the dual-write gap between state and notifications.'
+      },
+      {
+        title: 'Manual Repair Procedures',
+        description: 'Unrecoverable states land in a repair queue with operator steps.',
+        implementation: 'Documented repair flow plus failure-scenario test suite.',
+        complexity: 'Medium',
+        benefit: 'Admits that some failures need humans, and prepares for them.'
+      }
+    ],
+    architecture: {
+      textDiagram: `
+Order API ──> Step Functions Saga ──┬──> Reserve ──> Charge ──> Confirm
+                                    │
+                    [failure] ──> Compensate (reverse order) ──> Repair Queue
+                                    │
+              DynamoDB Outbox ──> Streams ──> Event Publication
+       `,
+      description: 'Orchestrated saga: forward steps with paired compensations, plus an outbox so side effects publish reliably after the write commits.',
+      flowSteps: [
+        'Order request starts the saga execution',
+        'Each step executes idempotently with bounded retries',
+        'On step failure, completed steps compensate in reverse order',
+        'State changes and outbox rows commit together',
+        'DynamoDB Streams publishes outbox events downstream'
+      ],
+      folderStructure: `
+saga-orders/
+├── saga.asl.json              # State machine definition
+├── src/
+│   ├── steps/                 # Forward operations
+│   ├── compensate/            # Compensating actions
+│   └── outbox.py              # Outbox publisher
+└── tests/
+    └── failure_matrix.md      # Failure scenarios + repairs
+       `
+    },
+    decisions: [
+      {
+        problem: 'Choose saga coordination style',
+        context: 'Steps span services with no shared transaction; failures must unwind predictably.',
+        alternatives: ['Choreography via events', 'Orchestrated saga via Step Functions', 'Two-phase commit'],
+        decision: 'Orchestrated saga via Step Functions',
+        advantages: [
+          'One readable definition of order and compensation flow',
+          'Retries, timeouts, and error paths are explicit',
+          'Execution history doubles as an audit trail'
+        ],
+        disadvantages: [
+          'Orchestrator is a central coupling point',
+          'State transition costs per step'
+        ],
+        tradeoffs: 'Accepted centralization for explicitness and auditability.',
+        futureImprovements: 'Extract the outbox publisher into a shared construct for other services.'
+      }
+    ],
+    securityReview: [
+      {
+        name: 'Idempotency as Safety',
+        description: 'Retried steps must never double-charge or double-reserve.',
+        mitigation: 'Idempotency keys on every mutating operation, verified in failure tests.'
+      }
+    ],
+    performanceMetrics: [],
+    challenges: {
+      problem: 'The gap between writing to the database and publishing the event.',
+      cause: 'Crash between the two leaves state and notifications inconsistent.',
+      investigation: 'Walked through crash points in the saga and found the dual-write window.',
+      solution: 'Transactional outbox: write state and outbox row atomically, publish via DynamoDB Streams.',
+      tradeoffs: 'Adds a table and a publisher component to operate.',
+      lessons: 'In distributed systems, "write then publish" is a bug waiting for a crash.'
+    },
+    lessonsLearned: {
+      engineering: 'Compensations deserve the same design rigor as forward paths.',
+      architecture: 'Orchestration makes complex failure handling legible.',
+      business: 'Customers experience rollbacks as reliability when they are clean and communicated.',
+      redesign: 'I would add saga execution dashboards showing live compensation activity.'
+    },
+    roadmap: [
+      'Live saga monitoring dashboard',
+      'Shared outbox construct for reuse',
+      'Chaos-style randomized failure drills'
+    ],
+    githubUrl: 'https://github.com/HarizuAru',
+    tags: ['aws', 'step-functions', 'saga', 'dynamodb', 'outbox', 'distributed-systems'],
+    recruiterQuestions: {
+      whyItMatters: 'It tackles the hardest part of microservices: keeping multi-step operations consistent without distributed transactions.',
+      businessProblemSolved: 'Half-completed orders become structured rollbacks instead of support tickets.',
+      techSelectionReason: 'Step Functions gives retries, ordering, and history out of the box for saga orchestration.',
+      architectureReason: 'Orchestration centralizes complex failure logic where it can be reviewed.',
+      alternativesConsidered: 'Considered event choreography, but explicit orchestration is easier to reason about and repair.',
+      tradeoffsAccepted: 'Accepted orchestrator coupling and transition costs for correctness.',
+      scalingStrategy: 'Step Functions executions scale with order volume; outbox publishing streams scale with table throughput.',
+      measurableResults: 'Failure matrix covers step failures, compensation paths, and manual repairs.'
+    }
+  },
+  {
+    id: 'graphql-multitenant',
+    slug: 'graphql-multitenant',
+    categories: ['Cloud', 'Security', 'Web'],
+    architectureSummary: 'Cognito → AppSync → Tenant Resolver → DynamoDB + Subscriptions',
+    title: 'Multi-Tenant GraphQL Support System',
+    subtitle: 'Server-Side Tenant Isolation with AppSync',
+    category: 'Cloud',
+    status: 'Prototype',
+    difficulty: 'Advanced',
+    client: 'Personal Lab Build',
+    role: 'Sole Developer',
+    teamSize: 1,
+    summary: 'A multi-tenant GraphQL support ticket system on AppSync and DynamoDB with server-side tenant membership resolution from Cognito, fine-grained authorization on every operation, optimistic concurrency, tenant-scoped real-time subscriptions, and a documented least-privilege authorization model.',
+    businessProblem: 'SaaS support data leaks across tenants when authorization lives in client code or is checked inconsistently.',
+    businessValue: 'Demonstrates tenant isolation done correctly: membership resolved server-side from identity, enforced on every operation, with the model documented and tested.',
+    engineeringGoals: [
+      'Resolve tenant membership server-side from Cognito identity',
+      'Enforce fine-grained authorization on all operations',
+      'Keep real-time subscriptions strictly tenant-scoped'
+    ],
+    responsibilities: [
+      'Designed the authorization model and tenant isolation scheme',
+      'Implemented resolvers, concurrency control, and scoped subscriptions',
+      'Ran security testing and documented the complete model'
+    ],
+    techStack: {
+      cloud: ['AWS AppSync', 'Amazon DynamoDB', 'Amazon Cognito'],
+      security: ['Fine-grained Authorization', 'Least-Privilege IAM', 'Optimistic Concurrency']
+    },
+    features: [
+      {
+        title: 'Server-Side Tenant Resolution',
+        description: 'Tenant membership comes from verified Cognito identity, never client claims.',
+        implementation: 'Resolvers derive tenant context from the authentication token.',
+        complexity: 'High',
+        benefit: 'Clients cannot spoof their way into another tenant.'
+      },
+      {
+        title: 'Per-Operation Authorization',
+        description: 'Every query, mutation, and subscription checks tenant scope.',
+        implementation: 'Authorization rules applied uniformly across all resolvers.',
+        complexity: 'High',
+        benefit: 'No endpoint is accidentally left open.'
+      },
+      {
+        title: 'Tenant-Scoped Subscriptions',
+        description: 'Real-time ticket updates stay within the tenant boundary.',
+        implementation: 'Subscription filters bound to resolved tenant context.',
+        complexity: 'Medium',
+        benefit: 'Live features without cross-tenant leakage.'
+      }
+    ],
+    architecture: {
+      textDiagram: `
+Client ──> Cognito Auth ──> AppSync ──┬──> Tenant Resolver ──> DynamoDB (tenant-partitioned)
+                                       └──> Subscriptions (tenant-scoped)
+       `,
+      description: 'Identity-first API: authentication establishes who you are, resolvers establish which tenant you belong to, and every data path re-checks both.',
+      flowSteps: [
+        'User authenticates via Cognito',
+        'Resolvers extract tenant membership server-side from the token',
+        'Queries and mutations filter by tenant partition',
+        'Optimistic concurrency guards conflicting ticket updates',
+        'Subscriptions deliver only same-tenant events'
+      ],
+      folderStructure: `
+graphql-multitenant/
+├── schema.graphql             # Types + directives
+├── resolvers/                 # Tenant-aware resolvers
+├── auth/
+│   └── model.md               # Documented authorization model
+└── tests/
+    └── cross-tenant.spec      # Negative security tests
+       `
+    },
+    decisions: [
+      {
+        problem: 'Choose where tenant isolation is enforced',
+        context: 'Client-side checks are bypassable; missing a single resolver creates a leak.',
+        alternatives: ['Client-side tenant headers', 'Per-resolver server checks', 'Separate stack per tenant'],
+        decision: 'Per-resolver server checks from Cognito identity',
+        advantages: [
+          'No trust in client-supplied tenant identifiers',
+          'Uniform enforcement across queries, mutations, subscriptions',
+          'Single deployment to operate'
+        ],
+        disadvantages: [
+          'Every resolver must implement the check correctly',
+          'Slightly more resolver code per operation'
+        ],
+        tradeoffs: 'Accepted per-resolver implementation cost for a single verifiable enforcement point pattern.',
+        futureImprovements: 'Generate resolver authorization boilerplate from the schema directives.'
+      }
+    ],
+    securityReview: [
+      {
+        name: 'Cross-Tenant Access Testing',
+        description: 'The critical failure mode is one tenant reading another tenant’s tickets.',
+        mitigation: 'Comprehensive negative security tests attempting cross-tenant reads, writes, and subscriptions.'
+      },
+      {
+        name: 'Least-Privilege Data Access',
+        description: 'Over-broad table access would undermine resolver-level checks.',
+        mitigation: 'IAM policies scoped to tenant partitions; documented in the authorization model.'
+      }
+    ],
+    performanceMetrics: [],
+    challenges: {
+      problem: 'Keeping real-time subscriptions inside tenant boundaries.',
+      cause: 'Subscription filters are easy to leave broad while queries are locked down.',
+      investigation: 'Tested subscription payloads across two tenants and confirmed the scoping gap.',
+      solution: 'Bound subscription filters to the same resolved tenant context as queries.',
+      tradeoffs: 'More resolver plumbing for live features.',
+      lessons: 'Real-time paths need the same authorization rigor as request paths.'
+    },
+    lessonsLearned: {
+      engineering: 'Authorization models should be written down before resolvers, not after.',
+      architecture: 'Server-side identity derivation is the only tenant boundary you can trust.',
+      business: 'A documented authorization model is itself a deliverable enterprise buyers ask for.',
+      redesign: 'I would drive resolver checks from schema directives to remove boilerplate.'
+    },
+    roadmap: [
+      'Directive-driven authorization codegen',
+      'Tenant usage metering and quotas',
+      'Audit log of cross-tenant access attempts'
+    ],
+    githubUrl: 'https://github.com/HarizuAru',
+    tags: ['aws', 'appsync', 'graphql', 'dynamodb', 'cognito', 'multitenancy', 'iam'],
+    recruiterQuestions: {
+      whyItMatters: 'Multi-tenancydone wrong leaks customer data; this shows it done right with evidence.',
+      businessProblemSolved: 'Tenant isolation enforced and tested across every API operation including real-time.',
+      techSelectionReason: 'AppSync gives managed GraphQL with Cognito integration; DynamoDB partitions map naturally to tenants.',
+      architectureReason: 'Identity-derived tenant context keeps one trustworthy enforcement path.',
+      alternativesConsidered: 'Considered per-tenant stacks, but single-stack with strict isolation is cheaper to operate and review.',
+      tradeoffsAccepted: 'Accepted per-resolver authorization code for uniform, testable enforcement.',
+      scalingStrategy: 'AppSync and DynamoDB scale per request; tenant partitions keep access patterns isolated.',
+      measurableResults: 'Negative security tests cover reads, writes, and subscriptions across tenants.'
+    }
+  },
+  {
+    id: 'branch-lan',
+    slug: 'branch-lan',
+    categories: ['Networking'],
+    architectureSummary: 'Branch LAN A → Router → Static Routes → Router → Branch LAN B',
+    title: 'Branch Office LAN Integration',
+    subtitle: 'Subnets, Routing & Inter-Office Connectivity',
+    category: 'Systems',
+    status: 'Prototype',
+    difficulty: 'Beginner',
+    client: 'Personal Lab Build',
+    role: 'Sole Developer',
+    teamSize: 1,
+    summary: 'Connected two branch office LANs through two routers using distinct subnets and bidirectional static routes for seamless inter-office communication.',
+    businessProblem: 'Two offices on separate LANs cannot reach each other’s resources without routed connectivity between them.',
+    businessValue: 'Foundational networking delivered: addressed, routed, and verified connectivity both ways.',
+    engineeringGoals: [
+      'Address two LANs on distinct non-overlapping subnets',
+      'Configure static routes in both directions',
+      'Verify seamless bidirectional communication'
+    ],
+    responsibilities: [
+      'Designed the subnet addressing plan',
+      'Configured routers and static routes',
+      'Tested connectivity between offices'
+    ],
+    techStack: {
+      frontend: ['Subnet Addressing Plan'],
+      backend: ['Static Routing'],
+      testing: ['Bidirectional Ping Verification']
+    },
+    features: [
+      {
+        title: 'Dual-LAN Addressing',
+        description: 'Each office on its own subnet with no overlap.',
+        implementation: 'Subnet plan with distinct network ranges per office.',
+        complexity: 'Low',
+        benefit: 'Clean separation with room to grow each site.'
+      },
+      {
+        title: 'Bidirectional Static Routes',
+        description: 'Each router knows the path to the remote LAN.',
+        implementation: 'Static routes configured on both routers.',
+        complexity: 'Low',
+        benefit: 'Traffic flows both ways with deterministic paths.'
+      }
+    ],
+    architecture: {
+      textDiagram: `
+Branch A LAN (Subnet 1) ──> Router A ══ Static Routes ══ Router B ──> Branch B LAN (Subnet 2)
+       `,
+      description: 'Two-site routed topology: distinct subnets per office, static routes on both routers forming the inter-office path.',
+      flowSteps: [
+        'Assign each office LAN a distinct subnet',
+        'Configure each router with a route to the remote subnet',
+        'Verify reachability in both directions',
+        'Document the addressing and routing tables'
+      ],
+      folderStructure: `
+branch-lan/
+├── addressing.md              # Subnet plan
+├── router-a.cfg               # Router A routes
+└── router-b.cfg               # Router B routes
+       `
+    },
+    decisions: [
+      {
+        problem: 'Choose routing approach for two sites',
+        context: 'Small fixed topology with no expected churn.',
+        alternatives: ['Static routes', 'Dynamic routing protocol (OSPF)'],
+        decision: 'Static routes',
+        advantages: [
+          'Deterministic paths, trivial to verify',
+          'No protocol overhead or convergence behavior',
+          'Easy to document and hand over'
+        ],
+        disadvantages: [
+          'Does not adapt to link failures or new sites automatically'
+        ],
+        tradeoffs: 'Accepted manual maintenance for simplicity at this scale.',
+        futureImprovements: 'Migrate to OSPF when a third site or redundant links arrive.'
+      }
+    ],
+    securityReview: [
+      {
+        name: 'Inter-Site Traffic Scope',
+        description: 'Routed connectivity exposes each LAN to the other site.',
+        mitigation: 'Documented which subnets are reachable and kept management interfaces off the shared path.'
+      }
+    ],
+    performanceMetrics: [],
+    challenges: {
+      problem: 'One-directional connectivity after initial configuration.',
+      cause: 'Return route missing on one router — classic asymmetric routing oversight.',
+      investigation: 'Traced pings hop by hop and found replies had no path back.',
+      solution: 'Added the missing reverse static route and re-verified both directions.',
+      tradeoffs: 'None — verification caught it before handover.',
+      lessons: 'Always verify both directions; routing is a two-way contract.'
+    },
+    lessonsLearned: {
+      engineering: 'Draw the addressing plan before touching any device.',
+      architecture: 'Static routing is the right default until scale says otherwise.',
+      business: 'Documented addressing saves the next engineer hours.',
+      redesign: 'I would add link redundancy and OSPF as the follow-up exercise.'
+    },
+    roadmap: [
+      'Add redundant inter-office link',
+      'Migrate to OSPF with a third site',
+      'Add basic ACLs between office LANs'
+    ],
+    githubUrl: 'https://github.com/HarizuAru',
+    tags: ['networking', 'lan', 'subnetting', 'static-routing', 'routers'],
+    recruiterQuestions: {
+      whyItMatters: 'It demonstrates the networking fundamentals everything else runs on: addressing, routing, verification.',
+      businessProblemSolved: 'Two isolated offices become one reachable network.',
+      techSelectionReason: 'Static routing fits a small fixed topology with deterministic paths.',
+      architectureReason: 'Distinct subnets plus bidirectional routes is the minimal correct design.',
+      alternativesConsidered: 'Considered OSPF, but static routes match the scale and are fully verifiable.',
+      tradeoffsAccepted: 'Accepted manual route maintenance for simplicity.',
+      scalingStrategy: 'Documented plan extends to a third site; OSPF when links multiply.',
+      measurableResults: 'Bidirectional connectivity verified between both offices.'
     }
   }
 ];
