@@ -62,7 +62,6 @@ export function Navigation() {
                 &lt;HI<span className="text-primary font-bold">/</span>&gt;
               </Link>
             </div>
-            </div>
 
             <nav aria-label="Primary" className="hidden lg:flex items-center gap-5 text-sm">
               {navLinks.map((link) => (
