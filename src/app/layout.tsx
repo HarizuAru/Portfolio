@@ -52,7 +52,7 @@ export default function RootLayout({
       <body id="top" className="min-h-full flex flex-col relative bg-background text-foreground font-sans selection:bg-primary/20 selection:text-primary">
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[200] focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-primary-foreground"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[200] focus:rounded focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-primary-foreground"
         >
           Skip to content
         </a>
@@ -97,7 +97,7 @@ export default function RootLayout({
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="GitHub profile"
-                    className="p-2 rounded-lg border border-border text-muted hover:text-foreground hover:bg-secondary/50 transition-colors"
+                    className="p-2 rounded border border-border text-muted hover:text-foreground hover:bg-secondary/50 transition-colors"
                   >
                     <GithubIcon className="w-4 h-4" aria-hidden="true" />
                   </a>
@@ -107,7 +107,7 @@ export default function RootLayout({
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="LinkedIn profile"
-                      className="p-2 rounded-lg border border-border text-muted hover:text-foreground hover:bg-secondary/50 transition-colors"
+                      className="p-2 rounded border border-border text-muted hover:text-foreground hover:bg-secondary/50 transition-colors"
                     >
                       <LinkedinIcon className="w-4 h-4" aria-hidden="true" />
                     </a>
@@ -115,7 +115,7 @@ export default function RootLayout({
                   <a
                     href="#top"
                     aria-label="Back to top"
-                    className="p-2 rounded-lg border border-border text-muted hover:text-foreground hover:bg-secondary/50 transition-colors"
+                    className="p-2 rounded border border-border text-muted hover:text-foreground hover:bg-secondary/50 transition-colors"
                   >
                     <ArrowUp className="w-4 h-4" aria-hidden="true" />
                   </a>

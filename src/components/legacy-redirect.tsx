@@ -16,7 +16,7 @@ export function LegacyRedirect({ to }: { to: string }) {
       </p>
       <Link
         href={to}
-        className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90"
+        className="inline-flex items-center gap-2 rounded bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90"
       >
         Continue
       </Link>

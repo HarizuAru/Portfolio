@@ -42,7 +42,7 @@ export default function ResumePage() {
           <PrintButton />
           <a
             href={`mailto:${portfolioConfig.email}`}
-            className="inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2 text-sm font-semibold text-foreground hover:bg-secondary/50"
+            className="inline-flex items-center gap-2 rounded border border-border px-4 py-2 text-sm font-semibold text-foreground hover:bg-secondary/50"
           >
             <Mail className="w-4 h-4" aria-hidden="true" />
             Email
@@ -52,7 +52,7 @@ export default function ResumePage() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub profile"
-            className="inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2 text-sm font-semibold text-foreground hover:bg-secondary/50"
+            className="inline-flex items-center gap-2 rounded border border-border px-4 py-2 text-sm font-semibold text-foreground hover:bg-secondary/50"
           >
             <GithubIcon className="w-4 h-4" aria-hidden="true" />
             GitHub
@@ -63,7 +63,7 @@ export default function ResumePage() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn profile"
-              className="inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2 text-sm font-semibold text-foreground hover:bg-secondary/50"
+              className="inline-flex items-center gap-2 rounded border border-border px-4 py-2 text-sm font-semibold text-foreground hover:bg-secondary/50"
             >
               <LinkedinIcon className="w-4 h-4" aria-hidden="true" />
               LinkedIn

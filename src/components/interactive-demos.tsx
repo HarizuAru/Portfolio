@@ -131,7 +131,7 @@ export function OpticoreDemo() {
       <button 
         onClick={runSimulation}
         disabled={isRunning}
-        className="flex items-center gap-2 bg-primary text-primary-foreground hover:opacity-90 px-4 py-2 rounded-lg text-xs font-mono font-semibold cursor-pointer disabled:opacity-50"
+        className="flex items-center gap-2 bg-primary text-primary-foreground hover:opacity-90 px-4 py-2 rounded text-xs font-mono font-semibold cursor-pointer disabled:opacity-50"
       >
         {isRunning ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Play className="w-3.5 h-3.5" />}
         Run Experiment Simulation
@@ -278,7 +278,7 @@ export function ResumeAIDemo() {
 
       <button 
         onClick={analyzeSummary}
-        className="bg-primary text-primary-foreground hover:opacity-90 px-4 py-2 rounded-lg text-xs font-mono font-semibold cursor-pointer"
+        className="bg-primary text-primary-foreground hover:opacity-90 px-4 py-2 rounded text-xs font-mono font-semibold cursor-pointer"
       >
         Analyze Summary
       </button>
@@ -341,7 +341,7 @@ export function OffensiveSecurityDemo() {
         <button 
           onClick={runAudit}
           disabled={isScanning}
-          className="flex items-center gap-1.5 bg-primary text-primary-foreground hover:opacity-90 px-3.5 py-1.5 rounded-lg text-xs font-mono font-semibold cursor-pointer disabled:opacity-50"
+          className="flex items-center gap-1.5 bg-primary text-primary-foreground hover:opacity-90 px-3.5 py-1.5 rounded text-xs font-mono font-semibold cursor-pointer disabled:opacity-50"
         >
           {isScanning ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Play className="w-3.5 h-3.5" />}
           Run Audit Sequence
@@ -443,7 +443,7 @@ export function HarizeonCongentDemo() {
         <button 
           onClick={dispatchTask}
           disabled={isProcessing}
-          className="flex items-center gap-1 bg-primary text-primary-foreground hover:opacity-90 px-3.5 py-1.5 rounded-lg text-xs font-mono font-semibold cursor-pointer disabled:opacity-50"
+          className="flex items-center gap-1 bg-primary text-primary-foreground hover:opacity-90 px-3.5 py-1.5 rounded text-xs font-mono font-semibold cursor-pointer disabled:opacity-50"
         >
           <Play className="w-3.5 h-3.5" />
           Dispatch Task
@@ -505,7 +505,7 @@ export function GridOptimaDemo() {
 
       <button 
         onClick={calculate}
-        className="bg-primary text-primary-foreground hover:opacity-90 px-4 py-2 rounded-lg text-xs font-mono font-semibold cursor-pointer"
+        className="bg-primary text-primary-foreground hover:opacity-90 px-4 py-2 rounded text-xs font-mono font-semibold cursor-pointer"
       >
         Calculate Topology Efficiency
       </button>
@@ -541,7 +541,7 @@ export function OptinetDemo() {
         <p className="text-xs text-muted">Trigger network simulation pipeline to audit telemetry metrics.</p>
         <button 
           onClick={simulate}
-          className="bg-primary text-primary-foreground hover:opacity-90 px-3.5 py-1.5 rounded-lg text-xs font-mono font-semibold cursor-pointer"
+          className="bg-primary text-primary-foreground hover:opacity-90 px-3.5 py-1.5 rounded text-xs font-mono font-semibold cursor-pointer"
         >
           Simulate Packet Flows
         </button>
@@ -606,7 +606,7 @@ export function SensorSyncDemo() {
 
       <button 
         onClick={calibrate}
-        className="bg-primary text-primary-foreground hover:opacity-90 px-4 py-2 rounded-lg text-xs font-mono font-semibold cursor-pointer"
+        className="bg-primary text-primary-foreground hover:opacity-90 px-4 py-2 rounded text-xs font-mono font-semibold cursor-pointer"
       >
         Sync & Calibrate Sensors
       </button>
@@ -655,7 +655,7 @@ export function TelemetrixDemo() {
         <p className="text-xs text-muted">Click refresh to simulate active telemetry chart updates.</p>
         <button 
           onClick={refreshStream}
-          className="bg-primary text-primary-foreground hover:opacity-90 px-3.5 py-1.5 rounded-lg text-xs font-mono font-semibold cursor-pointer"
+          className="bg-primary text-primary-foreground hover:opacity-90 px-3.5 py-1.5 rounded text-xs font-mono font-semibold cursor-pointer"
         >
           Refresh Streams
         </button>

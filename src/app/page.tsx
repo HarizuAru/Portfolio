@@ -46,10 +46,6 @@ export default function Home() {
         <div aria-hidden="true" className="hero-scrim pointer-events-none absolute inset-0 z-[5]" />
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-start w-full">
         <div className="lg:col-span-8 space-y-5">
-          <p className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-mono text-primary">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" aria-hidden="true" />
-            {portfolioConfig.availability}
-          </p>
           <div className="space-y-2">
             <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-foreground leading-tight">
               {portfolioConfig.name}
@@ -70,14 +66,14 @@ export default function Home() {
           <div className="flex flex-wrap gap-3">
             <Link
               href="/projects"
-              className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              className="inline-flex items-center gap-2 rounded bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
               Explore Projects
               <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </Link>
             <Link
               href="/resume"
-              className="inline-flex items-center gap-2 rounded-lg border border-border bg-secondary/30 px-5 py-2.5 text-sm font-semibold text-foreground hover:bg-secondary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              className="inline-flex items-center gap-2 rounded border border-border bg-secondary/30 px-5 py-2.5 text-sm font-semibold text-foreground hover:bg-secondary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
               View Resume
             </Link>
@@ -86,7 +82,7 @@ export default function Home() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub profile"
-              className="inline-flex items-center gap-2 rounded-lg border border-border bg-secondary/30 px-4 py-2.5 text-sm font-semibold text-foreground hover:bg-secondary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              className="inline-flex items-center gap-2 rounded border border-border bg-secondary/30 px-4 py-2.5 text-sm font-semibold text-foreground hover:bg-secondary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
               <GithubIcon className="w-4 h-4" aria-hidden="true" />
               GitHub
@@ -97,7 +93,7 @@ export default function Home() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn profile"
-                className="inline-flex items-center gap-2 rounded-lg border border-border bg-secondary/30 px-4 py-2.5 text-sm font-semibold text-foreground hover:bg-secondary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                className="inline-flex items-center gap-2 rounded border border-border bg-secondary/30 px-4 py-2.5 text-sm font-semibold text-foreground hover:bg-secondary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
                 <LinkedinIcon className="w-4 h-4" aria-hidden="true" />
                 LinkedIn

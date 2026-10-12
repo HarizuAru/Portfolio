@@ -54,13 +54,13 @@ export default function AboutPage() {
         <div className="flex flex-wrap gap-3 pt-2">
           <Link
             href="/projects"
-            className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90"
+            className="inline-flex items-center gap-2 rounded bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90"
           >
             Explore Projects
           </Link>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2 text-sm font-semibold text-foreground hover:bg-secondary/50"
+            className="inline-flex items-center gap-2 rounded border border-border px-4 py-2 text-sm font-semibold text-foreground hover:bg-secondary/50"
           >
             Get in Touch
           </Link>

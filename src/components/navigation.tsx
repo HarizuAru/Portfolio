@@ -61,10 +61,7 @@ export function Navigation() {
               >
                 &lt;HI<span className="text-primary font-bold">/</span>&gt;
               </Link>
-              <div className="hidden xl:flex items-center gap-1.5 px-2 py-0.5 rounded-full border border-border bg-secondary/50">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-[10px] font-mono text-muted">open to work</span>
-              </div>
+            </div>
             </div>
 
             <nav aria-label="Primary" className="hidden lg:flex items-center gap-5 text-sm">
@@ -78,7 +75,7 @@ export function Navigation() {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setCommandPaletteOpen(true)}
-                className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-border bg-secondary/30 text-muted hover:text-foreground hover:border-muted-foreground transition-all cursor-pointer text-xs"
+                className="flex items-center gap-2 px-2.5 py-1.5 rounded border border-border bg-secondary/30 text-muted hover:text-foreground hover:border-muted-foreground transition-all cursor-pointer text-xs"
                 title="Search and shortcuts"
                 aria-label="Open command palette"
               >
@@ -90,7 +87,7 @@ export function Navigation() {
 
               <button
                 onClick={toggleTheme}
-                className="p-2 rounded-lg border border-border hover:bg-secondary/50 text-muted hover:text-foreground cursor-pointer transition-colors"
+                className="p-2 rounded border border-border hover:bg-secondary/50 text-muted hover:text-foreground cursor-pointer transition-colors"
                 title="Toggle theme"
                 aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
               >
@@ -99,20 +96,20 @@ export function Navigation() {
 
               <Link
                 href="/contact"
-                className="hidden sm:inline-flex items-center rounded-lg px-3 py-1.5 text-sm font-medium text-muted hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                className="hidden sm:inline-flex items-center rounded px-3 py-1.5 text-sm font-medium text-muted hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
               >
                 Contact
               </Link>
               <Link
                 href="/resume"
-                className="hidden sm:inline-flex items-center rounded-lg bg-primary px-3.5 py-1.5 text-sm font-semibold text-primary-foreground hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                className="hidden sm:inline-flex items-center rounded bg-primary px-3.5 py-1.5 text-sm font-semibold text-primary-foreground hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
                 Resume
               </Link>
 
               <button
                 onClick={() => setMenuOpen((v) => !v)}
-                className="lg:hidden p-2 rounded-lg border border-border hover:bg-secondary/50 text-muted hover:text-foreground cursor-pointer transition-colors"
+                className="lg:hidden p-2 rounded border border-border hover:bg-secondary/50 text-muted hover:text-foreground cursor-pointer transition-colors"
                 title="Toggle menu"
                 aria-expanded={menuOpen}
                 aria-label="Toggle navigation menu"
@@ -128,7 +125,7 @@ export function Navigation() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`rounded-lg px-3 py-2 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${linkClass(link.href)} hover:bg-secondary/50`}
+                  className={`rounded px-3 py-2 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${linkClass(link.href)} hover:bg-secondary/50`}
                 >
                   {link.label}
                 </Link>
@@ -136,13 +133,13 @@ export function Navigation() {
               <div className="flex gap-2 px-1 pt-2">
                 <Link
                   href="/resume"
-                  className="flex-1 inline-flex justify-center items-center rounded-lg bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90"
+                  className="flex-1 inline-flex justify-center items-center rounded bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground hover:opacity-90"
                 >
                   Resume
                 </Link>
                 <Link
                   href="/contact"
-                  className="flex-1 inline-flex justify-center items-center rounded-lg border border-border px-3 py-2 text-sm font-semibold text-foreground hover:bg-secondary/50"
+                  className="flex-1 inline-flex justify-center items-center rounded border border-border px-3 py-2 text-sm font-semibold text-foreground hover:bg-secondary/50"
                 >
                   Contact
                 </Link>

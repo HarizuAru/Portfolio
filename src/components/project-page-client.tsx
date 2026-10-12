@@ -178,7 +178,7 @@ export function ProjectPageClient({ id }: ProjectPageClientProps) {
             href={project.githubUrl} 
             target="_blank" 
             rel="noopener noreferrer"
-            className="flex items-center gap-2 border border-border bg-secondary/40 hover:bg-secondary/65 px-4 py-2 rounded-lg text-xs font-mono font-semibold text-foreground transition-colors cursor-pointer"
+            className="flex items-center gap-2 border border-border bg-secondary/40 hover:bg-secondary/65 px-4 py-2 rounded text-xs font-mono font-semibold text-foreground transition-colors cursor-pointer"
           >
             <GithubIcon className="w-3.5 h-3.5" />
             <span>GitHub Repository</span>
@@ -189,14 +189,14 @@ export function ProjectPageClient({ id }: ProjectPageClientProps) {
               const el = document.getElementById('demo');
               if (el) el.scrollIntoView({ behavior: 'smooth' });
             }}
-            className="flex items-center gap-2 bg-primary text-primary-foreground hover:opacity-90 px-4 py-2 rounded-lg text-xs font-mono font-semibold transition-opacity cursor-pointer"
+            className="flex items-center gap-2 bg-primary text-primary-foreground hover:opacity-90 px-4 py-2 rounded text-xs font-mono font-semibold transition-opacity cursor-pointer"
           >
             <Sliders className="w-3.5 h-3.5" />
             <span>Run Local Simulator</span>
           </button>
           <button 
             onClick={() => window.print()}
-            className="flex items-center gap-2 border border-border bg-secondary/20 hover:bg-secondary/40 px-4 py-2 rounded-lg text-xs font-mono font-semibold text-muted hover:text-foreground transition-colors cursor-pointer"
+            className="flex items-center gap-2 border border-border bg-secondary/20 hover:bg-secondary/40 px-4 py-2 rounded text-xs font-mono font-semibold text-muted hover:text-foreground transition-colors cursor-pointer"
           >
             <FileText className="w-3.5 h-3.5" />
             <span>Download workspace PDF</span>
@@ -267,7 +267,7 @@ export function ProjectPageClient({ id }: ProjectPageClientProps) {
                   key={section.id}
                   href={`#${section.id}`}
                   onClick={(e) => handleSidebarClick(e, section.id)}
-                  className={`w-full flex items-center px-3 py-2 rounded-lg transition-colors cursor-pointer ${
+                  className={`w-full flex items-center px-3 py-2 rounded transition-colors cursor-pointer ${
                     isActive 
                       ? 'bg-secondary text-primary font-semibold' 
                       : 'text-muted hover:text-foreground hover:bg-secondary/30'
@@ -633,13 +633,13 @@ export function ProjectPageClient({ id }: ProjectPageClientProps) {
             <div className="flex flex-wrap justify-center gap-3 pt-2">
               <Link 
                 href="/contact"
-                className="bg-primary text-primary-foreground hover:opacity-90 px-4 py-2 rounded-lg text-xs font-mono font-semibold transition-opacity cursor-pointer animate-pulse"
+                className="bg-primary text-primary-foreground hover:opacity-90 px-4 py-2 rounded text-xs font-mono font-semibold transition-opacity cursor-pointer animate-pulse"
               >
                 Schedule Consultation
               </Link>
               <Link 
                 href="/projects"
-                className="border border-border bg-secondary/20 hover:bg-secondary/40 px-4 py-2 rounded-lg text-xs font-mono font-semibold text-muted hover:text-foreground transition-colors cursor-pointer"
+                className="border border-border bg-secondary/20 hover:bg-secondary/40 px-4 py-2 rounded text-xs font-mono font-semibold text-muted hover:text-foreground transition-colors cursor-pointer"
               >
                 All Projects
               </Link>

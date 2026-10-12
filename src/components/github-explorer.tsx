@@ -122,7 +122,7 @@ export function GithubExplorer({ repoOwner = 'HarizuAru', repoName, files, defau
                 <button
                   key={file}
                   onClick={() => setSelectedFile(file)}
-                  className={`w-full text-left flex items-center gap-2 px-2.5 py-2 rounded-lg text-xs font-mono transition-colors cursor-pointer ${
+                  className={`w-full text-left flex items-center gap-2 px-2.5 py-2 rounded text-xs font-mono transition-colors cursor-pointer ${
                     isActive 
                       ? 'bg-secondary text-primary border border-primary/20' 
                       : 'text-muted hover:text-foreground hover:bg-secondary/40 border border-transparent'
