@@ -98,9 +98,11 @@ export default function ResumePage() {
             {portfolioConfig.experience.map((job) => (
               <div key={job.role} className="space-y-1">
                 <div className="flex flex-wrap items-baseline justify-between gap-2">
-                  <p className="text-[13.5px] font-bold text-slate-900">{job.role}</p>
+                  <p className="text-[13.5px] font-bold text-slate-900">
+                    {job.role} — {job.company}
+                  </p>
                   <p className="text-xs text-slate-500">
-                    {job.period} · {job.location}
+                    {job.period} · {job.duration}
                   </p>
                 </div>
                 <ul className="text-[13.5px] leading-relaxed space-y-0.5">

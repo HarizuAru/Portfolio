@@ -183,8 +183,9 @@ export default function Home() {
             {portfolioConfig.experience.slice(0, 2).map((job) => (
               <article key={job.role} className="rounded-lg border border-border bg-secondary/20 p-5 space-y-2">
                 <h3 className="font-semibold text-foreground">{job.role}</h3>
+                <p className="text-sm text-foreground">{job.company}</p>
                 <p className="text-xs font-mono text-primary">
-                  {job.period} · {job.location}
+                  {job.period} · {job.duration} · {job.location}
                 </p>
                 <p className="text-sm text-muted">{job.points[0]}</p>
               </article>

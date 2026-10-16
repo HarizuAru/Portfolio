@@ -33,9 +33,24 @@ export const portfolioConfig = {
       items: ['AWS', 'IAM', 'Observability', 'Security-first Design'],
     },
   ],
-  // TODO(you): replace with your real work history (most recent first).
-  // Left empty so no placeholder claims are shown; sections hide until filled.
-  experience: [] as { role: string; period: string; location: string; points: string[] }[],
+  experience: [
+    {
+      company: 'Aptronix Sdn Bhd',
+      role: 'Software Developer Intern',
+      period: 'Sep 2025 - Feb 2026',
+      duration: '6 mos',
+      location: 'On-site',
+      employmentType: 'Full-time',
+      points: [
+        'Designed and implemented a serverless identity platform using AWS Cognito with MFA to secure over 100 user accounts.',
+        'Built AWS Lambda authorization services integrated with API Gateway for JWT-based authentication and role-based access control.',
+        'Implemented DynamoDB session storage supporting secure JWT validation and token revocation.',
+        'Applied least-privilege IAM policies to strengthen cloud security.',
+        'Configured CloudWatch monitoring for operational visibility and faster issue detection.',
+        'Collaborated with developers to deliver scalable cloud authentication components.',
+      ],
+    },
+  ],
   // TODO(you): replace with your real education.
   education: [] as { title: string; period: string; detail: string }[],
   careerFocus: [
