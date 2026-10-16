@@ -31,11 +31,13 @@ export const metadata: Metadata = {
     url: '/',
     siteName: 'Hariz Iskandar | Portfolio',
     type: 'website',
+    images: [{ url: '/og.png', width: 1200, height: 630, alt: 'Hariz Iskandar — Cloud & Security Engineer' }],
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: 'Hariz Iskandar | Cloud & Security Engineer',
     description: 'AWS architectures, threat detection, DevSecOps automation — documented with decisions and code.',
+    images: ['/og.png'],
   },
 };
 

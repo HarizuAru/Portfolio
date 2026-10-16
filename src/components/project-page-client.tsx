@@ -15,6 +15,21 @@ import {
   Terminal, ShieldCheck, Cpu, Sliders, AlertTriangle, BookOpen 
 } from 'lucide-react';
 import { GithubIcon } from '@/components/icons';
+import { portfolioConfig } from '@/data/portfolio';
+
+const DEMO_IDS = new Set([
+  'cloudtrail-threat-detection',
+  'opticore',
+  'cold-chain-logistics',
+  'resumeai',
+  'serverless-architectures',
+  'offensive-security-tooling',
+  'harizeon-congent',
+  'gridoptima',
+  'optinet',
+  'sensorsync',
+  'telemetrix',
+]);
 
 const SECTIONS_LIST = [
   { id: 'overview', name: 'Overview' },
@@ -178,12 +193,14 @@ export function ProjectPageClient({ id }: ProjectPageClientProps) {
             href={project.githubUrl} 
             target="_blank" 
             rel="noopener noreferrer"
+            aria-label={project.githubUrl !== portfolioConfig.socialLinks.github ? `${project.title} source code on GitHub` : 'GitHub profile'}
             className="flex items-center gap-2 border border-border bg-secondary/40 hover:bg-secondary/65 px-4 py-2 rounded text-xs font-mono font-semibold text-foreground transition-colors cursor-pointer"
           >
             <GithubIcon className="w-3.5 h-3.5" />
-            <span>GitHub Repository</span>
+            <span>{project.githubUrl !== portfolioConfig.socialLinks.github ? 'GitHub Repository' : 'GitHub Profile'}</span>
             <ArrowUpRight className="w-3 h-3 text-muted" />
           </a>
+          {DEMO_IDS.has(project.id) && (
           <button 
             onClick={() => {
               const el = document.getElementById('demo');
@@ -194,6 +211,7 @@ export function ProjectPageClient({ id }: ProjectPageClientProps) {
             <Sliders className="w-3.5 h-3.5" />
             <span>Run Local Simulator</span>
           </button>
+          )}
           <button 
             onClick={() => window.print()}
             className="flex items-center gap-2 border border-border bg-secondary/20 hover:bg-secondary/40 px-4 py-2 rounded text-xs font-mono font-semibold text-muted hover:text-foreground transition-colors cursor-pointer"
@@ -260,7 +278,11 @@ export function ProjectPageClient({ id }: ProjectPageClientProps) {
             System Workspace Sections
           </div>
           <div className="space-y-0.5 font-mono text-xs">
-            {SECTIONS_LIST.map((section) => {
+            {SECTIONS_LIST.filter(
+              (section) =>
+                (section.id !== 'demo' || DEMO_IDS.has(project.id)) &&
+                (section.id !== 'github' || project.id === 'opticore')
+            ).map((section) => {
               const isActive = activeSection === section.id;
               return (
                 <a
@@ -389,6 +411,7 @@ export function ProjectPageClient({ id }: ProjectPageClientProps) {
           </section>
 
           {/* Section: Interactive Demo */}
+          {DEMO_IDS.has(project.id) && (
           <section id="demo" className="border border-border rounded-xl bg-secondary/5 p-6 space-y-4">
             <h2 className="text-lg font-bold font-mono text-foreground border-b border-border/40 pb-2 flex items-center gap-2">
               <Sliders className="w-4 h-4 text-primary" /> 4. INTERACTIVE SIMULATOR WIDGET
@@ -398,6 +421,7 @@ export function ProjectPageClient({ id }: ProjectPageClientProps) {
             </p>
             {renderDemoWidget()}
           </section>
+          )}
 
           {/* Section: Architecture Decisions */}
           <section id="decisions" className="border border-border rounded-xl bg-secondary/5 p-6 space-y-4">
@@ -608,6 +632,7 @@ export function ProjectPageClient({ id }: ProjectPageClientProps) {
           )}
 
           {/* Section: GitHub Code Explorer */}
+          {project.id === 'opticore' && (
           <section id="github" className="space-y-4">
             <div className="space-y-1">
               <h2 className="text-lg font-bold font-mono text-foreground flex items-center gap-2">
@@ -618,24 +643,25 @@ export function ProjectPageClient({ id }: ProjectPageClientProps) {
               </p>
             </div>
             <GithubExplorer 
-              repoName={project.id === 'opticore' ? 'OptiCore' : 'Portfolio'}
+              repoName="OptiCore"
               files={getExplorerFiles()}
               defaultFile={getExplorerFiles()[0]}
             />
           </section>
+          )}
 
-          {/* Consulting Section link */}
+          {/* CTA Section link */}
           <section className="border border-border rounded-xl bg-secondary/15 p-6 text-center space-y-4">
-            <span className="text-[10px] font-mono text-primary uppercase font-bold tracking-wider block">Let&apos;s discuss your project</span>
+            <span className="text-[10px] font-mono text-primary uppercase font-bold tracking-wider block">Questions about this build?</span>
             <h3 className="text-lg font-bold text-foreground max-w-md mx-auto leading-tight">
-              Interested in building a secure auto-scaling platform similar to this?
+              I&apos;m open to internships and graduate roles — happy to walk through the code, decisions, or tradeoffs live.
             </h3>
             <div className="flex flex-wrap justify-center gap-3 pt-2">
               <Link 
                 href="/contact"
-                className="bg-primary text-primary-foreground hover:opacity-90 px-4 py-2 rounded text-xs font-mono font-semibold transition-opacity cursor-pointer animate-pulse"
+                className="bg-primary text-primary-foreground hover:opacity-90 px-4 py-2 rounded text-xs font-mono font-semibold transition-opacity cursor-pointer"
               >
-                Schedule Consultation
+                Get in Touch
               </Link>
               <Link 
                 href="/projects"

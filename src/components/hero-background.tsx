@@ -57,7 +57,7 @@ export function HeroBackground() {
         <div
           role="group"
           aria-label="Particle field controls"
-          className="flex items-center gap-4 rounded-2xl border border-border bg-background/60 backdrop-blur-md px-4 py-2.5 shadow-xl"
+          className="flex items-center gap-4 rounded-lg border border-border bg-background/60 backdrop-blur-md px-4 py-2.5 shadow-xl"
         >
           <label className="flex flex-col gap-1 text-[10px] font-mono uppercase tracking-wider text-muted">
             <span className="flex items-center gap-1">

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ArrowRight, ExternalLink } from 'lucide-react';
 import type { ProjectRecord } from '@/data/projects';
 import { GithubIcon } from '@/components/icons';
+import { portfolioConfig } from '@/data/portfolio';
 
 export function StatusBadge({ status }: { status: string }) {
   return (
@@ -36,6 +37,7 @@ export function projectTechs(project: ProjectRecord, limit = 5): string[] {
 }
 
 export function ProjectCard({ project }: { project: ProjectRecord }) {
+  const isRepo = project.githubUrl !== portfolioConfig.socialLinks.github;
   return (
     <article className="group relative h-full rounded-lg border border-white/10 bg-gradient-to-b from-white/[0.07] to-white/[0.02] backdrop-blur-md p-5 flex flex-col gap-4 shadow-[0_0_50px_-20px_rgba(47,129,247,0.35)] hover:shadow-[0_0_70px_-18px_rgba(47,129,247,0.55)] hover:border-primary/30 hover-lift overflow-hidden [&>*:not([data-deco])]:relative [&>*:not([data-deco])]:z-10">
       <div data-deco aria-hidden="true" className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 h-48 w-[130%] rounded-full bg-primary/10 blur-3xl" />
@@ -75,11 +77,11 @@ export function ProjectCard({ project }: { project: ProjectRecord }) {
           href={project.githubUrl}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label={`${project.title} repository on GitHub`}
+          aria-label={isRepo ? `${project.title} source code on GitHub` : 'GitHub profile'}
           className="inline-flex items-center gap-1.5 rounded border border-border px-3 py-1.5 text-sm font-medium text-foreground hover:bg-secondary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
           <GithubIcon className="w-4 h-4" aria-hidden="true" />
-          GitHub
+          {isRepo ? 'Repository' : 'GitHub'}
         </a>
         {project.demoUrl && project.demoUrl !== '#demo' && (
           <a

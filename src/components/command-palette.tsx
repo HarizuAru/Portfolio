@@ -16,7 +16,6 @@ import {
   Mail,
   Compass,
 } from 'lucide-react';
-import { AnimatePresence, motion } from 'framer-motion';
 import { GithubIcon, LinkedinIcon } from '@/components/icons';
 
 type Item =
@@ -51,6 +50,7 @@ export function CommandPalette() {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
+  const prevFocusRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -74,11 +74,14 @@ export function CommandPalette() {
 
   useEffect(() => {
     if (commandPaletteOpen) {
+      prevFocusRef.current = document.activeElement as HTMLElement | null;
       setTimeout(() => {
         inputRef.current?.focus();
         setQuery('');
         setSelectedIndex(0);
       }, 50);
+    } else {
+      prevFocusRef.current?.focus?.();
     }
   }, [commandPaletteOpen]);
 
@@ -150,7 +153,10 @@ export function CommandPalette() {
   useEffect(() => {
     if (!commandPaletteOpen) return;
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        inputRef.current?.focus();
+      } else if (e.key === 'Escape') {
         e.preventDefault();
         setCommandPaletteOpen(false);
       } else if (e.key === 'ArrowDown') {
@@ -187,29 +193,22 @@ export function CommandPalette() {
 
   let cursor = -1;
 
-  return (
-    <AnimatePresence>
-      {commandPaletteOpen && (
-        <div className="fixed inset-0 z-[999] flex items-start justify-center pt-[10vh] px-4">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setCommandPaletteOpen(false)}
-            className="fixed inset-0 bg-background/80 backdrop-blur-sm"
-            aria-hidden="true"
-          />
+  if (!commandPaletteOpen) return null;
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96, y: -8 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.96, y: -8 }}
-            transition={{ duration: 0.15, ease: 'easeOut' }}
-            role="dialog"
-            aria-modal="true"
-            aria-label="Command palette"
-            className="w-full max-w-xl overflow-hidden rounded-xl border border-border bg-popover text-popover-foreground shadow-2xl z-10"
-          >
+  return (
+    <div className="fixed inset-0 z-[999] flex items-start justify-center pt-[10vh] px-4">
+      <div
+        onClick={() => setCommandPaletteOpen(false)}
+        className="fixed inset-0 bg-background/80 backdrop-blur-sm palette-backdrop-in"
+        aria-hidden="true"
+      />
+
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Command palette"
+        className="w-full max-w-xl overflow-hidden rounded-lg border border-border bg-popover text-popover-foreground shadow-2xl z-10 palette-panel-in"
+      >
             <div className="flex items-center gap-3 border-b border-border px-4 py-3 bg-secondary/20">
               <Search className="w-4 h-4 text-muted" aria-hidden="true" />
               <input
@@ -304,9 +303,7 @@ export function CommandPalette() {
                 <kbd className="bg-secondary px-1 py-0.5 border border-border rounded">Ctrl+K</kbd>
               </span>
             </div>
-          </motion.div>
-        </div>
-      )}
-    </AnimatePresence>
+      </div>
+    </div>
   );
 }

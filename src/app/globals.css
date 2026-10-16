@@ -213,6 +213,28 @@ body {
 .animate-grid-in > *:nth-child(6) { animation-delay: 0.2s; }
 .animate-grid-in > *:nth-child(n + 7) { animation-delay: 0.24s; }
 
+/* Command palette: CSS enter animations replacing framer-motion */
+@keyframes palette-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes palette-pop {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.palette-backdrop-in {
+  animation: palette-fade 0.15s ease-out both;
+}
+.palette-panel-in {
+  animation: palette-pop 0.15s ease-out both;
+}
+
 /* Reduced motion: keep it still for users who ask */
 @media (prefers-reduced-motion: reduce) {
   html {
